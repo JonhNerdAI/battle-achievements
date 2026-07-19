@@ -501,7 +501,7 @@
                 let metaText = metaDetails.length > 0 ? metaDetails.join(' • ') + `<br>${dateStr}` : dateStr;
 
                 const badgesHtml = (entry.achievements && entry.achievements.length > 0) ? `<div class="achievements">${entry.achievements.join(' ')}</div>` : '';
-                const coverHtml = entry.cover_url ? `<div class="cover"><img src="${entry.cover_url}"></div>` : `<div class="cover">Обложка</div>`;
+                const coverHtml = entry.cover_url ? `<div class="cover"><img src="${entry.cover_url}" onerror="this.onerror=null; this.src='https://via.placeholder.com/80x120?text=Нет+обложки';"></div>` : `<div class="cover">Обложка</div>`;
                 const reviewHtml = entry.review ? `<div class="review-text">"${entry.review.replace(/\n/g, '<br>')}"</div>` : '';
 
                 const cardHtml = `
