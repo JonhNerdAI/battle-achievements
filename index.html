@@ -6,9 +6,9 @@
     <title>Битва Достижений: JonhNerd vs Zelda</title>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
+        /* === БАЗОВЫЕ СТИЛИ === */
         body { margin: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #121212; color: white; display: flex; flex-direction: column; height: 100vh; }
 
-        /* НАВИГАЦИЯ */
         .navbar { background: #1e1e1e; padding: 15px; display: flex; justify-content: center; align-items: center; gap: 30px; border-bottom: 2px solid #333; position: relative; z-index: 10; }
         .nav-link { color: #aaa; text-decoration: none; font-size: 1.1em; font-weight: bold; cursor: pointer; transition: color 0.3s; padding: 5px 10px; border-radius: 5px; }
         .nav-link:hover, .nav-link.active { color: white; background: #333; }
@@ -18,7 +18,7 @@
         .tab-section { display: none; flex: 1; flex-direction: column; overflow: hidden; }
         .tab-section.active-tab { display: flex; }
 
-        /* ЭПИЧНОЕ ТАБЛО */
+        /* === ЭПИЧНОЕ ТАБЛО === */
         .battle-header { display: flex; justify-content: center; align-items: center; background: #1a1a1a; padding: 25px 0 15px 0; position: relative; border-bottom: 1px solid #333; flex-shrink: 0;}
         .fighter { flex: 1; text-align: center; display: flex; flex-direction: column; align-items: center; }
         .jonh-fighter { color: #0d6efd; }
@@ -31,7 +31,7 @@
         .score-left { width: 50%; background-color: #0d6efd; transition: width 1s cubic-bezier(0.25, 1, 0.5, 1); box-shadow: 0 0 15px #0d6efd; }
         .score-right { width: 50%; background-color: #198754; transition: width 1s cubic-bezier(0.25, 1, 0.5, 1); box-shadow: 0 0 15px #198754; }
 
-        /* КОЛОНКИ И КАРТОЧКИ */
+        /* === КОЛОНКИ И КАРТОЧКИ === */
         .container { display: flex; flex: 1; overflow: hidden; }
         .column { flex: 1; padding: 20px; overflow-y: auto; }
         .left-col { border-right: 2px solid #333; }
@@ -65,7 +65,7 @@
         .icon-btn { background: none; border: none; font-size: 1.2em; cursor: pointer; opacity: 0.3; transition: 0.2s; padding: 0; }
         .icon-btn:hover { opacity: 1; transform: scale(1.2); }
 
-        /* ЗАЛ СЛАВЫ, СИНХРОНИЗАЦИЯ И ТАБЛИЦЫ */
+        /* === ЗАЛ СЛАВЫ, СИНХРОНИЗАЦИЯ И ТАБЛИЦЫ === */
         .stats-container { padding: 20px; overflow-y: auto; flex: 1; max-width: 1200px; margin: 0 auto; width: 100%; box-sizing: border-box;}
         .stats-grid { display: flex; gap: 20px; justify-content: center; margin-bottom: 30px; align-items: flex-start;}
         .stat-box { background: #1e1e1e; padding: 20px; border-radius: 8px; flex: 1; text-align: center; border-top: 4px solid #444; box-shadow: 0 4px 6px rgba(0,0,0,0.3); }
@@ -73,14 +73,12 @@
         .stat-box.zelda { border-top-color: #198754; }
         .stat-number { font-size: 2.5em; font-weight: bold; margin: 10px 0; }
 
-        /* Стили для Детализации по категориям */
         .category-list { margin-top: 25px; text-align: left; }
         .category-item { background: #252525; margin-bottom: 10px; border-radius: 6px; border: 1px solid #333; }
         .cat-header { display: flex; justify-content: space-between; align-items: center; padding: 12px 15px; cursor: pointer; transition: background 0.2s; border-radius: 6px; }
         .cat-header:hover { background: #2a2a2a; }
         .cat-count { color: #ccc; font-weight: bold; font-size: 0.9em; background: #111; padding: 4px 10px; border-radius: 12px; }
 
-        /* Стили для компактной таблицы */
         .cat-table-wrapper { display: none; padding: 0 15px 15px 15px; border-top: 1px solid #333; }
         .compact-table { width: 100%; border-collapse: collapse; font-size: 0.85em; margin-top: 10px; }
         .compact-table th, .compact-table td { padding: 8px 10px; border-bottom: 1px solid #333; text-align: left; }
@@ -96,7 +94,7 @@
         .sync-side:last-child { color: #198754; }
         .sync-side .review-text { margin-top: 5px; font-size: 0.85em; background: transparent; padding: 0; border: none; }
 
-        /* МОДАЛЬНЫЕ ОКНА */
+        /* === МОДАЛЬНЫЕ ОКНА === */
         .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 1000; justify-content: center; align-items: center; }
         .modal { background: #1e1e1e; padding: 25px; border-radius: 12px; width: 400px; max-width: 90%; border: 1px solid #333; max-height: 90vh; overflow-y: auto; }
         .modal h3 { margin-top: 0; border-bottom: 1px solid #444; padding-bottom: 10px; }
@@ -109,7 +107,7 @@
         .btn-cancel { background: #444; color: white; border: none; padding: 8px 16px; border-radius: 4px; cursor: pointer; }
         .btn-submit { background: #198754; color: white; border: none; padding: 8px 16px; border-radius: 4px; cursor: pointer; font-weight: bold; }
 
-        /* МОБИЛЬНАЯ АДАПТАЦИЯ */
+        /* === МОБИЛЬНАЯ АДАПТАЦИЯ === */
         @media (max-width: 768px) {
             .navbar { flex-wrap: wrap; padding-bottom: 60px; gap: 15px; }
             .add-btn { bottom: 15px; top: auto; right: 50%; transform: translateX(50%); width: 80%; padding: 12px; text-align: center; }
@@ -121,10 +119,8 @@
             .stats-grid { flex-direction: column; }
             .sync-compare { flex-direction: column; gap: 15px; }
             .sync-side:first-child { border-right: none; border-bottom: 1px solid #444; padding-bottom: 10px; }
-
-            /* Адаптация таблицы для мобильных */
             .compact-table th, .compact-table td { padding: 6px 4px; font-size: 0.9em; }
-            .compact-table th:nth-child(2), .compact-table td:nth-child(2) { display: none; } /* Скрываем дату на узком экране */
+            .compact-table th:nth-child(2), .compact-table td:nth-child(2) { display: none; }
         }
     </style>
 </head>
@@ -134,7 +130,7 @@
         <a class="nav-link active" onclick="openTab('arenaTab', this)">Арена</a>
         <a class="nav-link" onclick="openTab('statsTab', this)">Зал славы</a>
         <a class="nav-link" onclick="openTab('syncTab', this)">Синхронизация</a>
-        <button class="add-btn" onclick="document.getElementById('addModal').style.display='flex'">+ Добавить</button>
+        <button class="add-btn" onclick="clearForm(); document.getElementById('addModal').style.display='flex'">+ Добавить</button>
     </div>
 
     <!-- ВКЛАДКА 1: Арена -->
@@ -175,10 +171,11 @@
         </div>
     </div>
 
-    <!-- МОДАЛЬНОЕ ОКНО ДОБАВЛЕНИЯ -->
+    <!-- МОДАЛЬНОЕ ОКНО ДОБАВЛЕНИЯ / РЕДАКТИРОВАНИЯ ТАЙТЛА -->
     <div class="modal-overlay" id="addModal">
         <div class="modal">
-            <h3>Добавить в летопись</h3>
+            <h3 id="modalTitle">Добавить в летопись</h3>
+            <input type="hidden" id="editEntryId">
             <div class="form-group">
                 <label>Пользователь</label>
                 <select class="form-control" id="userSelect">
@@ -247,14 +244,14 @@
         </div>
     </div>
 
-    <!-- МОДАЛЬНОЕ ОКНО РЕДАКТИРОВАНИЯ ОТЗЫВА -->
+    <!-- МОДАЛЬНОЕ ОКНО БЫСТРОГО РЕДАКТИРОВАНИЯ ОТЗЫВА -->
     <div class="modal-overlay" id="editReviewModal">
         <div class="modal">
             <h3>Дописать / Изменить отзыв</h3>
             <p style="color: #aaa; font-size: 0.9em; margin-top: 0;">Если отзыв длиннее 50 символов, вы получите +10 очков и значок 🥇 Золотого критика.</p>
-            <input type="hidden" id="editEntryId">
+            <input type="hidden" id="quickEditEntryId">
             <div class="form-group">
-                <textarea class="form-control" id="editReviewInput" rows="5" placeholder="Напишите ваши впечатления..."></textarea>
+                <textarea class="form-control" id="quickEditReviewInput" rows="5" placeholder="Напишите ваши впечатления..."></textarea>
             </div>
             <div class="modal-buttons">
                 <button class="btn-cancel" onclick="document.getElementById('editReviewModal').style.display='none'">Отмена</button>
@@ -301,15 +298,10 @@
             btn.classList.add('active');
         }
 
-        // Функция открытия/закрытия таблиц в Зале Славы
         function toggleCategoryTable(userId, categoryId) {
             const tableId = `table-${userId}-${categoryId}`;
             const table = document.getElementById(tableId);
-            if (table.style.display === 'none' || table.style.display === '') {
-                table.style.display = 'block';
-            } else {
-                table.style.display = 'none';
-            }
+            table.style.display = (table.style.display === 'none' || table.style.display === '') ? 'block' : 'none';
         }
 
         function toggleDynamicFields() {
@@ -361,17 +353,68 @@
             else loadEntries();
         }
 
-        function openEditModal(id) {
+        // Очистка формы перед добавлением новой записи
+        function clearForm() {
+            document.getElementById('editEntryId').value = '';
+            document.getElementById('modalTitle').innerText = 'Добавить в летопись';
+            document.getElementById('titleInput').value = '';
+            document.getElementById('coverInput').value = '';
+            document.getElementById('platformInput').value = '';
+            document.getElementById('reviewInput').value = '';
+            document.getElementById('volumeInput').value = '1';
+            document.getElementById('episodesInput').value = '1';
+            document.getElementById('ratingInput').value = '8';
+            document.getElementById('achvPlat').checked = false;
+            document.getElementById('achvBreath').checked = false;
+            document.getElementById('achvRetro').checked = false;
+            document.getElementById('achvMaster').checked = false;
+            document.getElementById('achvFamily').checked = false;
+        }
+
+        // Открытие главного модального окна для РЕДАКТИРОВАНИЯ
+        function openMainEditModal(id) {
             const entry = globalEntries.find(e => e.id === id);
             if (!entry) return;
+
             document.getElementById('editEntryId').value = entry.id;
-            document.getElementById('editReviewInput').value = entry.review || '';
+            document.getElementById('modalTitle').innerText = 'Редактировать запись';
+            document.getElementById('userSelect').value = entry.user_id;
+            document.getElementById('titleInput').value = entry.title;
+            document.getElementById('categorySelect').value = entry.category;
+            document.getElementById('coverInput').value = entry.cover_url || '';
+            document.getElementById('ratingInput').value = entry.rating;
+            document.getElementById('reviewInput').value = entry.review || '';
+
+            toggleDynamicFields();
+
+            if(entry.category === 'game') document.getElementById('platformInput').value = entry.platform || '';
+            if(entry.volume) {
+                document.getElementById('volumeInput').value = entry.volume;
+                document.getElementById('episodesInput').value = entry.volume;
+            }
+
+            document.getElementById('achvPlat').checked = entry.achievements.includes('🏆');
+            document.getElementById('achvBreath').checked = entry.achievements.includes('📖');
+            document.getElementById('achvRetro').checked = entry.achievements.includes('🕹️');
+            document.getElementById('achvMaster').checked = entry.achievements.includes('💎');
+            document.getElementById('achvFamily').checked = entry.achievements.includes('🍿');
+
+            document.getElementById('addModal').style.display = 'flex';
+        }
+
+        // Открытие малого модального окна для быстрого редактирования отзыва
+        function openReviewEditModal(id) {
+            const entry = globalEntries.find(e => e.id === id);
+            if (!entry) return;
+            document.getElementById('quickEditEntryId').value = entry.id;
+            document.getElementById('quickEditReviewInput').value = entry.review || '';
             document.getElementById('editReviewModal').style.display = 'flex';
         }
 
+        // Сохранение быстрого отзыва
         async function saveEditedReview() {
-            const id = document.getElementById('editEntryId').value;
-            const newReview = document.getElementById('editReviewInput').value;
+            const id = document.getElementById('quickEditEntryId').value;
+            const newReview = document.getElementById('quickEditReviewInput').value;
             const entry = globalEntries.find(e => e.id == id);
 
             let newPoints = entry.points_earned;
@@ -401,7 +444,6 @@
             }
         }
 
-        // Вспомогательная функция для генерации таблиц категорий в Зале Славы
         function generateCategoryBreakdown(userId, userStats) {
             let html = '<div class="category-list"><h3 style="border-bottom: 1px solid #444; padding-bottom: 5px; margin-top: 30px;">Детализация</h3>';
 
@@ -455,13 +497,11 @@
             leftCol.innerHTML = '<h2>Летопись</h2>';
             rightCol.innerHTML = '<h2>Летопись</h2>';
 
-            // Обновленная структура для сбора статистики по категориям
             let stats = {
                 jonhnerd: { score: 0, count: 0, ratingSum: 0, achvCount: 0, categories: {} },
                 zelda: { score: 0, count: 0, ratingSum: 0, achvCount: 0, categories: {} }
             };
 
-            // Инициализируем массивы для категорий
             for(let key in catStyles) {
                 stats.jonhnerd.categories[key] = [];
                 stats.zelda.categories[key] = [];
@@ -472,13 +512,11 @@
             data.forEach(entry => {
                 const user = entry.user_id;
 
-                // Подсчет общей статистики
                 stats[user].score += entry.points_earned;
                 stats[user].count += 1;
                 stats[user].ratingSum += entry.rating;
                 if (entry.achievements && entry.achievements.length > 0) stats[user].achvCount += entry.achievements.length;
 
-                // Запись в конкретную категорию для таблицы Зала Славы
                 if(stats[user].categories[entry.category]) {
                     stats[user].categories[entry.category].push(entry);
                 }
@@ -486,7 +524,6 @@
                 const cleanTitle = entry.title.toLowerCase().trim();
                 syncDict[user][cleanTitle] = entry;
 
-                // Отрисовка карточек Арены
                 const cat = catStyles[entry.category] || { label: entry.category, color: '#555' };
                 const badgeHtml = `<span class="category-badge" style="background-color: ${cat.color}">${cat.label}</span>`;
 
@@ -501,7 +538,12 @@
                 let metaText = metaDetails.length > 0 ? metaDetails.join(' • ') + `<br>${dateStr}` : dateStr;
 
                 const badgesHtml = (entry.achievements && entry.achievements.length > 0) ? `<div class="achievements">${entry.achievements.join(' ')}</div>` : '';
-                const coverHtml = entry.cover_url ? `<div class="cover"><img src="${entry.cover_url}" onerror="this.onerror=null; this.src='https://via.placeholder.com/80x120?text=Нет+обложки';"></div>` : `<div class="cover">Обложка</div>`;
+
+                // Добавлен fallback для битых ссылок
+                const coverHtml = entry.cover_url
+                    ? `<div class="cover"><img src="${entry.cover_url}" onerror="this.onerror=null; this.src='https://via.placeholder.com/80x120/222222/888888?text=Нет+обложки';"></div>`
+                    : `<div class="cover">Обложка</div>`;
+
                 const reviewHtml = entry.review ? `<div class="review-text">"${entry.review.replace(/\n/g, '<br>')}"</div>` : '';
 
                 const cardHtml = `
@@ -509,7 +551,8 @@
                         ${coverHtml}
                         <div class="info">
                             <div class="action-btns">
-                                <button class="icon-btn" onclick="openEditModal(${entry.id})" title="Изменить отзыв">✍️</button>
+                                <button class="icon-btn" onclick="openReviewEditModal(${entry.id})" title="Быстрый отзыв">📝</button>
+                                <button class="icon-btn" onclick="openMainEditModal(${entry.id})" title="Редактировать запись целиком">✏️</button>
                                 <button class="icon-btn" onclick="deleteEntry(${entry.id})" title="Удалить">🗑️</button>
                             </div>
                             ${badgeHtml}
@@ -562,7 +605,6 @@
             leftBar.style.width = leftPercent + '%'; rightBar.style.width = (100 - leftPercent) + '%';
         }
 
-        // ОБНОВЛЕННЫЙ РЕНДЕР ЗАЛА СЛАВЫ
         function renderStats(stats) {
             const jAvg = stats.jonhnerd.count > 0 ? (stats.jonhnerd.ratingSum / stats.jonhnerd.count).toFixed(1) : 0;
             const zAvg = stats.zelda.count > 0 ? (stats.zelda.ratingSum / stats.zelda.count).toFixed(1) : 0;
@@ -571,31 +613,21 @@
                 <div class="stats-grid">
                     <div class="stat-box jonh">
                         <h2>JonhNerd</h2>
-
-                        <!-- Блок общих цифр -->
                         <div style="display: flex; justify-content: space-around; margin: 20px 0; border-bottom: 1px solid #333; padding-bottom: 15px;">
                             <div><p style="margin:0; color:#aaa;">Тайтлов</p><div class="stat-number" style="margin:5px 0;">${stats.jonhnerd.count}</div></div>
                             <div><p style="margin:0; color:#aaa;">Ачивок</p><div class="stat-number" style="margin:5px 0;">${stats.jonhnerd.achvCount}</div></div>
                         </div>
                         <p>Средняя оценка: <br><span class="star-rating" style="margin-top: 10px; display:inline-block;">${generateStars(Math.round(jAvg))}</span></p>
-
-                        <!-- Блок детализации с таблицами -->
                         ${generateCategoryBreakdown('jonhnerd', stats.jonhnerd)}
-
                     </div>
                     <div class="stat-box zelda">
                         <h2>Zelda</h2>
-
-                        <!-- Блок общих цифр -->
                         <div style="display: flex; justify-content: space-around; margin: 20px 0; border-bottom: 1px solid #333; padding-bottom: 15px;">
                             <div><p style="margin:0; color:#aaa;">Тайтлов</p><div class="stat-number" style="margin:5px 0;">${stats.zelda.count}</div></div>
                             <div><p style="margin:0; color:#aaa;">Ачивок</p><div class="stat-number" style="margin:5px 0;">${stats.zelda.achvCount}</div></div>
                         </div>
                         <p>Средняя оценка: <br><span class="star-rating" style="margin-top: 10px; display:inline-block;">${generateStars(Math.round(zAvg))}</span></p>
-
-                        <!-- Блок детализации с таблицами -->
                         ${generateCategoryBreakdown('zelda', stats.zelda)}
-
                     </div>
                 </div>
             `;
@@ -620,7 +652,6 @@
                         <div class="sync-card">
                             <span class="category-badge" style="background-color: ${cat.color}">${cat.label}</span>
                             <h3 style="margin-top: 5px;">${jEntry.title}</h3>
-
                             <div class="sync-compare">
                                 <div class="sync-side">
                                     <b style="font-size: 1.1em;">JonhNerd</b><br>
@@ -643,34 +674,28 @@
         }
 
         async function saveEntry() {
+            const id = document.getElementById('editEntryId').value;
             const userId = document.getElementById('userSelect').value;
-            const title = document.getElementById('titleInput').value;
             const category = document.getElementById('categorySelect').value;
-            const platform = document.getElementById('platformInput').value;
-            const rating = parseInt(document.getElementById('ratingInput').value);
+            const volume = parseInt(document.getElementById('volumeInput').value) || 1;
+            const eps = parseInt(document.getElementById('episodesInput').value) || 1;
             const review = document.getElementById('reviewInput').value;
-            const coverUrl = document.getElementById('coverInput').value;
 
-            let volume = 1;
-            if (category === 'book' || category === 'manga') volume = parseInt(document.getElementById('volumeInput').value) || 1;
-            else if (category === 'series' || category === 'anime') volume = parseInt(document.getElementById('episodesInput').value) || 1;
-
-            if (!title) { alert("Пожалуйста, введите название!"); return; }
+            const volForCalc = (category === 'series' || category === 'anime') ? eps : volume;
 
             let points = 0;
-            let achievements = [];
-
             if (category === 'movie') points = 10;
-            else if (category === 'series' || category === 'anime') points = Math.max(10, Math.round(volume * 0.8));
+            else if (category === 'series' || category === 'anime') points = Math.max(10, Math.round(volForCalc * 0.8));
             else if (category === 'game') points = 30;
-            else if (category === 'manga') points = volume * 5;
+            else if (category === 'manga') points = volForCalc * 5;
             else if (category === 'book') {
-                if (volume < 300) points = 10;
-                else if (volume <= 600) points = 15;
-                else if (volume <= 1000) points = 25;
+                if (volForCalc < 300) points = 10;
+                else if (volForCalc <= 600) points = 15;
+                else if (volForCalc <= 1000) points = 25;
                 else points = 35;
             }
 
+            let achievements = [];
             if (review.length > 50) { points += 10; achievements.push('🥇'); }
             if (document.getElementById('achvPlat').checked) { points += 20; achievements.push('🏆'); }
             if (document.getElementById('achvBreath').checked) { points += 10; achievements.push('📖'); }
@@ -678,31 +703,31 @@
             if (document.getElementById('achvMaster').checked) { points += 10; achievements.push('💎'); }
             if (document.getElementById('achvFamily').checked) { points += 5; achievements.push('🍿'); }
 
-            const { data, error } = await db.from('entries').insert([{
-                user_id: userId, title: title, category: category, platform: platform,
-                volume: volume, rating: rating, review: review, points_earned: points,
-                achievements: achievements, cover_url: coverUrl
-            }]);
+            const entryData = {
+                user_id: userId,
+                title: document.getElementById('titleInput').value,
+                category: category,
+                rating: parseInt(document.getElementById('ratingInput').value),
+                points_earned: points,
+                achievements: achievements,
+                cover_url: document.getElementById('coverInput').value,
+                volume: volForCalc,
+                platform: document.getElementById('platformInput').value,
+                review: review
+            };
 
-            if (error) { alert('Произошла ошибка: ' + error.message); }
-            else {
-                document.getElementById('titleInput').value = '';
-                document.getElementById('platformInput').value = '';
-                document.getElementById('reviewInput').value = '';
-                document.getElementById('coverInput').value = '';
-                document.getElementById('volumeInput').value = '1';
-                document.getElementById('episodesInput').value = '1';
-                document.getElementById('ratingInput').value = '8';
-
-                document.getElementById('achvPlat').checked = false;
-                document.getElementById('achvBreath').checked = false;
-                document.getElementById('achvRetro').checked = false;
-                document.getElementById('achvMaster').checked = false;
-                document.getElementById('achvFamily').checked = false;
-
-                document.getElementById('addModal').style.display = 'none';
-                loadEntries();
+            if (id) {
+                // Если есть id — обновляем запись
+                const { error } = await db.from('entries').update(entryData).eq('id', id);
+                if (error) alert('Произошла ошибка при обновлении: ' + error.message);
+            } else {
+                // Если нет — создаем новую
+                const { error } = await db.from('entries').insert([entryData]);
+                if (error) alert('Произошла ошибка при сохранении: ' + error.message);
             }
+
+            document.getElementById('addModal').style.display = 'none';
+            loadEntries();
         }
     </script>
 </body>
