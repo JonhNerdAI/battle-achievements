@@ -87,7 +87,6 @@
         .compact-table td:first-child { font-weight: bold; color: #fff; width: 40%; }
         .compact-table td.date-col { color: #aaa; white-space: nowrap; }
 
-        /* СТИЛИ ДЛЯ СОРТИРОВКИ */
         .sortable { cursor: pointer; user-select: none; transition: color 0.2s; }
         .sortable:hover { color: #fff; }
         .sort-icon { font-size: 0.9em; margin-left: 5px; opacity: 0.6; display: inline-block; }
@@ -124,6 +123,8 @@
             .stats-grid { flex-direction: column; }
             .sync-compare { flex-direction: column; gap: 15px; }
             .sync-side:first-child { border-right: none; border-bottom: 1px solid #444; padding-bottom: 10px; }
+            .compact-table th, .compact-table td { padding: 6px 4px; font-size: 0.9em; }
+            .compact-table th:nth-child(2), .compact-table td:nth-child(2) { display: none; }
         }
     </style>
 </head>
@@ -264,7 +265,9 @@
         // === ВСТАВЬТЕ ВАШИ КЛЮЧИ СЮДА ===
         const supabaseUrl = 'https://mnnsbxcbagukzcxvogsy.supabase.co';
         const supabaseKey = 'sb_publishable_GVsZNsFztJwKXfKBXQheDQ_0sIjDgD5';
-        const rawgKey = '2d067456ba9f4ec0bc2d8a9c54fa8737'; // Вставьте ключ API от RAWG
+        const rawgKey = '2d067456ba9f4ec0bc2d8a9c54fa8737';
+        const tmdbKey = '859afab5c05a6afc9376a63d7ac53460'; // Вставьте ключ API от TMDB
+
         const db = supabase.createClient(supabaseUrl, supabaseKey);
 
         let globalEntries = [];
@@ -341,6 +344,20 @@
                     if (data.results && data.results.length > 0) coverInput.value = data.results[0].background_image;
                     else alert('Обложка игры не найдена.');
                 }
+                else if (category === 'movie' || category === 'series') {
+                    if(!tmdbKey || tmdbKey === 'ВАШ_КЛЮЧ_TMDB') {
+                        alert('Сначала вставьте свой TMDB API ключ в скрипт!');
+                        return;
+                    }
+                    const type = category === 'movie' ? 'movie' : 'tv';
+                    const res = await fetch(`https://api.themoviedb.org/3/search/${type}?api_key=${tmdbKey}&query=${encodeURIComponent(title)}&language=ru-RU`);
+                    const data = await res.json();
+                    if (data.results && data.results.length > 0 && data.results[0].poster_path) {
+                        coverInput.value = `https://image.tmdb.org/t/p/w500${data.results[0].poster_path}`;
+                    } else {
+                        alert('Обложка не найдена.');
+                    }
+                }
                 else if (category === 'anime' || category === 'manga') {
                     const type = category === 'anime' ? 'anime' : 'manga';
                     const res = await fetch(`https://api.jikan.moe/v4/${type}?q=${encodeURIComponent(title)}&limit=1`);
@@ -355,8 +372,7 @@
                     else alert('Обложка не найдена.');
                 }
                 else {
-                    alert('Для фильмов и сериалов пока вставьте ссылку на картинку из Google вручную!');
-                    coverInput.placeholder = "Вставьте ссылку";
+                    alert('Поиск для этой категории пока не поддерживается.');
                 }
             } catch (e) {
                 console.error(e);
@@ -467,7 +483,6 @@
             const th = table.querySelectorAll('th')[colIndex];
             const isAscending = th.dataset.sort === 'asc';
 
-            // Сброс иконок и установка новой
             table.querySelectorAll('.sort-icon').forEach(icon => icon.innerHTML = '↕');
             th.querySelector('.sort-icon').innerHTML = isAscending ? '↑' : '↓';
             th.dataset.sort = isAscending ? 'desc' : 'asc';
@@ -505,7 +520,6 @@
                 if (items && items.length > 0) {
 
                     const isGame = catKey === 'game';
-                    // Добавляем заголовок платформы, если это Игры
                     const platformHeader = isGame
                         ? `<th class="sortable" onclick="sortTable('${userId}-${catKey}', 3, 'string')" title="Сортировать по платформе">Платформа <span class="sort-icon">↕</span></th>`
                         : '';
