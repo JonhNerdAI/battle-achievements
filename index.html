@@ -65,7 +65,7 @@
         .icon-btn { background: none; border: none; font-size: 1.2em; cursor: pointer; opacity: 0.3; transition: 0.2s; padding: 0; }
         .icon-btn:hover { opacity: 1; transform: scale(1.2); }
 
-        /* === ЗАЛ СЛАВЫ, СИНХРОНИЗАЦИЯ И ТАБЛИЦЫ === */
+        /* === ЗАЛ СЛАВЫ И ТАБЛИЦЫ === */
         .stats-container { padding: 20px; overflow-y: auto; flex: 1; max-width: 1200px; margin: 0 auto; width: 100%; box-sizing: border-box;}
         .stats-grid { display: flex; gap: 20px; justify-content: center; margin-bottom: 30px; align-items: flex-start;}
         .stat-box { background: #1e1e1e; padding: 20px; border-radius: 8px; flex: 1; text-align: center; border-top: 4px solid #444; box-shadow: 0 4px 6px rgba(0,0,0,0.3); }
@@ -91,12 +91,30 @@
         .sortable:hover { color: #fff; }
         .sort-icon { font-size: 0.9em; margin-left: 5px; opacity: 0.6; display: inline-block; }
 
-        .sync-card { background: #1e1e1e; border-radius: 8px; padding: 15px; margin-bottom: 15px; border-left: 4px solid #ffc107; }
-        .sync-compare { display: flex; justify-content: space-between; margin-top: 15px; background: #2a2a2a; padding: 10px; border-radius: 4px; }
-        .sync-side { flex: 1; padding: 0 10px; }
-        .sync-side:first-child { border-right: 1px solid #444; color: #0d6efd; }
-        .sync-side:last-child { color: #198754; }
-        .sync-side .review-text { margin-top: 5px; font-size: 0.85em; background: transparent; padding: 0; border: none; }
+        /* === НОВЫЕ СТИЛИ СИНХРОНИЗАЦИИ === */
+        .sync-filter-container { background: #1e1e1e; padding: 15px; border-radius: 8px; margin-bottom: 20px; display: flex; justify-content: center; align-items: center; gap: 15px; border: 1px solid #333; }
+        .sync-category-group { margin-bottom: 20px; background: #1a1a1a; border-radius: 8px; overflow: hidden; border: 1px solid #333; }
+        .sync-category-title { padding: 10px 15px; font-weight: bold; background: #222; border-bottom: 1px solid #333; display: flex; align-items: center; gap: 10px; }
+        .sync-item { display: flex; justify-content: space-between; align-items: center; padding: 12px 15px; border-bottom: 1px solid #2a2a2a; transition: background 0.2s; }
+        .sync-item:hover { background: #252525; }
+        .sync-item:last-child { border-bottom: none; }
+        .sync-icons { display: flex; gap: 8px; }
+        .sync-icon { width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: bold; color: white; background: #444; border: 2px solid #222; box-shadow: 0 2px 4px rgba(0,0,0,0.5); transition: 0.3s; }
+        .sync-icon.active-j { background: #0d6efd; box-shadow: 0 0 10px rgba(13,110,253,0.6); }
+        .sync-icon.active-z { background: #198754; box-shadow: 0 0 10px rgba(25,135,84,0.6); }
+
+        /* === СТИЛИ УМНОГО ПОИСКА (АВТОЗАПОЛНЕНИЯ) === */
+        .autocomplete-wrapper { position: relative; }
+        .autocomplete-list {
+            position: absolute; top: 100%; left: 0; right: 0;
+            background: #2a2a2a; border: 1px solid #444; border-radius: 4px;
+            z-index: 1001; max-height: 150px; overflow-y: auto; display: none;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.5);
+        }
+        .autocomplete-item { padding: 10px; cursor: pointer; border-bottom: 1px solid #333; font-size: 0.9em; transition: background 0.2s; }
+        .autocomplete-item:hover { background: #0d6efd; color: white; }
+        .autocomplete-item:last-child { border-bottom: none; }
+        .autocomplete-hint { font-size: 0.8em; color: #888; float: right; }
 
         /* === МОДАЛЬНЫЕ ОКНА === */
         .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 1000; justify-content: center; align-items: center; }
@@ -121,8 +139,6 @@
             .column { overflow-y: visible; flex: none; }
             .left-col { border-right: none; border-bottom: 4px dashed #333; padding-bottom: 40px; margin-bottom: 20px; }
             .stats-grid { flex-direction: column; }
-            .sync-compare { flex-direction: column; gap: 15px; }
-            .sync-side:first-child { border-right: none; border-bottom: 1px solid #444; padding-bottom: 10px; }
             .compact-table th, .compact-table td { padding: 6px 4px; font-size: 0.9em; }
             .compact-table th:nth-child(2), .compact-table td:nth-child(2) { display: none; }
         }
@@ -165,8 +181,16 @@
 
     <div id="syncTab" class="tab-section">
         <div class="stats-container">
-            <h2 style="text-align: center;">Совместный опыт</h2>
-            <p style="text-align: center; color: #aaa;">Тайтлы, которые вы оба добавили в базу</p>
+            <h2 style="text-align: center;">Общий прогресс</h2>
+            <div class="sync-filter-container">
+                <label>Показать:</label>
+                <select class="form-control" id="syncFilter" onchange="renderSync()" style="max-width: 300px;">
+                    <option value="all">Все тайтлы (Полный список)</option>
+                    <option value="match">Только совпадения (Оба посмотрели)</option>
+                    <option value="jonh">Просмотрено только мной (JonhNerd)</option>
+                    <option value="zelda">Просмотрено только ей (Zelda)</option>
+                </select>
+            </div>
             <div id="syncContent"></div>
         </div>
     </div>
@@ -183,21 +207,35 @@
                     <option value="zelda">Zelda</option>
                 </select>
             </div>
-            <div class="form-group">
+
+            <!-- УМНЫЙ ПОИСК ДЛЯ НАЗВАНИЯ -->
+            <div class="form-group autocomplete-wrapper">
                 <label>Название тайтла</label>
-                <input type="text" class="form-control" id="titleInput" placeholder="Например: The Last of Us">
+                <input type="text" class="form-control" id="titleInput" placeholder="Начни вводить название..." oninput="showSuggestions()" autocomplete="off">
+                <div id="autocompleteList" class="autocomplete-list"></div>
             </div>
+
             <div class="form-group">
                 <label>Категория</label>
                 <select class="form-control" id="categorySelect" onchange="toggleDynamicFields()">
                     <option value="game">Игра</option>
                     <option value="movie">Фильм</option>
+                    <option value="cartoon">Мультфильм</option>
                     <option value="series">Сериал</option>
+                    <option value="animated_series">Мультсериал</option>
                     <option value="anime">Аниме</option>
                     <option value="book">Книга</option>
                     <option value="manga">Манга</option>
                 </select>
             </div>
+
+            <div class="form-group dynamic-field" id="featureAnimeField">
+                <label style="color: #fff; cursor: pointer; display: flex; align-items: center; gap: 8px; background: #252525; padding: 10px; border-radius: 4px; border: 1px solid #444;">
+                    <input type="checkbox" id="isFeatureAnime" onchange="toggleDynamicFields()">
+                    🎞️ Полнометражное аниме
+                </label>
+            </div>
+
             <div class="form-group">
                 <label>Обложка (ссылка)</label>
                 <div style="display: flex; gap: 10px;">
@@ -205,7 +243,7 @@
                     <button type="button" onclick="autoFetchCover()" style="background: #0d6efd; color: white; border: none; border-radius: 4px; cursor: pointer; padding: 0 10px; font-weight: bold;" title="Волшебный поиск обложки">🪄</button>
                 </div>
             </div>
-            <div class="form-group dynamic-field" id="platformField" style="display: block;">
+            <div class="form-group dynamic-field" id="platformField">
                 <label>Платформа</label>
                 <input type="text" class="form-control" id="platformInput" placeholder="Например: PS3, PS4, PC">
             </div>
@@ -266,7 +304,7 @@
         const supabaseUrl = 'https://mnnsbxcbagukzcxvogsy.supabase.co';
         const supabaseKey = 'sb_publishable_GVsZNsFztJwKXfKBXQheDQ_0sIjDgD5';
         const rawgKey = '2d067456ba9f4ec0bc2d8a9c54fa8737';
-        const tmdbKey = '859afab5c05a6afc9376a63d7ac53460'; // Вставьте ключ API от TMDB
+        const tmdbKey = '859afab5c05a6afc9376a63d7ac53460';
 
         const db = supabase.createClient(supabaseUrl, supabaseKey);
 
@@ -280,12 +318,13 @@
         const catStyles = {
             game: { label: '🎮 Игра', color: '#8b5cf6' },
             movie: { label: '🎬 Фильм', color: '#ef4444' },
+            cartoon: { label: '🧸 Мультфильм', color: '#f43f5e' },
             series: { label: '📺 Сериал', color: '#f97316' },
+            animated_series: { label: '🎪 Мультсериал', color: '#f59e0b' },
             anime: { label: '🌸 Аниме', color: '#ec4899' },
             book: { label: '📚 Книга', color: '#3b82f6' },
             manga: { label: '📖 Манга', color: '#14b8a6' }
         };
-        const catNames = { game: 'Игра', movie: 'Фильм', series: 'Сериал', anime: 'Аниме', book: 'Книга', manga: 'Манга' };
 
         function generateStars(rating) {
             const r = Math.min(Math.max(rating, 0), 10);
@@ -301,6 +340,58 @@
             btn.classList.add('active');
         }
 
+        // --- ЛОГИКА УМНЫХ ПОДСКАЗОК ДЛЯ НАЗВАНИЯ ---
+        function showSuggestions() {
+            const input = document.getElementById('titleInput').value.toLowerCase().trim();
+            const list = document.getElementById('autocompleteList');
+            list.innerHTML = '';
+
+            if (!input) {
+                list.style.display = 'none';
+                return;
+            }
+
+            const matches = [];
+            const seenTitles = new Set();
+
+            globalEntries.forEach(entry => {
+                const titleLower = entry.title.toLowerCase().trim();
+                if (titleLower.includes(input) && !seenTitles.has(titleLower)) {
+                    seenTitles.add(titleLower);
+                    matches.push(entry);
+                }
+            });
+
+            if (matches.length > 0) {
+                matches.forEach(match => {
+                    const div = document.createElement('div');
+                    div.className = 'autocomplete-item';
+
+                    const catLabel = catStyles[match.category] ? catStyles[match.category].label : '';
+                    div.innerHTML = `${match.title} <span class="autocomplete-hint">${catLabel}</span>`;
+
+                    div.onclick = () => {
+                        document.getElementById('titleInput').value = match.title;
+                        document.getElementById('categorySelect').value = match.category;
+                        toggleDynamicFields();
+                        list.style.display = 'none';
+                    };
+                    list.appendChild(div);
+                });
+                list.style.display = 'block';
+            } else {
+                list.style.display = 'none';
+            }
+        }
+
+        // Прятать список подсказок, если кликнули мимо
+        document.addEventListener('click', function(e) {
+            if (e.target.id !== 'titleInput') {
+                const list = document.getElementById('autocompleteList');
+                if(list) list.style.display = 'none';
+            }
+        });
+
         function toggleCategoryTable(userId, categoryId) {
             const tableId = `table-${userId}-${categoryId}`;
             const table = document.getElementById(tableId);
@@ -309,19 +400,35 @@
 
         function toggleDynamicFields() {
             const category = document.getElementById('categorySelect').value;
+            const isFeatureAnime = document.getElementById('isFeatureAnime').checked;
+
             const volumeField = document.getElementById('volumeField');
             const volumeLabel = document.getElementById('volumeLabel');
             const platformField = document.getElementById('platformField');
             const episodesField = document.getElementById('episodesField');
+            const featureAnimeField = document.getElementById('featureAnimeField');
 
             volumeField.style.display = 'none';
             platformField.style.display = 'none';
             episodesField.style.display = 'none';
+            featureAnimeField.style.display = 'none';
 
-            if (category === 'book') { volumeField.style.display = 'block'; volumeLabel.innerText = 'Количество страниц'; }
-            else if (category === 'manga') { volumeField.style.display = 'block'; volumeLabel.innerText = 'Количество томов'; }
-            else if (category === 'game') { platformField.style.display = 'block'; }
-            else if (category === 'series' || category === 'anime') { episodesField.style.display = 'block'; }
+            if (category === 'book' || category === 'manga') {
+                volumeField.style.display = 'block';
+                volumeLabel.innerText = category === 'book' ? 'Количество страниц' : 'Количество томов';
+            }
+            else if (category === 'game') {
+                platformField.style.display = 'block';
+            }
+            else if (category === 'series' || category === 'animated_series') {
+                episodesField.style.display = 'block';
+            }
+            else if (category === 'anime') {
+                featureAnimeField.style.display = 'block';
+                if (!isFeatureAnime) {
+                    episodesField.style.display = 'block';
+                }
+            }
         }
 
         async function autoFetchCover() {
@@ -330,26 +437,19 @@
             const coverInput = document.getElementById('coverInput');
 
             if (!title) { alert('Сначала введите название тайтла!'); return; }
-
             coverInput.placeholder = "Ищем...";
 
             try {
                 if (category === 'game') {
-                    if(!rawgKey || rawgKey === 'ВАШ_КЛЮЧ_RAWG') {
-                        alert('Сначала вставьте свой RAWG API ключ в скрипт!');
-                        return;
-                    }
+                    if(!rawgKey || rawgKey === 'ВАШ_КЛЮЧ_RAWG') { alert('Нужен RAWG API ключ!'); return; }
                     const res = await fetch(`https://api.rawg.io/api/games?search=${encodeURIComponent(title)}&key=${rawgKey}`);
                     const data = await res.json();
                     if (data.results && data.results.length > 0) coverInput.value = data.results[0].background_image;
                     else alert('Обложка игры не найдена.');
                 }
-                else if (category === 'movie' || category === 'series') {
-                    if(!tmdbKey || tmdbKey === 'ВАШ_КЛЮЧ_TMDB') {
-                        alert('Сначала вставьте свой TMDB API ключ в скрипт!');
-                        return;
-                    }
-                    const type = category === 'movie' ? 'movie' : 'tv';
+                else if (category === 'movie' || category === 'cartoon' || category === 'series' || category === 'animated_series') {
+                    if(!tmdbKey || tmdbKey === 'ВАШ_КЛЮЧ_TMDB') { alert('Нужен TMDB API ключ!'); return; }
+                    const type = (category === 'movie' || category === 'cartoon') ? 'movie' : 'tv';
                     const res = await fetch(`https://api.themoviedb.org/3/search/${type}?api_key=${tmdbKey}&query=${encodeURIComponent(title)}&language=ru-RU`);
                     const data = await res.json();
                     if (data.results && data.results.length > 0 && data.results[0].poster_path) {
@@ -370,9 +470,6 @@
                     const data = await res.json();
                     if (data.docs && data.docs.length > 0 && data.docs[0].cover_i) coverInput.value = `https://covers.openlibrary.org/b/id/${data.docs[0].cover_i}-M.jpg`;
                     else alert('Обложка не найдена.');
-                }
-                else {
-                    alert('Поиск для этой категории пока не поддерживается.');
                 }
             } catch (e) {
                 console.error(e);
@@ -397,11 +494,14 @@
             document.getElementById('volumeInput').value = '1';
             document.getElementById('episodesInput').value = '1';
             document.getElementById('ratingInput').value = '8';
+            document.getElementById('isFeatureAnime').checked = false;
             document.getElementById('achvPlat').checked = false;
             document.getElementById('achvBreath').checked = false;
             document.getElementById('achvRetro').checked = false;
             document.getElementById('achvMaster').checked = false;
             document.getElementById('achvFamily').checked = false;
+            document.getElementById('autocompleteList').style.display = 'none';
+            toggleDynamicFields();
         }
 
         function openMainEditModal(id) {
@@ -417,6 +517,8 @@
             document.getElementById('ratingInput').value = entry.rating;
             document.getElementById('reviewInput').value = entry.review || '';
 
+            document.getElementById('isFeatureAnime').checked = entry.achievements && entry.achievements.includes('🎞️ Полнометражка');
+
             toggleDynamicFields();
 
             if(entry.category === 'game') document.getElementById('platformInput').value = entry.platform || '';
@@ -431,6 +533,7 @@
             document.getElementById('achvMaster').checked = entry.achievements.includes('💎');
             document.getElementById('achvFamily').checked = entry.achievements.includes('🍿');
 
+            document.getElementById('autocompleteList').style.display = 'none';
             document.getElementById('addModal').style.display = 'flex';
         }
 
@@ -461,20 +564,11 @@
                 newAchievements = newAchievements.filter(a => a !== '🥇');
             }
 
-            const { error } = await db.from('entries').update({
-                review: newReview,
-                points_earned: newPoints,
-                achievements: newAchievements
-            }).eq('id', id);
-
+            const { error } = await db.from('entries').update({ review: newReview, points_earned: newPoints, achievements: newAchievements }).eq('id', id);
             if (error) alert('Ошибка: ' + error.message);
-            else {
-                document.getElementById('editReviewModal').style.display = 'none';
-                loadEntries();
-            }
+            else { document.getElementById('editReviewModal').style.display = 'none'; loadEntries(); }
         }
 
-        // --- ЛОГИКА СОРТИРОВКИ ТАБЛИЦ ---
         function sortTable(tableId, colIndex, type) {
             const table = document.getElementById(`table-data-${tableId}`);
             const tbody = table.querySelector('tbody');
@@ -490,7 +584,6 @@
             rows.sort((a, b) => {
                 let cellA = a.children[colIndex];
                 let cellB = b.children[colIndex];
-
                 let valA, valB;
 
                 if (type === 'date') {
@@ -514,15 +607,11 @@
 
         function generateCategoryBreakdown(userId, userStats) {
             let html = '<div class="category-list"><h3 style="border-bottom: 1px solid #444; padding-bottom: 5px; margin-top: 30px;">Детализация</h3>';
-
             for (let catKey in catStyles) {
                 let items = userStats.categories[catKey];
                 if (items && items.length > 0) {
-
                     const isGame = catKey === 'game';
-                    const platformHeader = isGame
-                        ? `<th class="sortable" onclick="sortTable('${userId}-${catKey}', 3, 'string')" title="Сортировать по платформе">Платформа <span class="sort-icon">↕</span></th>`
-                        : '';
+                    const platformHeader = isGame ? `<th class="sortable" onclick="sortTable('${userId}-${catKey}', 3, 'string')" title="Сортировать по платформе">Платформа <span class="sort-icon">↕</span></th>` : '';
 
                     html += `
                         <div class="category-item">
@@ -534,9 +623,9 @@
                                 <table class="compact-table" id="table-data-${userId}-${catKey}">
                                     <thead>
                                         <tr>
-                                            <th class="sortable" onclick="sortTable('${userId}-${catKey}', 0, 'string')" title="Сортировать по названию">Название <span class="sort-icon">↕</span></th>
-                                            <th class="sortable" onclick="sortTable('${userId}-${catKey}', 1, 'date')" title="Сортировать по дате">Дата <span class="sort-icon">↕</span></th>
-                                            <th class="sortable" onclick="sortTable('${userId}-${catKey}', 2, 'number')" title="Сортировать по оценке">Оценка <span class="sort-icon">↕</span></th>
+                                            <th class="sortable" onclick="sortTable('${userId}-${catKey}', 0, 'string')">Название <span class="sort-icon">↕</span></th>
+                                            <th class="sortable" onclick="sortTable('${userId}-${catKey}', 1, 'date')">Дата <span class="sort-icon">↕</span></th>
+                                            <th class="sortable" onclick="sortTable('${userId}-${catKey}', 2, 'number')">Оценка <span class="sort-icon">↕</span></th>
                                             ${platformHeader}
                                             <th>Ачивки</th>
                                         </tr>
@@ -576,17 +665,12 @@
             leftCol.innerHTML = '<h2>Летопись</h2>';
             rightCol.innerHTML = '<h2>Летопись</h2>';
 
-            let stats = {
-                jonhnerd: { score: 0, count: 0, ratingSum: 0, achvCount: 0, categories: {} },
-                zelda: { score: 0, count: 0, ratingSum: 0, achvCount: 0, categories: {} }
-            };
+            let stats = { jonhnerd: { score: 0, count: 0, ratingSum: 0, achvCount: 0, categories: {} }, zelda: { score: 0, count: 0, ratingSum: 0, achvCount: 0, categories: {} } };
 
             for(let key in catStyles) {
                 stats.jonhnerd.categories[key] = [];
                 stats.zelda.categories[key] = [];
             }
-
-            let syncDict = { jonhnerd: {}, zelda: {} };
 
             data.forEach(entry => {
                 const user = entry.user_id;
@@ -596,12 +680,7 @@
                 stats[user].ratingSum += entry.rating;
                 if (entry.achievements && entry.achievements.length > 0) stats[user].achvCount += entry.achievements.length;
 
-                if(stats[user].categories[entry.category]) {
-                    stats[user].categories[entry.category].push(entry);
-                }
-
-                const cleanTitle = entry.title.toLowerCase().trim();
-                syncDict[user][cleanTitle] = entry;
+                if(stats[user].categories[entry.category]) stats[user].categories[entry.category].push(entry);
 
                 const cat = catStyles[entry.category] || { label: entry.category, color: '#555' };
                 const badgeHtml = `<span class="category-badge" style="background-color: ${cat.color}">${cat.label}</span>`;
@@ -610,18 +689,22 @@
 
                 let metaDetails = [];
                 if (entry.category === 'game' && entry.platform) metaDetails.push(entry.platform);
+
+                const isFeature = entry.achievements && entry.achievements.includes('🎞️ Полнометражка');
+
                 if (entry.category === 'book') metaDetails.push(`${entry.volume} стр.`);
                 if (entry.category === 'manga') metaDetails.push(`${entry.volume} томов`);
-                if ((entry.category === 'series' || entry.category === 'anime') && entry.volume > 0) metaDetails.push(`${entry.volume} серий`);
+                if ((entry.category === 'series' || entry.category === 'animated_series' || (entry.category === 'anime' && !isFeature)) && entry.volume > 0) metaDetails.push(`${entry.volume} серий`);
 
                 let metaText = metaDetails.length > 0 ? metaDetails.join(' • ') + `<br>${dateStr}` : dateStr;
 
-                const badgesHtml = (entry.achievements && entry.achievements.length > 0) ? `<div class="achievements">${entry.achievements.join(' ')}</div>` : '';
+                // Для карточки на главной скрываем техническую ачивку полнометражки
+                let displayAchievements = entry.achievements ? entry.achievements.filter(a => a !== '🎞️ Полнометражка') : [];
+                const badgesHtml = displayAchievements.length > 0 ? `<div class="achievements">${displayAchievements.join(' ')}</div>` : '';
 
                 const coverHtml = entry.cover_url
                     ? `<div class="cover"><img src="${entry.cover_url}" onerror="this.onerror=null; this.src='https://via.placeholder.com/80x120/222222/888888?text=Нет+обложки';"></div>`
                     : `<div class="cover">Обложка</div>`;
-
                 const reviewHtml = entry.review ? `<div class="review-text">"${entry.review.replace(/\n/g, '<br>')}"</div>` : '';
 
                 const cardHtml = `
@@ -636,9 +719,7 @@
                             ${badgeHtml}
                             <p class="title">${entry.title}</p>
                             <p class="meta">${metaText}</p>
-
                             <div class="star-rating">${generateStars(entry.rating)}</div>
-
                             ${badgesHtml}
                             ${reviewHtml}
                             <span class="pts ${user === 'jonhnerd' ? 'left-pts' : 'right-pts'}">+${entry.points_earned} очков</span>
@@ -652,7 +733,76 @@
 
             updateScoreBar(stats.jonhnerd.score, stats.zelda.score);
             renderStats(stats);
-            renderSync(syncDict);
+            renderSync();
+        }
+
+        function renderSync() {
+            const filter = document.getElementById('syncFilter').value;
+            const container = document.getElementById('syncContent');
+            container.innerHTML = '';
+
+            let syncDict = {};
+            globalEntries.forEach(entry => {
+                const key = `${entry.title.toLowerCase().trim()}_${entry.category}`;
+                if (!syncDict[key]) syncDict[key] = { title: entry.title, category: entry.category, jonhnerd: null, zelda: null };
+                syncDict[key][entry.user_id] = entry;
+            });
+
+            let grouped = {};
+            for (let k in catStyles) grouped[k] = [];
+
+            for (let key in syncDict) {
+                const item = syncDict[key];
+                const hasJ = !!item.jonhnerd;
+                const hasZ = !!item.zelda;
+
+                let show = false;
+                if (filter === 'all') show = true;
+                else if (filter === 'match' && hasJ && hasZ) show = true;
+                else if (filter === 'jonh' && hasJ && !hasZ) show = true;
+                else if (filter === 'zelda' && !hasJ && hasZ) show = true;
+
+                if (show) grouped[item.category].push(item);
+            }
+
+            for (let catKey in catStyles) {
+                if (grouped[catKey].length > 0) {
+                    const cat = catStyles[catKey];
+                    let html = `
+                        <div class="sync-category-group">
+                            <div class="sync-category-title">
+                                <span class="category-badge" style="background-color: ${cat.color}; margin: 0;">${cat.label}</span>
+                                <span style="color: #aaa; font-weight: normal;">— ${grouped[catKey].length} шт.</span>
+                            </div>
+                            <div>
+                    `;
+
+                    grouped[catKey].sort((a, b) => a.title.localeCompare(b.title));
+
+                    grouped[catKey].forEach(item => {
+                        const jClass = item.jonhnerd ? 'active-j' : '';
+                        const zClass = item.zelda ? 'active-z' : '';
+                        const jTitle = item.jonhnerd ? 'JonhNerd посмотрел' : 'JonhNerd НЕ смотрел';
+                        const zTitle = item.zelda ? 'Zelda посмотрела' : 'Zelda НЕ смотрела';
+
+                        html += `
+                            <div class="sync-item">
+                                <div style="font-size: 1.1em;">${item.title}</div>
+                                <div class="sync-icons">
+                                    <div class="sync-icon ${jClass}" title="${jTitle}">J</div>
+                                    <div class="sync-icon ${zClass}" title="${zTitle}">Z</div>
+                                </div>
+                            </div>
+                        `;
+                    });
+                    html += `</div></div>`;
+                    container.innerHTML += html;
+                }
+            }
+
+            if (container.innerHTML === '') {
+                container.innerHTML = '<p style="text-align: center; color: #888; margin-top: 30px;">По данному фильтру ничего не найдено.</p>';
+            }
         }
 
         function animateValue(obj, start, end, duration) {
@@ -678,7 +828,6 @@
             animateValue(bigZelda, parseInt(bigZelda.innerText) || 0, zelda, 1000);
 
             if (total === 0) { leftBar.style.width = '50%'; rightBar.style.width = '50%'; return; }
-
             const leftPercent = (jonh / total) * 100;
             leftBar.style.width = leftPercent + '%'; rightBar.style.width = (100 - leftPercent) + '%';
         }
@@ -711,60 +860,23 @@
             `;
         }
 
-        function renderSync(syncDict) {
-            const syncContainer = document.getElementById('syncContent');
-            syncContainer.innerHTML = '';
-            let matchesFound = false;
-
-            for (let titleKey in syncDict.jonhnerd) {
-                if (syncDict.zelda[titleKey]) {
-                    matchesFound = true;
-                    const jEntry = syncDict.jonhnerd[titleKey];
-                    const zEntry = syncDict.zelda[titleKey];
-
-                    const jReview = jEntry.review ? `<div class="review-text">"${jEntry.review}"</div>` : '';
-                    const zReview = zEntry.review ? `<div class="review-text">"${zEntry.review}"</div>` : '';
-                    const cat = catStyles[jEntry.category] || { label: jEntry.category, color: '#555' };
-
-                    syncContainer.innerHTML += `
-                        <div class="sync-card">
-                            <span class="category-badge" style="background-color: ${cat.color}">${cat.label}</span>
-                            <h3 style="margin-top: 5px;">${jEntry.title}</h3>
-                            <div class="sync-compare">
-                                <div class="sync-side">
-                                    <b style="font-size: 1.1em;">JonhNerd</b><br>
-                                    <div class="star-rating" style="margin-top: 5px;">${generateStars(jEntry.rating)}</div>
-                                    ${jEntry.achievements ? jEntry.achievements.join(' ') : ''}
-                                    ${jReview}
-                                </div>
-                                <div class="sync-side">
-                                    <b style="font-size: 1.1em;">Zelda</b><br>
-                                    <div class="star-rating" style="margin-top: 5px;">${generateStars(zEntry.rating)}</div>
-                                    ${zEntry.achievements ? zEntry.achievements.join(' ') : ''}
-                                    ${zReview}
-                                </div>
-                            </div>
-                        </div>
-                    `;
-                }
-            }
-            if (!matchesFound) syncContainer.innerHTML = '<p style="text-align: center; color: #888;">Пока нет общих тайтлов.</p>';
-        }
-
         async function saveEntry() {
             const id = document.getElementById('editEntryId').value;
             const userId = document.getElementById('userSelect').value;
             const category = document.getElementById('categorySelect').value;
+            const isFeatureAnime = document.getElementById('isFeatureAnime').checked;
             const volume = parseInt(document.getElementById('volumeInput').value) || 1;
             const eps = parseInt(document.getElementById('episodesInput').value) || 1;
             const review = document.getElementById('reviewInput').value;
 
-            const volForCalc = (category === 'series' || category === 'anime') ? eps : volume;
+            const volForCalc = (category === 'series' || category === 'animated_series' || (category === 'anime' && !isFeatureAnime)) ? eps : volume;
 
             let points = 0;
-            if (category === 'movie') points = 10;
-            else if (category === 'series' || category === 'anime') points = Math.max(10, Math.round(volForCalc * 0.8));
-            else if (category === 'game') points = 30;
+            if (category === 'movie' || category === 'cartoon' || (category === 'anime' && isFeatureAnime)) {
+                points = 10;
+            } else if (category === 'series' || category === 'animated_series' || (category === 'anime' && !isFeatureAnime)) {
+                points = Math.max(10, Math.round(volForCalc * 0.8));
+            } else if (category === 'game') points = 30;
             else if (category === 'manga') points = volForCalc * 5;
             else if (category === 'book') {
                 if (volForCalc < 300) points = 10;
@@ -774,6 +886,9 @@
             }
 
             let achievements = [];
+
+            if (category === 'anime' && isFeatureAnime) achievements.push('🎞️ Полнометражка');
+
             if (review.length > 50) { points += 10; achievements.push('🥇'); }
             if (document.getElementById('achvPlat').checked) { points += 20; achievements.push('🏆'); }
             if (document.getElementById('achvBreath').checked) { points += 10; achievements.push('📖'); }
