@@ -9,7 +9,7 @@
         /* === БАЗОВЫЕ СТИЛИ === */
         body { margin: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #121212; color: white; display: flex; flex-direction: column; height: 100vh; }
 
-        .navbar { background: #1e1e1e; padding: 15px; display: flex; justify-content: center; align-items: center; gap: 30px; border-bottom: 2px solid #333; position: relative; z-index: 10; }
+        .navbar { background: #1e1e1e; padding: 15px; display: flex; justify-content: center; align-items: center; gap: 30px; border-bottom: 2px solid #333; position: relative; z-index: 10; flex-wrap: wrap; }
         .nav-link { color: #aaa; text-decoration: none; font-size: 1.1em; font-weight: bold; cursor: pointer; transition: color 0.3s; padding: 5px 10px; border-radius: 5px; }
         .nav-link:hover, .nav-link.active { color: white; background: #333; }
         .add-btn { position: absolute; right: 20px; background: #0d6efd; color: white; border: none; padding: 8px 16px; border-radius: 20px; font-weight: bold; cursor: pointer; transition: 0.2s; }
@@ -61,11 +61,24 @@
         .pts.left-pts { color: #0d6efd; }
         .pts.right-pts { color: #198754; }
 
-        .action-btns { position: absolute; top: 10px; right: 10px; display: flex; gap: 10px; }
+        .action-btns { position: absolute; top: 10px; right: 10px; display: flex; gap: 10px; flex-direction: column; align-items: flex-end;}
+        .action-row { display: flex; gap: 10px; }
         .icon-btn { background: none; border: none; font-size: 1.2em; cursor: pointer; opacity: 0.3; transition: 0.2s; padding: 0; }
         .icon-btn:hover { opacity: 1; transform: scale(1.2); }
 
-        /* === ЗАЛ СЛАВЫ И ТАБЛИЦЫ === */
+        /* === ЭЛЕМЕНТЫ ПРОГРЕССА (В ПРОЦЕССЕ) === */
+        .progress-container { margin-top: 15px; background: #222; border-radius: 8px; padding: 10px; border: 1px solid #333; }
+        .progress-text { display: flex; justify-content: space-between; font-size: 0.9em; margin-bottom: 5px; color: #ccc; font-weight: bold; }
+        .progress-bar-bg { width: 100%; height: 8px; background: #111; border-radius: 4px; overflow: hidden; box-shadow: inset 0 1px 3px rgba(0,0,0,0.5); }
+        .progress-bar-fill { height: 100%; background: #0d6efd; transition: width 0.3s; }
+        .card.right-card .progress-bar-fill { background: #198754; }
+
+        .btn-plus { background: #333; color: white; border: none; border-radius: 4px; padding: 2px 8px; font-weight: bold; cursor: pointer; transition: 0.2s; }
+        .btn-plus:hover { background: #555; }
+        .btn-finish { background: #ffc107; color: #000; border: none; padding: 6px 12px; border-radius: 15px; font-weight: bold; cursor: pointer; font-size: 0.85em; transition: 0.2s; box-shadow: 0 0 8px rgba(255,193,7,0.4); margin-top: 5px;}
+        .btn-finish:hover { background: #ffca2c; transform: scale(1.05); }
+
+        /* === ЗАЛ СЛАВЫ, СИНХРОНИЗАЦИЯ И ТАБЛИЦЫ === */
         .stats-container { padding: 20px; overflow-y: auto; flex: 1; max-width: 1200px; margin: 0 auto; width: 100%; box-sizing: border-box;}
         .stats-grid { display: flex; gap: 20px; justify-content: center; margin-bottom: 30px; align-items: flex-start;}
         .stat-box { background: #1e1e1e; padding: 20px; border-radius: 8px; flex: 1; text-align: center; border-top: 4px solid #444; box-shadow: 0 4px 6px rgba(0,0,0,0.3); }
@@ -91,7 +104,7 @@
         .sortable:hover { color: #fff; }
         .sort-icon { font-size: 0.9em; margin-left: 5px; opacity: 0.6; display: inline-block; }
 
-        /* === НОВЫЕ СТИЛИ СИНХРОНИЗАЦИИ === */
+        /* === СИНХРОНИЗАЦИЯ === */
         .sync-filter-container { background: #1e1e1e; padding: 15px; border-radius: 8px; margin-bottom: 20px; display: flex; justify-content: center; align-items: center; gap: 15px; border: 1px solid #333; }
         .sync-category-group { margin-bottom: 20px; background: #1a1a1a; border-radius: 8px; overflow: hidden; border: 1px solid #333; }
         .sync-category-title { padding: 10px 15px; font-weight: bold; background: #222; border-bottom: 1px solid #333; display: flex; align-items: center; gap: 10px; }
@@ -103,14 +116,9 @@
         .sync-icon.active-j { background: #0d6efd; box-shadow: 0 0 10px rgba(13,110,253,0.6); }
         .sync-icon.active-z { background: #198754; box-shadow: 0 0 10px rgba(25,135,84,0.6); }
 
-        /* === СТИЛИ УМНОГО ПОИСКА (АВТОЗАПОЛНЕНИЯ) === */
+        /* === УМНЫЙ ПОИСК === */
         .autocomplete-wrapper { position: relative; }
-        .autocomplete-list {
-            position: absolute; top: 100%; left: 0; right: 0;
-            background: #2a2a2a; border: 1px solid #444; border-radius: 4px;
-            z-index: 1001; max-height: 150px; overflow-y: auto; display: none;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.5);
-        }
+        .autocomplete-list { position: absolute; top: 100%; left: 0; right: 0; background: #2a2a2a; border: 1px solid #444; border-radius: 4px; z-index: 1001; max-height: 150px; overflow-y: auto; display: none; box-shadow: 0 4px 6px rgba(0,0,0,0.5); }
         .autocomplete-item { padding: 10px; cursor: pointer; border-bottom: 1px solid #333; font-size: 0.9em; transition: background 0.2s; }
         .autocomplete-item:hover { background: #0d6efd; color: white; }
         .autocomplete-item:last-child { border-bottom: none; }
@@ -124,6 +132,11 @@
         .form-group label { display: block; margin-bottom: 5px; color: #aaa; font-size: 0.9em; }
         .form-control { width: 100%; padding: 8px; background: #2a2a2a; border: 1px solid #444; color: white; border-radius: 4px; box-sizing: border-box; }
         .form-control:focus { outline: none; border-color: #0d6efd; }
+
+        .toggle-group { display: flex; gap: 10px; background: #222; padding: 5px; border-radius: 6px; border: 1px solid #333; margin-bottom: 20px;}
+        .toggle-btn { flex: 1; text-align: center; padding: 8px; cursor: pointer; border-radius: 4px; transition: 0.2s; color: #888; font-weight: bold; font-size: 0.9em; }
+        .toggle-btn.active { background: #0d6efd; color: white; }
+
         .dynamic-field { display: none; }
         .modal-buttons { display: flex; justify-content: flex-end; gap: 10px; margin-top: 20px; }
         .btn-cancel { background: #444; color: white; border: none; padding: 8px 16px; border-radius: 4px; cursor: pointer; }
@@ -131,7 +144,7 @@
 
         /* === МОБИЛЬНАЯ АДАПТАЦИЯ === */
         @media (max-width: 768px) {
-            .navbar { flex-wrap: wrap; padding-bottom: 60px; gap: 15px; }
+            .navbar { flex-wrap: wrap; padding-bottom: 60px; gap: 10px; justify-content: space-around;}
             .add-btn { bottom: 15px; top: auto; right: 50%; transform: translateX(50%); width: 80%; padding: 12px; text-align: center; }
             .fighter-score { font-size: 3em; }
             .vs-circle { width: 40px; height: 40px; font-size: 1em; }
@@ -147,11 +160,13 @@
 <body>
     <div class="navbar">
         <a class="nav-link active" onclick="openTab('arenaTab', this)">Арена</a>
+        <a class="nav-link" onclick="openTab('activeTab', this)">В процессе ⏳</a>
         <a class="nav-link" onclick="openTab('statsTab', this)">Зал славы</a>
         <a class="nav-link" onclick="openTab('syncTab', this)">Синхронизация</a>
         <button class="add-btn" onclick="clearForm(); document.getElementById('addModal').style.display='flex'">+ Добавить</button>
     </div>
 
+    <!-- ВКЛАДКА 1: АРЕНА (Только Завершенные) -->
     <div id="arenaTab" class="tab-section active-tab">
         <div class="battle-header">
             <div class="fighter jonh-fighter">
@@ -175,10 +190,20 @@
         </div>
     </div>
 
+    <!-- ВКЛАДКА 2: В ПРОЦЕССЕ -->
+    <div id="activeTab" class="tab-section">
+        <div class="container">
+            <div class="column left-col" id="activeLeftCol"><h2>Текущие вылазки</h2></div>
+            <div class="column" id="activeRightCol"><h2>Текущие вылазки</h2></div>
+        </div>
+    </div>
+
+    <!-- ВКЛАДКА 3: ЗАЛ СЛАВЫ -->
     <div id="statsTab" class="tab-section">
         <div class="stats-container" id="statsContent"></div>
     </div>
 
+    <!-- ВКЛАДКА 4: СИНХРОНИЗАЦИЯ -->
     <div id="syncTab" class="tab-section">
         <div class="stats-container">
             <h2 style="text-align: center;">Общий прогресс</h2>
@@ -186,20 +211,28 @@
                 <label>Показать:</label>
                 <select class="form-control" id="syncFilter" onchange="renderSync()" style="max-width: 300px;">
                     <option value="all">Все тайтлы (Полный список)</option>
-                    <option value="match">Только совпадения (Оба посмотрели)</option>
-                    <option value="jonh">Просмотрено только JonhNerd</option>
-                    <option value="zelda">Просмотрено только Zelda</option>
+                    <option value="match">Только совпадения (Оба посмотрели/играют)</option>
+                    <option value="jonh">Только у меня (JonhNerd)</option>
+                    <option value="zelda">Только у неё (Zelda)</option>
                 </select>
             </div>
             <div id="syncContent"></div>
         </div>
     </div>
 
-    <!-- МОДАЛЬНОЕ ОКНО ДОБАВЛЕНИЯ / РЕДАКТИРОВАНИЯ ТАЙТЛА -->
+    <!-- ГЛАВНОЕ МОДАЛЬНОЕ ОКНО (ДОБАВЛЕНИЕ / РЕДАКТИРОВАНИЕ / ЗАВЕРШЕНИЕ) -->
     <div class="modal-overlay" id="addModal">
         <div class="modal">
-            <h3 id="modalTitle">Добавить в летопись</h3>
+            <h3 id="modalTitle">Добавить тайтл</h3>
             <input type="hidden" id="editEntryId">
+
+            <!-- ПЕРЕКЛЮЧАТЕЛЬ СТАТУСА -->
+            <div class="toggle-group" id="statusToggleGroup">
+                <div class="toggle-btn active" id="toggleActive" onclick="setEntryStatus('active')">⏳ В процессе</div>
+                <div class="toggle-btn" id="toggleCompleted" onclick="setEntryStatus('completed')">📜 Завершено</div>
+            </div>
+            <input type="hidden" id="entryStatusInput" value="active">
+
             <div class="form-group">
                 <label>Пользователь</label>
                 <select class="form-control" id="userSelect">
@@ -208,7 +241,6 @@
                 </select>
             </div>
 
-            <!-- УМНЫЙ ПОИСК ДЛЯ НАЗВАНИЯ -->
             <div class="form-group autocomplete-wrapper">
                 <label>Название тайтла</label>
                 <input type="text" class="form-control" id="titleInput" placeholder="Начни вводить название..." oninput="showSuggestions()" autocomplete="off">
@@ -243,57 +275,65 @@
                     <button type="button" onclick="autoFetchCover()" style="background: #0d6efd; color: white; border: none; border-radius: 4px; cursor: pointer; padding: 0 10px; font-weight: bold;" title="Волшебный поиск обложки">🪄</button>
                 </div>
             </div>
+
             <div class="form-group dynamic-field" id="platformField">
                 <label>Платформа</label>
                 <input type="text" class="form-control" id="platformInput" placeholder="Например: PS3, PS4, PC">
             </div>
+
+            <!-- БЛОК ОБЪЕМОВ И ПРОГРЕССА -->
             <div class="form-group dynamic-field" id="volumeField">
-                <label id="volumeLabel">Количество страниц / томов</label>
-                <input type="number" class="form-control" id="volumeInput" placeholder="Введите число" value="1">
-            </div>
-            <div class="form-group dynamic-field" id="episodesField">
-                <label>Количество серий / эпизодов</label>
-                <input type="number" class="form-control" id="episodesInput" placeholder="Введите число" value="1">
-            </div>
-            <div class="form-group">
-                <label>Оценка (1-10)</label>
-                <input type="number" class="form-control" id="ratingInput" min="1" max="10" value="8">
-            </div>
-            <div class="form-group">
-                <label>Мини-отзыв (на Золотого критика 🥇)</label>
-                <textarea class="form-control" id="reviewInput" rows="3" placeholder="Что понравилось, а что нет?"></textarea>
+                <div style="display: flex; gap: 10px;">
+                    <div style="flex: 1;" id="currentProgressWrap">
+                        <label id="progressLabel">Прочитано</label>
+                        <input type="number" class="form-control" id="currentProgressInput" value="0" min="0">
+                    </div>
+                    <div style="flex: 1;">
+                        <label id="volumeLabel">Всего страниц/томов</label>
+                        <input type="number" class="form-control" id="volumeInput" value="1" min="1">
+                    </div>
+                </div>
             </div>
 
-            <div class="form-group">
-                <label>Особые достижения</label>
-                <div style="display: flex; flex-direction: column; gap: 8px; background: #2a2a2a; padding: 10px; border-radius: 4px; border: 1px solid #444;">
-                    <label style="color: white; margin: 0; cursor: pointer;"><input type="checkbox" id="achvPlat"> 🏆 Платина (+20) - 100% прохождение / весь цикл</label>
-                    <label style="color: white; margin: 0; cursor: pointer;"><input type="checkbox" id="achvBreath"> 📖 На одном дыхании (+10) - Проглочено за пару дней</label>
-                    <label style="color: white; margin: 0; cursor: pointer;"><input type="checkbox" id="achvRetro"> 🕹️ Ретро (+10) - Классические игры</label>
-                    <label style="color: white; margin: 0; cursor: pointer;"><input type="checkbox" id="achvMaster"> 💎 Шедевр (+10) - Чистый восторг / Рекомендую!</label>
-                    <label style="color: white; margin: 0; cursor: pointer;"><input type="checkbox" id="achvFamily"> 🍿 Семейный сеанс (+5) - Совместный просмотр</label>
+            <div class="form-group dynamic-field" id="episodesField">
+                <div style="display: flex; gap: 10px;">
+                    <div style="flex: 1;" id="currentEpWrap">
+                        <label>Просмотрено серий</label>
+                        <input type="number" class="form-control" id="currentEpInput" value="0" min="0">
+                    </div>
+                    <div style="flex: 1;">
+                        <label>Всего серий</label>
+                        <input type="number" class="form-control" id="episodesInput" value="1" min="1">
+                    </div>
+                </div>
+            </div>
+
+            <!-- БЛОК ЗАВЕРШЕНИЯ (Скрыт, если статус "В процессе") -->
+            <div id="completionBlock" style="display: none;">
+                <div class="form-group">
+                    <label>Оценка (1-10)</label>
+                    <input type="number" class="form-control" id="ratingInput" min="1" max="10" value="8">
+                </div>
+                <div class="form-group">
+                    <label>Мини-отзыв (на Золотого критика 🥇)</label>
+                    <textarea class="form-control" id="reviewInput" rows="3" placeholder="Что понравилось, а что нет?"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label>Особые достижения</label>
+                    <div style="display: flex; flex-direction: column; gap: 8px; background: #2a2a2a; padding: 10px; border-radius: 4px; border: 1px solid #444;">
+                        <label style="color: white; margin: 0; cursor: pointer;"><input type="checkbox" id="achvPlat"> 🏆 Платина (+20) - 100% прохождение / весь цикл</label>
+                        <label style="color: white; margin: 0; cursor: pointer;"><input type="checkbox" id="achvBreath"> 📖 На одном дыхании (+10) - Проглочено за пару дней</label>
+                        <label style="color: white; margin: 0; cursor: pointer;"><input type="checkbox" id="achvRetro"> 🕹️ Ретро (+10) - Классические игры</label>
+                        <label style="color: white; margin: 0; cursor: pointer;"><input type="checkbox" id="achvMaster"> 💎 Шедевр (+10) - Чистый восторг / Рекомендую!</label>
+                        <label style="color: white; margin: 0; cursor: pointer;"><input type="checkbox" id="achvFamily"> 🍿 Семейный сеанс (+5) - Совместный просмотр</label>
+                    </div>
                 </div>
             </div>
 
             <div class="modal-buttons">
                 <button class="btn-cancel" onclick="document.getElementById('addModal').style.display='none'">Отмена</button>
                 <button class="btn-submit" onclick="saveEntry()">Сохранить</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- МОДАЛЬНОЕ ОКНО БЫСТРОГО РЕДАКТИРОВАНИЯ ОТЗЫВА -->
-    <div class="modal-overlay" id="editReviewModal">
-        <div class="modal">
-            <h3>Дописать / Изменить отзыв</h3>
-            <p style="color: #aaa; font-size: 0.9em; margin-top: 0;">Если отзыв длиннее 50 символов, вы получите +10 очков и значок 🥇 Золотого критика.</p>
-            <input type="hidden" id="quickEditEntryId">
-            <div class="form-group">
-                <textarea class="form-control" id="quickEditReviewInput" rows="5" placeholder="Напишите ваши впечатления..."></textarea>
-            </div>
-            <div class="modal-buttons">
-                <button class="btn-cancel" onclick="document.getElementById('editReviewModal').style.display='none'">Отмена</button>
-                <button class="btn-submit" onclick="saveEditedReview()">Сохранить отзыв</button>
             </div>
         </div>
     </div>
@@ -311,6 +351,7 @@
         let globalEntries = [];
 
         window.onload = () => {
+            setEntryStatus('active');
             toggleDynamicFields();
             loadEntries();
         };
@@ -340,16 +381,31 @@
             btn.classList.add('active');
         }
 
-        // --- ЛОГИКА УМНЫХ ПОДСКАЗОК ДЛЯ НАЗВАНИЯ ---
+        // ПЕРЕКЛЮЧАТЕЛЬ СТАТУСА (В процессе / Завершено)
+        function setEntryStatus(status) {
+            document.getElementById('entryStatusInput').value = status;
+
+            if (status === 'active') {
+                document.getElementById('toggleActive').classList.add('active');
+                document.getElementById('toggleCompleted').classList.remove('active');
+                document.getElementById('completionBlock').style.display = 'none';
+                document.getElementById('currentProgressWrap').style.display = 'block';
+                document.getElementById('currentEpWrap').style.display = 'block';
+            } else {
+                document.getElementById('toggleCompleted').classList.add('active');
+                document.getElementById('toggleActive').classList.remove('active');
+                document.getElementById('completionBlock').style.display = 'block';
+                document.getElementById('currentProgressWrap').style.display = 'none';
+                document.getElementById('currentEpWrap').style.display = 'none';
+            }
+        }
+
+        // УМНЫЕ ПОДСКАЗКИ
         function showSuggestions() {
             const input = document.getElementById('titleInput').value.toLowerCase().trim();
             const list = document.getElementById('autocompleteList');
             list.innerHTML = '';
-
-            if (!input) {
-                list.style.display = 'none';
-                return;
-            }
+            if (!input) { list.style.display = 'none'; return; }
 
             const matches = [];
             const seenTitles = new Set();
@@ -366,7 +422,6 @@
                 matches.forEach(match => {
                     const div = document.createElement('div');
                     div.className = 'autocomplete-item';
-
                     const catLabel = catStyles[match.category] ? catStyles[match.category].label : '';
                     div.innerHTML = `${match.title} <span class="autocomplete-hint">${catLabel}</span>`;
 
@@ -379,12 +434,9 @@
                     list.appendChild(div);
                 });
                 list.style.display = 'block';
-            } else {
-                list.style.display = 'none';
-            }
+            } else { list.style.display = 'none'; }
         }
 
-        // Прятать список подсказок, если кликнули мимо
         document.addEventListener('click', function(e) {
             if (e.target.id !== 'titleInput') {
                 const list = document.getElementById('autocompleteList');
@@ -404,6 +456,7 @@
 
             const volumeField = document.getElementById('volumeField');
             const volumeLabel = document.getElementById('volumeLabel');
+            const progressLabel = document.getElementById('progressLabel');
             const platformField = document.getElementById('platformField');
             const episodesField = document.getElementById('episodesField');
             const featureAnimeField = document.getElementById('featureAnimeField');
@@ -415,7 +468,8 @@
 
             if (category === 'book' || category === 'manga') {
                 volumeField.style.display = 'block';
-                volumeLabel.innerText = category === 'book' ? 'Количество страниц' : 'Количество томов';
+                volumeLabel.innerText = category === 'book' ? 'Всего страниц' : 'Всего томов';
+                progressLabel.innerText = category === 'book' ? 'Прочитано стр.' : 'Прочитано томов';
             }
             else if (category === 'game') {
                 platformField.style.display = 'block';
@@ -425,12 +479,11 @@
             }
             else if (category === 'anime') {
                 featureAnimeField.style.display = 'block';
-                if (!isFeatureAnime) {
-                    episodesField.style.display = 'block';
-                }
+                if (!isFeatureAnime) episodesField.style.display = 'block';
             }
         }
 
+        // АВТОПОИСК ОБЛОЖЕК (ТЕПЕРЬ С KITSU ДЛЯ АНИМЕ/МАНГИ)
         async function autoFetchCover() {
             const title = document.getElementById('titleInput').value;
             const category = document.getElementById('categorySelect').value;
@@ -454,16 +507,16 @@
                     const data = await res.json();
                     if (data.results && data.results.length > 0 && data.results[0].poster_path) {
                         coverInput.value = `https://image.tmdb.org/t/p/w500${data.results[0].poster_path}`;
-                    } else {
-                        alert('Обложка не найдена.');
-                    }
+                    } else { alert('Обложка не найдена.'); }
                 }
                 else if (category === 'anime' || category === 'manga') {
+                    // Используем стабильное Kitsu API
                     const type = category === 'anime' ? 'anime' : 'manga';
-                    const res = await fetch(`https://api.jikan.moe/v4/${type}?q=${encodeURIComponent(title)}&limit=1`);
+                    const res = await fetch(`https://kitsu.io/api/edge/${type}?filter[text]=${encodeURIComponent(title)}&page[limit]=1`);
                     const data = await res.json();
-                    if (data.data && data.data.length > 0) coverInput.value = data.data[0].images.jpg.image_url;
-                    else alert('Обложка не найдена.');
+                    if (data.data && data.data.length > 0 && data.data[0].attributes.posterImage) {
+                        coverInput.value = data.data[0].attributes.posterImage.medium || data.data[0].attributes.posterImage.original;
+                    } else { alert('Обложка не найдена.'); }
                 }
                 else if (category === 'book') {
                     const res = await fetch(`https://openlibrary.org/search.json?q=${encodeURIComponent(title)}&limit=1`);
@@ -471,10 +524,7 @@
                     if (data.docs && data.docs.length > 0 && data.docs[0].cover_i) coverInput.value = `https://covers.openlibrary.org/b/id/${data.docs[0].cover_i}-M.jpg`;
                     else alert('Обложка не найдена.');
                 }
-            } catch (e) {
-                console.error(e);
-                alert('Ошибка при поиске.');
-            }
+            } catch (e) { console.error(e); alert('Ошибка при поиске.'); }
         }
 
         async function deleteEntry(id) {
@@ -486,13 +536,17 @@
 
         function clearForm() {
             document.getElementById('editEntryId').value = '';
-            document.getElementById('modalTitle').innerText = 'Добавить в летопись';
+            document.getElementById('modalTitle').innerText = 'Добавить тайтл';
             document.getElementById('titleInput').value = '';
             document.getElementById('coverInput').value = '';
             document.getElementById('platformInput').value = '';
             document.getElementById('reviewInput').value = '';
+
             document.getElementById('volumeInput').value = '1';
             document.getElementById('episodesInput').value = '1';
+            document.getElementById('currentProgressInput').value = '0';
+            document.getElementById('currentEpInput').value = '0';
+
             document.getElementById('ratingInput').value = '8';
             document.getElementById('isFeatureAnime').checked = false;
             document.getElementById('achvPlat').checked = false;
@@ -501,107 +555,95 @@
             document.getElementById('achvMaster').checked = false;
             document.getElementById('achvFamily').checked = false;
             document.getElementById('autocompleteList').style.display = 'none';
+
+            setEntryStatus('active');
             toggleDynamicFields();
         }
 
-        function openMainEditModal(id) {
+        function openMainEditModal(id, forceFinish = false) {
             const entry = globalEntries.find(e => e.id === id);
             if (!entry) return;
 
             document.getElementById('editEntryId').value = entry.id;
-            document.getElementById('modalTitle').innerText = 'Редактировать запись';
             document.getElementById('userSelect').value = entry.user_id;
             document.getElementById('titleInput').value = entry.title;
             document.getElementById('categorySelect').value = entry.category;
             document.getElementById('coverInput').value = entry.cover_url || '';
-            document.getElementById('ratingInput').value = entry.rating;
+            document.getElementById('ratingInput').value = entry.rating || 8;
             document.getElementById('reviewInput').value = entry.review || '';
-
             document.getElementById('isFeatureAnime').checked = entry.achievements && entry.achievements.includes('🎞️ Полнометражка');
+
+            if(entry.category === 'game') document.getElementById('platformInput').value = entry.platform || '';
+
+            const vol = entry.volume || 1;
+            const prog = entry.progress || 0;
+
+            document.getElementById('volumeInput').value = vol;
+            document.getElementById('episodesInput').value = vol;
+            document.getElementById('currentProgressInput').value = prog;
+            document.getElementById('currentEpInput').value = prog;
+
+            // Если открываем для завершения тайтла
+            if (forceFinish) {
+                document.getElementById('modalTitle').innerText = '🏆 Завершение тайтла';
+                setEntryStatus('completed');
+                document.getElementById('statusToggleGroup').style.display = 'none'; // Прячем переключатель, пути назад нет :)
+            } else {
+                document.getElementById('modalTitle').innerText = 'Редактировать запись';
+                setEntryStatus(entry.status || 'completed');
+                document.getElementById('statusToggleGroup').style.display = 'flex';
+            }
 
             toggleDynamicFields();
 
-            if(entry.category === 'game') document.getElementById('platformInput').value = entry.platform || '';
-            if(entry.volume) {
-                document.getElementById('volumeInput').value = entry.volume;
-                document.getElementById('episodesInput').value = entry.volume;
-            }
-
-            document.getElementById('achvPlat').checked = entry.achievements.includes('🏆');
-            document.getElementById('achvBreath').checked = entry.achievements.includes('📖');
-            document.getElementById('achvRetro').checked = entry.achievements.includes('🕹️');
-            document.getElementById('achvMaster').checked = entry.achievements.includes('💎');
-            document.getElementById('achvFamily').checked = entry.achievements.includes('🍿');
+            const achv = entry.achievements || [];
+            document.getElementById('achvPlat').checked = achv.includes('🏆');
+            document.getElementById('achvBreath').checked = achv.includes('📖');
+            document.getElementById('achvRetro').checked = achv.includes('🕹️');
+            document.getElementById('achvMaster').checked = achv.includes('💎');
+            document.getElementById('achvFamily').checked = achv.includes('🍿');
 
             document.getElementById('autocompleteList').style.display = 'none';
             document.getElementById('addModal').style.display = 'flex';
         }
 
-        function openReviewEditModal(id) {
+        // ФУНКЦИЯ БЫСТРОГО ПЛЮСА ПРОГРЕССА
+        async function incrementProgress(id) {
             const entry = globalEntries.find(e => e.id === id);
             if (!entry) return;
-            document.getElementById('quickEditEntryId').value = entry.id;
-            document.getElementById('quickEditReviewInput').value = entry.review || '';
-            document.getElementById('editReviewModal').style.display = 'flex';
-        }
+            let newProg = (entry.progress || 0) + 1;
+            if (newProg > entry.volume) newProg = entry.volume;
 
-        async function saveEditedReview() {
-            const id = document.getElementById('quickEditEntryId').value;
-            const newReview = document.getElementById('quickEditReviewInput').value;
-            const entry = globalEntries.find(e => e.id == id);
-
-            let newPoints = entry.points_earned;
-            let newAchievements = entry.achievements ? [...entry.achievements] : [];
-
-            const hadGoldenCritic = newAchievements.includes('🥇');
-            const deservesGoldenCritic = newReview.length > 50;
-
-            if (deservesGoldenCritic && !hadGoldenCritic) {
-                newPoints += 10;
-                newAchievements.push('🥇');
-            } else if (!deservesGoldenCritic && hadGoldenCritic) {
-                newPoints -= 10;
-                newAchievements = newAchievements.filter(a => a !== '🥇');
+            // Если достигли максимума, предлагаем завершить
+            if (newProg === entry.volume) {
+                if(confirm('Ты достиг максимума! Отправить тайтл в Летопись?')) {
+                    openMainEditModal(id, true);
+                    return;
+                }
             }
 
-            const { error } = await db.from('entries').update({ review: newReview, points_earned: newPoints, achievements: newAchievements }).eq('id', id);
-            if (error) alert('Ошибка: ' + error.message);
-            else { document.getElementById('editReviewModal').style.display = 'none'; loadEntries(); }
+            const { error } = await db.from('entries').update({ progress: newProg }).eq('id', id);
+            if (error) alert('Ошибка обновления: ' + error.message);
+            else loadEntries();
         }
 
-        function sortTable(tableId, colIndex, type) {
+        function sortTable(tableId, colIndex, type) { /* Логика сортировки та же */
             const table = document.getElementById(`table-data-${tableId}`);
             const tbody = table.querySelector('tbody');
             const rows = Array.from(tbody.querySelectorAll('tr'));
-
             const th = table.querySelectorAll('th')[colIndex];
             const isAscending = th.dataset.sort === 'asc';
-
             table.querySelectorAll('.sort-icon').forEach(icon => icon.innerHTML = '↕');
             th.querySelector('.sort-icon').innerHTML = isAscending ? '↑' : '↓';
             th.dataset.sort = isAscending ? 'desc' : 'asc';
-
             rows.sort((a, b) => {
-                let cellA = a.children[colIndex];
-                let cellB = b.children[colIndex];
+                let cellA = a.children[colIndex]; let cellB = b.children[colIndex];
                 let valA, valB;
-
-                if (type === 'date') {
-                    valA = parseInt(cellA.dataset.timestamp || 0);
-                    valB = parseInt(cellB.dataset.timestamp || 0);
-                } else if (type === 'number') {
-                    valA = parseFloat(cellA.innerText) || 0;
-                    valB = parseFloat(cellB.innerText) || 0;
-                } else {
-                    valA = cellA.innerText.toLowerCase();
-                    valB = cellB.innerText.toLowerCase();
-                }
-
-                if (valA < valB) return isAscending ? -1 : 1;
-                if (valA > valB) return isAscending ? 1 : -1;
-                return 0;
+                if (type === 'date') { valA = parseInt(cellA.dataset.timestamp || 0); valB = parseInt(cellB.dataset.timestamp || 0); }
+                else if (type === 'number') { valA = parseFloat(cellA.innerText) || 0; valB = parseFloat(cellB.innerText) || 0; }
+                else { valA = cellA.innerText.toLowerCase(); valB = cellB.innerText.toLowerCase(); }
+                if (valA < valB) return isAscending ? -1 : 1; if (valA > valB) return isAscending ? 1 : -1; return 0;
             });
-
             rows.forEach(row => tbody.appendChild(row));
         }
 
@@ -611,8 +653,7 @@
                 let items = userStats.categories[catKey];
                 if (items && items.length > 0) {
                     const isGame = catKey === 'game';
-                    const platformHeader = isGame ? `<th class="sortable" onclick="sortTable('${userId}-${catKey}', 3, 'string')" title="Сортировать по платформе">Платформа <span class="sort-icon">↕</span></th>` : '';
-
+                    const platformHeader = isGame ? `<th class="sortable" onclick="sortTable('${userId}-${catKey}', 3, 'string')">Платформа <span class="sort-icon">↕</span></th>` : '';
                     html += `
                         <div class="category-item">
                             <div class="cat-header" onclick="toggleCategoryTable('${userId}', '${catKey}')">
@@ -621,114 +662,147 @@
                             </div>
                             <div class="cat-table-wrapper" id="table-${userId}-${catKey}">
                                 <table class="compact-table" id="table-data-${userId}-${catKey}">
-                                    <thead>
-                                        <tr>
-                                            <th class="sortable" onclick="sortTable('${userId}-${catKey}', 0, 'string')">Название <span class="sort-icon">↕</span></th>
-                                            <th class="sortable" onclick="sortTable('${userId}-${catKey}', 1, 'date')">Дата <span class="sort-icon">↕</span></th>
-                                            <th class="sortable" onclick="sortTable('${userId}-${catKey}', 2, 'number')">Оценка <span class="sort-icon">↕</span></th>
-                                            ${platformHeader}
-                                            <th>Ачивки</th>
-                                        </tr>
-                                    </thead>
+                                    <thead><tr>
+                                        <th class="sortable" onclick="sortTable('${userId}-${catKey}', 0, 'string')">Название <span class="sort-icon">↕</span></th>
+                                        <th class="sortable" onclick="sortTable('${userId}-${catKey}', 1, 'date')">Дата <span class="sort-icon">↕</span></th>
+                                        <th class="sortable" onclick="sortTable('${userId}-${catKey}', 2, 'number')">Оценка <span class="sort-icon">↕</span></th>
+                                        ${platformHeader}
+                                        <th>Ачивки</th>
+                                    </tr></thead>
                                     <tbody>
-                                        ${items.map(item => {
-                                            const platformCell = isGame ? `<td>${item.platform || '—'}</td>` : '';
-                                            return `
+                                        ${items.map(item => `
                                             <tr>
                                                 <td>${item.title}</td>
-                                                <td class="date-col" data-timestamp="${new Date(item.created_at).getTime()}">${new Date(item.created_at).toLocaleDateString('ru-RU', {day: '2-digit', month: '2-digit', year: '2-digit'})}</td>
+                                                <td class="date-col" data-timestamp="${new Date(item.created_at).getTime()}">${new Date(item.created_at).toLocaleDateString('ru-RU')}</td>
                                                 <td style="color: #ffc107; font-weight: bold;">${item.rating}</td>
-                                                ${platformCell}
+                                                ${isGame ? `<td>${item.platform || '—'}</td>` : ''}
                                                 <td style="font-size: 1.2em;">${item.achievements ? item.achievements.join('') : ''}</td>
-                                            </tr>
-                                            `;
-                                        }).join('')}
+                                            </tr>`).join('')}
                                     </tbody>
                                 </table>
                             </div>
-                        </div>
-                    `;
+                        </div>`;
                 }
             }
-            html += '</div>';
-            return html;
+            html += '</div>'; return html;
         }
 
         async function loadEntries() {
             const { data, error } = await db.from('entries').select('*').order('created_at', { ascending: false });
             if (error) { console.error('Ошибка:', error); return; }
-
             globalEntries = data;
 
+            // Очистка колонок Арены
             const leftCol = document.getElementById('leftColContent');
             const rightCol = document.getElementById('rightColContent');
-            leftCol.innerHTML = '<h2>Летопись</h2>';
-            rightCol.innerHTML = '<h2>Летопись</h2>';
+            leftCol.innerHTML = '<h2>Летопись</h2>'; rightCol.innerHTML = '<h2>Летопись</h2>';
+
+            // Очистка колонок Активных
+            const activeLeftCol = document.getElementById('activeLeftCol');
+            const activeRightCol = document.getElementById('activeRightCol');
+            activeLeftCol.innerHTML = '<h2>Текущие вылазки</h2>'; activeRightCol.innerHTML = '<h2>Текущие вылазки</h2>';
 
             let stats = { jonhnerd: { score: 0, count: 0, ratingSum: 0, achvCount: 0, categories: {} }, zelda: { score: 0, count: 0, ratingSum: 0, achvCount: 0, categories: {} } };
-
-            for(let key in catStyles) {
-                stats.jonhnerd.categories[key] = [];
-                stats.zelda.categories[key] = [];
-            }
+            for(let key in catStyles) { stats.jonhnerd.categories[key] = []; stats.zelda.categories[key] = []; }
 
             data.forEach(entry => {
                 const user = entry.user_id;
-
-                stats[user].score += entry.points_earned;
-                stats[user].count += 1;
-                stats[user].ratingSum += entry.rating;
-                if (entry.achievements && entry.achievements.length > 0) stats[user].achvCount += entry.achievements.length;
-
-                if(stats[user].categories[entry.category]) stats[user].categories[entry.category].push(entry);
-
                 const cat = catStyles[entry.category] || { label: entry.category, color: '#555' };
                 const badgeHtml = `<span class="category-badge" style="background-color: ${cat.color}">${cat.label}</span>`;
-
                 const dateStr = new Date(entry.created_at).toLocaleDateString('ru-RU', { day: 'numeric', month: 'short', year: 'numeric' });
-
-                let metaDetails = [];
-                if (entry.category === 'game' && entry.platform) metaDetails.push(entry.platform);
-
+                const coverHtml = entry.cover_url ? `<div class="cover"><img src="${entry.cover_url}" onerror="this.onerror=null; this.src='https://via.placeholder.com/80x120/222222/888888?text=Нет+обложки';"></div>` : `<div class="cover">Обложка</div>`;
                 const isFeature = entry.achievements && entry.achievements.includes('🎞️ Полнометражка');
+                const statStatus = entry.status || 'completed'; // Если пусто, считаем завершенным
 
-                if (entry.category === 'book') metaDetails.push(`${entry.volume} стр.`);
-                if (entry.category === 'manga') metaDetails.push(`${entry.volume} томов`);
-                if ((entry.category === 'series' || entry.category === 'animated_series' || (entry.category === 'anime' && !isFeature)) && entry.volume > 0) metaDetails.push(`${entry.volume} серий`);
+                if (statStatus === 'completed') {
+                    // --- ЛОГИКА ДЛЯ ЗАВЕРШЕННЫХ ТАЙТЛОВ (АРЕНА) ---
+                    stats[user].score += entry.points_earned;
+                    stats[user].count += 1;
+                    stats[user].ratingSum += entry.rating;
+                    if (entry.achievements && entry.achievements.length > 0) stats[user].achvCount += entry.achievements.length;
+                    if (stats[user].categories[entry.category]) stats[user].categories[entry.category].push(entry);
 
-                let metaText = metaDetails.length > 0 ? metaDetails.join(' • ') + `<br>${dateStr}` : dateStr;
+                    let metaDetails = [];
+                    if (entry.category === 'game' && entry.platform) metaDetails.push(entry.platform);
+                    if (entry.category === 'book') metaDetails.push(`${entry.volume} стр.`);
+                    if (entry.category === 'manga') metaDetails.push(`${entry.volume} томов`);
+                    if ((entry.category === 'series' || entry.category === 'animated_series' || (entry.category === 'anime' && !isFeature)) && entry.volume > 0) metaDetails.push(`${entry.volume} серий`);
 
-                // Для карточки на главной скрываем техническую ачивку полнометражки
-                let displayAchievements = entry.achievements ? entry.achievements.filter(a => a !== '🎞️ Полнометражка') : [];
-                const badgesHtml = displayAchievements.length > 0 ? `<div class="achievements">${displayAchievements.join(' ')}</div>` : '';
+                    let metaText = metaDetails.length > 0 ? metaDetails.join(' • ') + `<br>${dateStr}` : dateStr;
+                    let displayAchievements = entry.achievements ? entry.achievements.filter(a => a !== '🎞️ Полнометражка') : [];
+                    const badgesHtml = displayAchievements.length > 0 ? `<div class="achievements">${displayAchievements.join(' ')}</div>` : '';
+                    const reviewHtml = entry.review ? `<div class="review-text">"${entry.review.replace(/\n/g, '<br>')}"</div>` : '';
 
-                const coverHtml = entry.cover_url
-                    ? `<div class="cover"><img src="${entry.cover_url}" onerror="this.onerror=null; this.src='https://via.placeholder.com/80x120/222222/888888?text=Нет+обложки';"></div>`
-                    : `<div class="cover">Обложка</div>`;
-                const reviewHtml = entry.review ? `<div class="review-text">"${entry.review.replace(/\n/g, '<br>')}"</div>` : '';
-
-                const cardHtml = `
-                    <div class="card ${user === 'jonhnerd' ? 'left-card' : 'right-card'}">
-                        ${coverHtml}
-                        <div class="info">
-                            <div class="action-btns">
-                                <button class="icon-btn" onclick="openReviewEditModal(${entry.id})" title="Быстрый отзыв">📝</button>
-                                <button class="icon-btn" onclick="openMainEditModal(${entry.id})" title="Редактировать запись целиком">✏️</button>
-                                <button class="icon-btn" onclick="deleteEntry(${entry.id})" title="Удалить">🗑️</button>
+                    const cardHtml = `
+                        <div class="card ${user === 'jonhnerd' ? 'left-card' : 'right-card'}">
+                            ${coverHtml}
+                            <div class="info">
+                                <div class="action-btns">
+                                    <button class="icon-btn" onclick="openMainEditModal(${entry.id})" title="Редактировать запись">✏️</button>
+                                    <button class="icon-btn" onclick="deleteEntry(${entry.id})" title="Удалить">🗑️</button>
+                                </div>
+                                ${badgeHtml}
+                                <p class="title">${entry.title}</p>
+                                <p class="meta">${metaText}</p>
+                                <div class="star-rating">${generateStars(entry.rating)}</div>
+                                ${badgesHtml}
+                                ${reviewHtml}
+                                <span class="pts ${user === 'jonhnerd' ? 'left-pts' : 'right-pts'}">+${entry.points_earned} очков</span>
                             </div>
-                            ${badgeHtml}
-                            <p class="title">${entry.title}</p>
-                            <p class="meta">${metaText}</p>
-                            <div class="star-rating">${generateStars(entry.rating)}</div>
-                            ${badgesHtml}
-                            ${reviewHtml}
-                            <span class="pts ${user === 'jonhnerd' ? 'left-pts' : 'right-pts'}">+${entry.points_earned} очков</span>
-                        </div>
-                    </div>
-                `;
+                        </div>`;
+                    if (user === 'jonhnerd') leftCol.innerHTML += cardHtml; else rightCol.innerHTML += cardHtml;
 
-                if (user === 'jonhnerd') leftCol.innerHTML += cardHtml;
-                else rightCol.innerHTML += cardHtml;
+                } else {
+                    // --- ЛОГИКА ДЛЯ АКТИВНЫХ ТАЙТЛОВ (В ПРОЦЕССЕ) ---
+                    let progressHtml = '';
+                    let platformHtml = '';
+
+                    if (entry.category === 'game') {
+                        platformHtml = entry.platform ? `<div style="font-size: 0.85em; color: #aaa;">🕹️ ${entry.platform}</div>` : '';
+                        progressHtml = `<div class="progress-container"><div class="progress-text" style="justify-content: center; color: #ffc107;">Активное прохождение 🎮</div></div>`;
+                    }
+                    else if (entry.category === 'movie' || entry.category === 'cartoon' || (entry.category === 'anime' && isFeature)) {
+                        progressHtml = `<div class="progress-container"><div class="progress-text" style="justify-content: center; color: #ffc107;">В планах на вечер 🍿</div></div>`;
+                    }
+                    else {
+                        // Для сериалов, книг, манг
+                        const current = entry.progress || 0;
+                        const total = entry.volume || 1;
+                        const percent = Math.min((current / total) * 100, 100);
+                        const label = (entry.category === 'book') ? 'стр.' : ((entry.category === 'manga') ? 'том.' : 'сер.');
+
+                        progressHtml = `
+                            <div class="progress-container">
+                                <div class="progress-text">
+                                    <span>Прогресс: ${current} / ${total} ${label}</span>
+                                    <button class="btn-plus" onclick="incrementProgress(${entry.id})" title="Плюс один">+1</button>
+                                </div>
+                                <div class="progress-bar-bg">
+                                    <div class="progress-bar-fill" style="width: ${percent}%;"></div>
+                                </div>
+                            </div>
+                        `;
+                    }
+
+                    const activeCardHtml = `
+                        <div class="card ${user === 'jonhnerd' ? 'left-card' : 'right-card'}">
+                            ${coverHtml}
+                            <div class="info">
+                                <div class="action-btns">
+                                    <div class="action-row">
+                                        <button class="icon-btn" onclick="openMainEditModal(${entry.id})" title="Редактировать">✏️</button>
+                                        <button class="icon-btn" onclick="deleteEntry(${entry.id})" title="Удалить">🗑️</button>
+                                    </div>
+                                    <button class="btn-finish" onclick="openMainEditModal(${entry.id}, true)">🏁 В Летопись</button>
+                                </div>
+                                ${badgeHtml}
+                                <p class="title">${entry.title}</p>
+                                ${platformHtml}
+                                ${progressHtml}
+                            </div>
+                        </div>`;
+                    if (user === 'jonhnerd') activeLeftCol.innerHTML += activeCardHtml; else activeRightCol.innerHTML += activeCardHtml;
+                }
             });
 
             updateScoreBar(stats.jonhnerd.score, stats.zelda.score);
@@ -736,6 +810,7 @@
             renderSync();
         }
 
+        // --- СИНХРОНИЗАЦИЯ И ПРОЧЕЕ БЕЗ ИЗМЕНЕНИЙ ---
         function renderSync() {
             const filter = document.getElementById('syncFilter').value;
             const container = document.getElementById('syncContent');
@@ -748,61 +823,33 @@
                 syncDict[key][entry.user_id] = entry;
             });
 
-            let grouped = {};
-            for (let k in catStyles) grouped[k] = [];
-
+            let grouped = {}; for (let k in catStyles) grouped[k] = [];
             for (let key in syncDict) {
                 const item = syncDict[key];
-                const hasJ = !!item.jonhnerd;
-                const hasZ = !!item.zelda;
-
+                const hasJ = !!item.jonhnerd; const hasZ = !!item.zelda;
                 let show = false;
                 if (filter === 'all') show = true;
                 else if (filter === 'match' && hasJ && hasZ) show = true;
                 else if (filter === 'jonh' && hasJ && !hasZ) show = true;
                 else if (filter === 'zelda' && !hasJ && hasZ) show = true;
-
                 if (show) grouped[item.category].push(item);
             }
 
             for (let catKey in catStyles) {
                 if (grouped[catKey].length > 0) {
                     const cat = catStyles[catKey];
-                    let html = `
-                        <div class="sync-category-group">
-                            <div class="sync-category-title">
-                                <span class="category-badge" style="background-color: ${cat.color}; margin: 0;">${cat.label}</span>
-                                <span style="color: #aaa; font-weight: normal;">— ${grouped[catKey].length} шт.</span>
-                            </div>
-                            <div>
-                    `;
-
+                    let html = `<div class="sync-category-group"><div class="sync-category-title"><span class="category-badge" style="background-color: ${cat.color}; margin: 0;">${cat.label}</span><span style="color: #aaa; font-weight: normal;">— ${grouped[catKey].length} шт.</span></div><div>`;
                     grouped[catKey].sort((a, b) => a.title.localeCompare(b.title));
-
                     grouped[catKey].forEach(item => {
-                        const jClass = item.jonhnerd ? 'active-j' : '';
-                        const zClass = item.zelda ? 'active-z' : '';
-                        const jTitle = item.jonhnerd ? 'JonhNerd посмотрел' : 'JonhNerd НЕ смотрел';
-                        const zTitle = item.zelda ? 'Zelda посмотрела' : 'Zelda НЕ смотрела';
-
-                        html += `
-                            <div class="sync-item">
-                                <div style="font-size: 1.1em;">${item.title}</div>
-                                <div class="sync-icons">
-                                    <div class="sync-icon ${jClass}" title="${jTitle}">J</div>
-                                    <div class="sync-icon ${zClass}" title="${zTitle}">Z</div>
-                                </div>
-                            </div>
-                        `;
+                        const jClass = item.jonhnerd ? 'active-j' : ''; const zClass = item.zelda ? 'active-z' : '';
+                        const jTitle = item.jonhnerd ? 'JonhNerd в теме' : 'JonhNerd пропускает';
+                        const zTitle = item.zelda ? 'Zelda в теме' : 'Zelda пропускает';
+                        html += `<div class="sync-item"><div style="font-size: 1.1em;">${item.title}</div><div class="sync-icons"><div class="sync-icon ${jClass}" title="${jTitle}">J</div><div class="sync-icon ${zClass}" title="${zTitle}">Z</div></div></div>`;
                     });
-                    html += `</div></div>`;
-                    container.innerHTML += html;
+                    html += `</div></div>`; container.innerHTML += html;
                 }
             }
-
-            if (container.innerHTML === '') {
-                container.innerHTML = '<p style="text-align: center; color: #888; margin-top: 30px;">По данному фильтру ничего не найдено.</p>';
-            }
+            if (container.innerHTML === '') container.innerHTML = '<p style="text-align: center; color: #888; margin-top: 30px;">По данному фильтру ничего не найдено.</p>';
         }
 
         function animateValue(obj, start, end, duration) {
@@ -819,14 +866,9 @@
 
         function updateScoreBar(jonh, zelda) {
             const total = jonh + zelda;
-            const leftBar = document.getElementById('scoreLeft');
-            const rightBar = document.getElementById('scoreRight');
-            const bigJonh = document.getElementById('bigScoreJonh');
-            const bigZelda = document.getElementById('bigScoreZelda');
-
-            animateValue(bigJonh, parseInt(bigJonh.innerText) || 0, jonh, 1000);
-            animateValue(bigZelda, parseInt(bigZelda.innerText) || 0, zelda, 1000);
-
+            const leftBar = document.getElementById('scoreLeft'); const rightBar = document.getElementById('scoreRight');
+            const bigJonh = document.getElementById('bigScoreJonh'); const bigZelda = document.getElementById('bigScoreZelda');
+            animateValue(bigJonh, parseInt(bigJonh.innerText) || 0, jonh, 1000); animateValue(bigZelda, parseInt(bigZelda.innerText) || 0, zelda, 1000);
             if (total === 0) { leftBar.style.width = '50%'; rightBar.style.width = '50%'; return; }
             const leftPercent = (jonh / total) * 100;
             leftBar.style.width = leftPercent + '%'; rightBar.style.width = (100 - leftPercent) + '%';
@@ -835,7 +877,6 @@
         function renderStats(stats) {
             const jAvg = stats.jonhnerd.count > 0 ? (stats.jonhnerd.ratingSum / stats.jonhnerd.count).toFixed(1) : 0;
             const zAvg = stats.zelda.count > 0 ? (stats.zelda.ratingSum / stats.zelda.count).toFixed(1) : 0;
-
             document.getElementById('statsContent').innerHTML = `
                 <div class="stats-grid">
                     <div class="stat-box jonh">
@@ -864,47 +905,59 @@
             const id = document.getElementById('editEntryId').value;
             const userId = document.getElementById('userSelect').value;
             const category = document.getElementById('categorySelect').value;
+            const status = document.getElementById('entryStatusInput').value;
             const isFeatureAnime = document.getElementById('isFeatureAnime').checked;
-            const volume = parseInt(document.getElementById('volumeInput').value) || 1;
-            const eps = parseInt(document.getElementById('episodesInput').value) || 1;
-            const review = document.getElementById('reviewInput').value;
 
-            const volForCalc = (category === 'series' || category === 'animated_series' || (category === 'anime' && !isFeatureAnime)) ? eps : volume;
+            // Если статус активный - берем прогресс, если завершено - прогресс равен макс. объему
+            let volume = 1; let progress = 0;
 
-            let points = 0;
-            if (category === 'movie' || category === 'cartoon' || (category === 'anime' && isFeatureAnime)) {
-                points = 10;
+            if (category === 'book' || category === 'manga') {
+                volume = parseInt(document.getElementById('volumeInput').value) || 1;
+                progress = status === 'completed' ? volume : (parseInt(document.getElementById('currentProgressInput').value) || 0);
             } else if (category === 'series' || category === 'animated_series' || (category === 'anime' && !isFeatureAnime)) {
-                points = Math.max(10, Math.round(volForCalc * 0.8));
-            } else if (category === 'game') points = 30;
-            else if (category === 'manga') points = volForCalc * 5;
-            else if (category === 'book') {
-                if (volForCalc < 300) points = 10;
-                else if (volForCalc <= 600) points = 15;
-                else if (volForCalc <= 1000) points = 25;
-                else points = 35;
+                volume = parseInt(document.getElementById('episodesInput').value) || 1;
+                progress = status === 'completed' ? volume : (parseInt(document.getElementById('currentEpInput').value) || 0);
             }
 
+            const review = status === 'completed' ? document.getElementById('reviewInput').value : '';
+
+            let points = 0;
             let achievements = [];
 
-            if (category === 'anime' && isFeatureAnime) achievements.push('🎞️ Полнометражка');
+            // ОЧКИ СЧИТАЮТСЯ ТОЛЬКО ДЛЯ ЗАВЕРШЕННЫХ
+            if (status === 'completed') {
+                if (category === 'movie' || category === 'cartoon' || (category === 'anime' && isFeatureAnime)) {
+                    points = 10;
+                } else if (category === 'series' || category === 'animated_series' || (category === 'anime' && !isFeatureAnime)) {
+                    points = Math.max(10, Math.round(volume * 0.8));
+                } else if (category === 'game') points = 30;
+                else if (category === 'manga') points = volume * 5;
+                else if (category === 'book') {
+                    if (volume < 300) points = 10; else if (volume <= 600) points = 15;
+                    else if (volume <= 1000) points = 25; else points = 35;
+                }
 
-            if (review.length > 50) { points += 10; achievements.push('🥇'); }
-            if (document.getElementById('achvPlat').checked) { points += 20; achievements.push('🏆'); }
-            if (document.getElementById('achvBreath').checked) { points += 10; achievements.push('📖'); }
-            if (document.getElementById('achvRetro').checked) { points += 10; achievements.push('🕹️'); }
-            if (document.getElementById('achvMaster').checked) { points += 10; achievements.push('💎'); }
-            if (document.getElementById('achvFamily').checked) { points += 5; achievements.push('🍿'); }
+                if (review.length > 50) { points += 10; achievements.push('🥇'); }
+                if (document.getElementById('achvPlat').checked) { points += 20; achievements.push('🏆'); }
+                if (document.getElementById('achvBreath').checked) { points += 10; achievements.push('📖'); }
+                if (document.getElementById('achvRetro').checked) { points += 10; achievements.push('🕹️'); }
+                if (document.getElementById('achvMaster').checked) { points += 10; achievements.push('💎'); }
+                if (document.getElementById('achvFamily').checked) { points += 5; achievements.push('🍿'); }
+            }
+
+            if (category === 'anime' && isFeatureAnime) achievements.push('🎞️ Полнометражка');
 
             const entryData = {
                 user_id: userId,
                 title: document.getElementById('titleInput').value,
                 category: category,
-                rating: parseInt(document.getElementById('ratingInput').value),
+                status: status,
+                progress: progress,
+                rating: status === 'completed' ? parseInt(document.getElementById('ratingInput').value) : null,
                 points_earned: points,
                 achievements: achievements,
                 cover_url: document.getElementById('coverInput').value,
-                volume: volForCalc,
+                volume: volume,
                 platform: document.getElementById('platformInput').value,
                 review: review
             };
