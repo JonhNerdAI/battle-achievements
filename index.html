@@ -31,6 +31,11 @@
         .score-left { width: 50%; background-color: #0d6efd; transition: width 1s cubic-bezier(0.25, 1, 0.5, 1); box-shadow: 0 0 15px #0d6efd; }
         .score-right { width: 50%; background-color: #198754; transition: width 1s cubic-bezier(0.25, 1, 0.5, 1); box-shadow: 0 0 15px #198754; }
 
+        /* === УМНЫЙ ПОИСК === */
+        .search-wrapper { padding: 20px 20px 0 20px; display: flex; justify-content: center; flex-shrink: 0; }
+        .global-search-input { width: 100%; max-width: 600px; padding: 12px 20px; background: #1a1a1a; border: 1px solid #444; border-radius: 25px; color: white; font-size: 1em; outline: none; transition: 0.3s; box-shadow: inset 0 2px 4px rgba(0,0,0,0.5); }
+        .global-search-input:focus { border-color: #0d6efd; box-shadow: 0 0 8px rgba(13,110,253,0.5), inset 0 2px 4px rgba(0,0,0,0.5); }
+
         /* === ВНУТРЕННИЕ ВКЛАДКИ ДЛЯ ТЕЛЕФОНОВ === */
         .mobile-user-toggle { display: none; justify-content: center; gap: 10px; margin: 15px 20px 0 20px; flex-shrink: 0;}
         .user-toggle-btn { flex: 1; padding: 10px; border: 1px solid #444; background: #222; color: #aaa; border-radius: 8px; cursor: pointer; font-weight: bold; transition: 0.3s; }
@@ -124,7 +129,7 @@
         .sync-icon.active-j { background: #0d6efd; box-shadow: 0 0 10px rgba(13,110,253,0.6); }
         .sync-icon.active-z { background: #198754; box-shadow: 0 0 10px rgba(25,135,84,0.6); }
 
-        /* === УМНЫЙ ПОИСК === */
+        /* === АВТОКОМПЛИТ МОДАЛЬНОГО ОКНА === */
         .autocomplete-wrapper { position: relative; }
         .autocomplete-list { position: absolute; top: 100%; left: 0; right: 0; background: #2a2a2a; border: 1px solid #444; border-radius: 4px; z-index: 1001; max-height: 150px; overflow-y: auto; display: none; box-shadow: 0 4px 6px rgba(0,0,0,0.5); }
         .autocomplete-item { padding: 10px; cursor: pointer; border-bottom: 1px solid #333; font-size: 0.9em; transition: background 0.2s; }
@@ -199,6 +204,10 @@
             <div class="score-right" id="scoreRight"></div>
         </div>
 
+        <div class="search-wrapper">
+            <input type="text" id="searchArena" class="global-search-input" placeholder="🔍 Найти тайтл в Летописи..." oninput="handleGlobalSearch(this.value)">
+        </div>
+
         <div class="mobile-user-toggle">
             <button class="user-toggle-btn j active" onclick="switchMobileUser('jonhnerd')">JonhNerd</button>
             <button class="user-toggle-btn z" onclick="switchMobileUser('zelda')">Zelda</button>
@@ -212,6 +221,10 @@
 
     <!-- ВКЛАДКА 2: В ПРОЦЕССЕ -->
     <div id="activeTab" class="tab-section">
+        <div class="search-wrapper">
+            <input type="text" id="searchActive" class="global-search-input" placeholder="🔍 Найти тайтл в Текущих..." oninput="handleGlobalSearch(this.value)">
+        </div>
+
         <div class="mobile-user-toggle">
             <button class="user-toggle-btn j active" onclick="switchMobileUser('jonhnerd')">JonhNerd</button>
             <button class="user-toggle-btn z" onclick="switchMobileUser('zelda')">Zelda</button>
@@ -361,7 +374,7 @@
 
     <!-- СКРИПТЫ -->
     <script>
-        // === ВСТАВЬТЕ ВАШИ КЛЮЧИ СЮДА (RAWG больше не нужен для игр!) ===
+        // === ВСТАВЬТЕ ВАШИ КЛЮЧИ СЮДА ===
         const supabaseUrl = 'https://mnnsbxcbagukzcxvogsy.supabase.co';
         const supabaseKey = 'sb_publishable_GVsZNsFztJwKXfKBXQheDQ_0sIjDgD5';
         const tmdbKey = '859afab5c05a6afc9376a63d7ac53460';
@@ -370,6 +383,7 @@
 
         let globalEntries = [];
         let displayLimit = 15;
+        let globalSearchQuery = '';
 
         window.onload = () => {
             setEntryStatus('active');
@@ -509,7 +523,7 @@
             }
         }
 
-        // АВТОПОИСК ОБЛОЖЕК (ТЕПЕРЬ С НАДЕЖНЫМ STEAM API ДЛЯ ИГР)
+        // --- УМНАЯ ПОДГРУЗКА ОБЛОЖЕК С ПРОКСИ ДЛЯ STEAM ---
         async function autoFetchCover() {
             const title = document.getElementById('titleInput').value;
             const category = document.getElementById('categorySelect').value;
@@ -519,14 +533,21 @@
 
             try {
                 if (category === 'game') {
-                    // Используем публичный Steam Store Search API (без ключей, работает идеально)
-                    const res = await fetch(`https://store.steampowered.com/api/storesearch/?term=${encodeURIComponent(title)}&l=russian&cc=RU`);
-                    const data = await res.json();
+                    // Используем AllOrigins Proxy для обхода CORS
+                    const proxyUrl = 'https://api.allorigins.win/get?url=';
+                    const targetUrl = encodeURIComponent(`https://store.steampowered.com/api/storesearch/?term=${encodeURIComponent(title)}&l=russian&cc=RU`);
+
+                    const res = await fetch(proxyUrl + targetUrl);
+                    const json = await res.json();
+                    const data = JSON.parse(json.contents);
+
                     if (data.items && data.items.length > 0) {
                         const appId = data.items[0].id;
-                        // Прямая ссылка на официальный вертикальный постер игры в Steam
                         coverInput.value = `https://cdn.cloudflare.steamstatic.com/steam/apps/${appId}/library_600x900.jpg`;
-                    } else { alert('Игра в базе Steam не найдена. Попробуйте ввести точное англоязычное название.'); }
+                    } else {
+                        alert('Игра в базе Steam не найдена. Попробуйте ввести точное англоязычное название.');
+                        coverInput.placeholder = "Вставьте ссылку";
+                    }
                 }
                 else if (category === 'movie' || category === 'cartoon' || category === 'series' || category === 'animated_series') {
                     if(!tmdbKey || tmdbKey === 'ВАШ_КЛЮЧ_TMDB') { alert('Нужен TMDB API ключ!'); return; }
@@ -535,7 +556,7 @@
                     const data = await res.json();
                     if (data.results && data.results.length > 0 && data.results[0].poster_path) {
                         coverInput.value = `https://image.tmdb.org/t/p/w500${data.results[0].poster_path}`;
-                    } else { alert('Обложка не найдена.'); }
+                    } else { alert('Обложка не найдена.'); coverInput.placeholder = "Вставьте ссылку"; }
                 }
                 else if (category === 'anime' || category === 'manga') {
                     const type = category === 'anime' ? 'anime' : 'manga';
@@ -543,16 +564,20 @@
                     const data = await res.json();
                     if (data.data && data.data.length > 0 && data.data[0].attributes.posterImage) {
                         coverInput.value = data.data[0].attributes.posterImage.medium || data.data[0].attributes.posterImage.original;
-                    } else { alert('Обложка не найдена.'); }
+                    } else { alert('Обложка не найдена.'); coverInput.placeholder = "Вставьте ссылку"; }
                 }
                 else if (category === 'book') {
                     const res = await fetch(`https://openlibrary.org/search.json?q=${encodeURIComponent(title)}&limit=1`);
                     const data = await res.json();
                     if (data.docs && data.docs.length > 0 && data.docs[0].cover_i) {
                         coverInput.value = `https://covers.openlibrary.org/b/id/${data.docs[0].cover_i}-M.jpg`;
-                    } else { alert('Обложка не найдена.'); }
+                    } else { alert('Обложка не найдена.'); coverInput.placeholder = "Вставьте ссылку"; }
                 }
-            } catch (e) { console.error(e); alert('Ошибка при поиске обложки.'); }
+            } catch (e) {
+                console.error(e);
+                alert('Ошибка при поиске обложки. Сервер недоступен.');
+                coverInput.placeholder = "Вставьте ссылку";
+            }
         }
 
         async function deleteEntry(id) {
@@ -731,6 +756,17 @@
             }
         }
 
+        // --- ГЛОБАЛЬНЫЙ ПОИСК ---
+        function handleGlobalSearch(val) {
+            globalSearchQuery = val.toLowerCase().trim();
+            // Синхронизируем оба поля поиска
+            document.getElementById('searchArena').value = val;
+            document.getElementById('searchActive').value = val;
+
+            displayLimit = 15; // Сбрасываем лимит при новом поиске
+            renderColumns();
+        }
+
         function loadMore() {
             displayLimit += 15;
             renderColumns();
@@ -748,6 +784,11 @@
             let arenaJ = [], arenaZ = [], activeJ = [], activeZ = [];
 
             globalEntries.forEach(entry => {
+                // Фильтрация поиска (если введено слово, пропускаем несовпадающие тайтлы)
+                if (globalSearchQuery && !entry.title.toLowerCase().includes(globalSearchQuery)) {
+                    return;
+                }
+
                 const isCompleted = entry.status === 'completed' || !entry.status;
                 if (isCompleted) {
                     if (entry.user_id === 'jonhnerd') arenaJ.push(entry);
@@ -761,8 +802,14 @@
             const appendCards = (col, arr) => {
                 const sliced = arr.slice(0, displayLimit);
                 sliced.forEach(entry => col.innerHTML += createCardHtml(entry));
+
+                // Кнопка загрузки дополнительных результатов
                 if (arr.length > displayLimit) {
                     col.innerHTML += `<button class="load-more-btn" onclick="loadMore()">Загрузить еще (${arr.length - displayLimit}) ⬇️</button>`;
+                }
+                // Сообщение, если по запросу ничего не найдено
+                else if (arr.length === 0 && globalSearchQuery) {
+                    col.innerHTML += `<p style="text-align: center; color: #666; margin-top: 20px;">Ничего не найдено 🤷‍♂️</p>`;
                 }
             };
 
