@@ -523,7 +523,7 @@
             }
         }
 
-        // --- УМНАЯ ПОДГРУЗКА ОБЛОЖЕК С ПРОКСИ ДЛЯ STEAM ---
+        // --- НОВАЯ СИСТЕМА ПОИСКА ОБЛОЖЕК (БЕЗ ПРОКСИ) ---
         async function autoFetchCover() {
             const title = document.getElementById('titleInput').value;
             const category = document.getElementById('categorySelect').value;
@@ -533,19 +533,24 @@
 
             try {
                 if (category === 'game') {
-                    // Используем AllOrigins Proxy для обхода CORS
-                    const proxyUrl = 'https://api.allorigins.win/get?url=';
-                    const targetUrl = encodeURIComponent(`https://store.steampowered.com/api/storesearch/?term=${encodeURIComponent(title)}&l=russian&cc=RU`);
+                    // Используем открытую базу CheapShark - она не требует ключей и не блокируется CORS!
+                    const res = await fetch(`https://www.cheapshark.com/api/1.0/games?title=${encodeURIComponent(title)}&limit=5`);
+                    const data = await res.json();
 
-                    const res = await fetch(proxyUrl + targetUrl);
-                    const json = await res.json();
-                    const data = JSON.parse(json.contents);
+                    if (data && data.length > 0) {
+                        // Ищем игру с привязкой к Steam, чтобы получить качественную вертикальную обложку
+                        const steamGame = data.find(g => g.steamAppID) || data[0];
 
-                    if (data.items && data.items.length > 0) {
-                        const appId = data.items[0].id;
-                        coverInput.value = `https://cdn.cloudflare.steamstatic.com/steam/apps/${appId}/library_600x900.jpg`;
+                        if (steamGame.steamAppID) {
+                            coverInput.value = `https://cdn.cloudflare.steamstatic.com/steam/apps/${steamGame.steamAppID}/library_600x900.jpg`;
+                        } else if (steamGame.thumb) {
+                            coverInput.value = steamGame.thumb; // Запасной маленький постер
+                        } else {
+                            alert('Обложка не найдена.');
+                            coverInput.placeholder = "Вставьте ссылку";
+                        }
                     } else {
-                        alert('Игра в базе Steam не найдена. Попробуйте ввести точное англоязычное название.');
+                        alert('Игра не найдена. Попробуйте ввести английское название (например: Horizon Zero Dawn).');
                         coverInput.placeholder = "Вставьте ссылку";
                     }
                 }
@@ -759,11 +764,10 @@
         // --- ГЛОБАЛЬНЫЙ ПОИСК ---
         function handleGlobalSearch(val) {
             globalSearchQuery = val.toLowerCase().trim();
-            // Синхронизируем оба поля поиска
             document.getElementById('searchArena').value = val;
             document.getElementById('searchActive').value = val;
 
-            displayLimit = 15; // Сбрасываем лимит при новом поиске
+            displayLimit = 15;
             renderColumns();
         }
 
@@ -784,7 +788,6 @@
             let arenaJ = [], arenaZ = [], activeJ = [], activeZ = [];
 
             globalEntries.forEach(entry => {
-                // Фильтрация поиска (если введено слово, пропускаем несовпадающие тайтлы)
                 if (globalSearchQuery && !entry.title.toLowerCase().includes(globalSearchQuery)) {
                     return;
                 }
@@ -803,11 +806,9 @@
                 const sliced = arr.slice(0, displayLimit);
                 sliced.forEach(entry => col.innerHTML += createCardHtml(entry));
 
-                // Кнопка загрузки дополнительных результатов
                 if (arr.length > displayLimit) {
                     col.innerHTML += `<button class="load-more-btn" onclick="loadMore()">Загрузить еще (${arr.length - displayLimit}) ⬇️</button>`;
                 }
-                // Сообщение, если по запросу ничего не найдено
                 else if (arr.length === 0 && globalSearchQuery) {
                     col.innerHTML += `<p style="text-align: center; color: #666; margin-top: 20px;">Ничего не найдено 🤷‍♂️</p>`;
                 }
