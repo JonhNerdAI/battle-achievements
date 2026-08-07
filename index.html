@@ -409,6 +409,17 @@
             return `<span class="star-filled">${filled}</span><span class="star-empty">${empty}</span> <span style="font-size: 0.8em; color: #aaa; margin-left: 5px;">${r}/10</span>`;
         }
 
+        function toggleCategoryTable(userId, catKey) {
+            const tableWrap = document.getElementById(`table-${userId}-${catKey}`);
+            if (tableWrap) {
+                if (tableWrap.style.display === 'block') {
+                    tableWrap.style.display = 'none';
+                } else {
+                    tableWrap.style.display = 'block';
+                }
+            }
+        }
+
         function openTab(tabId, btn) {
             document.querySelectorAll('.tab-section').forEach(el => el.classList.remove('active-tab'));
             document.getElementById(tabId).classList.add('active-tab');
