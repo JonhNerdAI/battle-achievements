@@ -59,7 +59,19 @@
         .category-badge { display: inline-block; padding: 4px 10px; border-radius: 12px; font-size: 0.75em; font-weight: bold; color: white; margin-bottom: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.2); }
         .title { font-size: 1.2em; font-weight: bold; margin: 0 0 5px 0; }
         .meta { color: #aaa; font-size: 0.9em; margin-bottom: 5px; line-height: 1.4; }
-        .release-year-badge { color: #888; font-size: 0.85em; margin-right: 6px; font-weight: normal; }
+
+        /* НОВЫЙ СТИЛЬ ДЛЯ ГОДА ВЫПУСКА */
+        .release-year-badge {
+            display: inline-block;
+            background: #252525;
+            border: 1px solid #444;
+            color: #bbb;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 0.8em;
+            margin-bottom: 8px;
+            letter-spacing: 0.5px;
+        }
 
         .star-rating { margin-bottom: 5px; font-size: 1.1em; letter-spacing: 1px; }
         .star-filled { color: #ffc107; text-shadow: 0 0 5px rgba(255,193,7,0.5); }
@@ -416,7 +428,6 @@
             return `<span class="star-filled">${filled}</span><span class="star-empty">${empty}</span> <span style="font-size: 0.8em; color: #aaa; margin-left: 5px;">${r}/10</span>`;
         }
 
-        // Фикс для открытия таблиц детализации
         function toggleCategoryTable(userId, catKey) {
             const tableWrap = document.getElementById(`table-${userId}-${catKey}`);
             if (tableWrap) {
@@ -543,7 +554,6 @@
             }
         }
 
-        // --- УМНАЯ ПОДГРУЗКА ОБЛОЖЕК И ГОДОВ ---
         async function autoFetchCover() {
             const title = document.getElementById('titleInput').value;
             const category = document.getElementById('categorySelect').value;
@@ -552,7 +562,7 @@
 
             if (!title) { alert('Сначала введите название тайтла!'); return; }
             coverInput.placeholder = "Ищем...";
-            yearInput.value = ''; // Очищаем год перед новым поиском
+            yearInput.value = '';
 
             try {
                 if (category === 'game') {
@@ -569,7 +579,6 @@
                             alert('Обложка не найдена.');
                             coverInput.placeholder = "Вставьте ссылку";
                         }
-                        // CheapShark не дает год напрямую, так что для игр год вводим вручную
                     } else {
                         alert('Игра не найдена. Попробуйте ввести английское название.');
                         coverInput.placeholder = "Вставьте ссылку";
@@ -583,8 +592,6 @@
 
                     if (data.results && data.results.length > 0) {
                         if (data.results[0].poster_path) coverInput.value = `https://image.tmdb.org/t/p/w500${data.results[0].poster_path}`;
-
-                        // Парсим год
                         const releaseDate = data.results[0].release_date || data.results[0].first_air_date;
                         if (releaseDate) yearInput.value = releaseDate.substring(0, 4);
                     } else { alert('Обложка не найдена.'); coverInput.placeholder = "Вставьте ссылку"; }
@@ -598,7 +605,6 @@
                         if (data.data[0].attributes.posterImage) {
                             coverInput.value = data.data[0].attributes.posterImage.medium || data.data[0].attributes.posterImage.original;
                         }
-                        // Парсим год
                         if (data.data[0].attributes.startDate) {
                             yearInput.value = data.data[0].attributes.startDate.substring(0, 4);
                         }
@@ -610,7 +616,6 @@
 
                     if (data.docs && data.docs.length > 0) {
                         if (data.docs[0].cover_i) coverInput.value = `https://covers.openlibrary.org/b/id/${data.docs[0].cover_i}-M.jpg`;
-                        // Парсим год публикации
                         if (data.docs[0].first_publish_year) yearInput.value = data.docs[0].first_publish_year;
                     } else { alert('Обложка не найдена.'); coverInput.placeholder = "Вставьте ссылку"; }
                 }
@@ -721,8 +726,8 @@
             const isFeature = entry.achievements && entry.achievements.includes('🎞️ Полнометражка');
             const statStatus = entry.status || 'completed';
 
-            // Формируем вывод года перед названием
-            const yearDisplay = entry.release_year ? `<span class="release-year-badge">[${entry.release_year}]</span>` : '';
+            // Формируем стильный бейджик с годом для новой строки
+            const yearDisplay = entry.release_year ? `<div class="release-year-badge">🗓️ ${entry.release_year} год</div>` : '';
 
             let metaDetails = [];
             if (entry.category === 'game') {
@@ -748,7 +753,8 @@
                                 <button class="icon-btn" onclick="deleteEntry(${entry.id})" title="Удалить">🗑️</button>
                             </div>
                             ${badgeHtml}
-                            <p class="title">${yearDisplay}${entry.title}</p>
+                            <p class="title">${entry.title}</p>
+                            ${yearDisplay}
                             <p class="meta">${metaText}</p>
                             <div class="star-rating">${generateStars(entry.rating)}</div>
                             ${badgesHtml}
@@ -794,7 +800,8 @@
                                 <button class="btn-finish" onclick="openMainEditModal(${entry.id}, true)">🏁 В Летопись</button>
                             </div>
                             ${badgeHtml}
-                            <p class="title">${yearDisplay}${entry.title}</p>
+                            <p class="title">${entry.title}</p>
+                            ${yearDisplay}
                             ${platformHtml}
                             ${progressHtml}
                         </div>
@@ -802,7 +809,6 @@
             }
         }
 
-        // --- ГЛОБАЛЬНЫЙ ПОИСК ---
         function handleGlobalSearch(val) {
             globalSearchQuery = val.toLowerCase().trim();
             document.getElementById('searchArena').value = val;
@@ -1056,7 +1062,6 @@
             }
 
             const review = status === 'completed' ? document.getElementById('reviewInput').value : '';
-            // Считываем год из нового поля
             const parsedYear = parseInt(document.getElementById('yearInput').value);
             const releaseYear = isNaN(parsedYear) ? null : parsedYear;
 
@@ -1097,7 +1102,7 @@
                 volume: volume,
                 platform: document.getElementById('platformInput').value,
                 review: review,
-                release_year: releaseYear // Добавляем год в сохранение
+                release_year: releaseYear
             };
 
             if (id) {
