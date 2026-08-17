@@ -50,7 +50,10 @@
         .card.right-card { border-left-color: #198754; }
         .cover { width: 80px; height: 120px; background: #2a2a2a; border-radius: 4px; display: flex; align-items: center; justify-content: center; font-size: 12px; text-align: center; color: #888; overflow: hidden; flex-shrink: 0; margin-top: 5px; }
         .cover img { width: 100%; height: 100%; object-fit: cover; }
-        .info { flex: 1; padding-right: 60px; }
+
+        /* ИСПРАВЛЕНИЕ #3: отступы для исключения наложения */
+        .info { flex: 1; padding-right: 50px; padding-bottom: 30px; position: relative; }
+
         .category-badge { display: inline-block; padding: 4px 10px; border-radius: 12px; font-size: 0.75em; font-weight: bold; color: white; margin-bottom: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.2); }
         .title { font-size: 1.2em; font-weight: bold; margin: 0 0 5px 0; }
         .meta { color: #aaa; font-size: 0.9em; margin-bottom: 5px; line-height: 1.4; }
@@ -62,7 +65,7 @@
         .review-text { font-style: italic; color: #bbb; background: #222; padding: 10px; border-left: 3px solid #0d6efd; border-radius: 4px; margin-top: 10px; font-size: 0.9em; line-height: 1.4; }
         .card.right-card .review-text { border-left-color: #198754; }
         .achievements { font-size: 1.2em; margin-top: 8px; }
-        .pts { background: #333; padding: 6px 12px; border-radius: 12px; font-size: 0.9em; position: absolute; bottom: 15px; right: 15px; font-weight: bold; }
+        .pts { background: #333; padding: 6px 12px; border-radius: 12px; font-size: 0.9em; position: absolute; bottom: 10px; right: 10px; font-weight: bold; z-index: 2;}
         .pts.left-pts { color: #0d6efd; }
         .pts.right-pts { color: #198754; }
         .action-btns { position: absolute; top: 10px; right: 10px; display: flex; gap: 10px; flex-direction: column; align-items: flex-end;}
@@ -70,7 +73,8 @@
         .icon-btn { background: none; border: none; font-size: 1.2em; cursor: pointer; opacity: 0.3; transition: 0.2s; padding: 0; }
         .icon-btn:hover { opacity: 1; transform: scale(1.2); }
 
-        .btn-card-show { width: 100%; margin-top: 10px; background: #2a2a2a; color: #fff; border: 1px solid #444; border-radius: 4px; padding: 6px; cursor: pointer; font-weight: bold; transition: 0.2s; }
+        /* ИСПРАВЛЕНИЕ #3: Кнопка карточки больше не занимает всю ширину */
+        .btn-card-show { display: inline-block; margin-top: 10px; background: #2a2a2a; color: #fff; border: 1px solid #444; border-radius: 6px; padding: 6px 12px; cursor: pointer; font-weight: bold; transition: 0.2s; font-size: 0.85em;}
         .btn-card-show:hover { background: #0d6efd; border-color: #0d6efd; }
 
         .load-more-btn { display: block; width: 100%; padding: 12px; margin-top: 15px; margin-bottom: 30px; background: #2a2a2a; color: #ccc; border: 1px solid #444; border-radius: 8px; cursor: pointer; font-weight: bold; transition: 0.2s; }
@@ -82,11 +86,11 @@
         .progress-bar-fill { height: 100%; background: #0d6efd; transition: width 0.3s; }
         .card.right-card .progress-bar-fill { background: #198754; }
         .btn-plus { background: #333; color: white; border: none; border-radius: 4px; padding: 2px 8px; font-weight: bold; cursor: pointer; transition: 0.2s; }
-        .btn-plus:hover { background: #555; }
+        .btn-plus:hover { background: #555; color: #fff; box-shadow: 0 0 5px rgba(255,255,255,0.2);}
         .btn-finish { background: #ffc107; color: #000; border: none; padding: 6px 12px; border-radius: 15px; font-weight: bold; cursor: pointer; font-size: 0.85em; transition: 0.2s; box-shadow: 0 0 8px rgba(255,193,7,0.4); margin-top: 5px;}
         .btn-finish:hover { background: #ffca2c; transform: scale(1.05); }
 
-        /* ЗАЛ СЛАВЫ И МОДАЛКИ (ОСТАВЛЕНО БЕЗ ИЗМЕНЕНИЙ, ЧТОБЫ НЕ ЗАСОРЯТЬ) */
+        /* ЗАЛ СЛАВЫ И МОДАЛКИ */
         .stats-container { padding: 20px; overflow-y: auto; flex: 1; max-width: 1200px; margin: 0 auto; width: 100%; box-sizing: border-box;}
         .stats-grid { display: flex; gap: 20px; justify-content: center; margin-bottom: 30px; align-items: flex-start;}
         .stat-box { background: #1e1e1e; padding: 20px; border-radius: 8px; flex: 1; text-align: center; border-top: 4px solid #444; box-shadow: 0 4px 6px rgba(0,0,0,0.3); }
@@ -100,7 +104,7 @@
         .cat-count { color: #ccc; font-weight: bold; font-size: 0.9em; background: #111; padding: 4px 10px; border-radius: 12px; }
         .cat-table-wrapper { display: none; padding: 0 15px 15px 15px; border-top: 1px solid #333; overflow-x: auto; }
         .compact-table { width: 100%; border-collapse: collapse; font-size: 0.85em; margin-top: 10px; min-width: 400px; }
-        .compact-table th, .compact-table td { padding: 8px 10px; border-bottom: 1px solid #333; text-align: left; }
+        .compact-table th, .compact-table td { padding: 8px 10px; border-bottom: 1px solid #333; text-align: left; vertical-align: middle; }
         .compact-table th { color: #888; font-weight: normal; text-transform: uppercase; font-size: 0.9em; letter-spacing: 1px; }
         .compact-table tr:hover td { background-color: #1a1a1a; }
         .compact-table td:first-child { font-weight: bold; color: #fff; width: 40%; }
@@ -156,7 +160,6 @@
         .card-modal-content { position: relative; max-width: 550px; width: 100%; margin: auto; }
         .close-card-btn { position: absolute; top: -40px; right: 0; color: white; font-size: 2em; cursor: pointer; background: none; border: none; }
 
-        /* Общие классы для генерации карточек */
         .sc-wrap { border-radius: 8px; padding: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.8); font-family: 'Segoe UI', sans-serif; }
         .sc-flex { display: flex; gap: 15px; }
         .sc-cover { flex: 1.2; border-radius: 4px; overflow: hidden; border: 2px solid rgba(255,255,255,0.2); }
@@ -181,7 +184,7 @@
         .sc-ps3-title { text-align: center; font-size: 1.5em; font-weight: bold; margin-bottom: 15px; color: #fff; letter-spacing: 2px; }
         .sc-ps3 .highlight { color: #fff; font-weight: bold; }
 
-        /* Retro Theme (Оригинальный дизайн) */
+        /* Retro Theme */
         .sc-retro { background: #121212; color: #fff; border: 2px solid #333; }
         .sc-retro .rc-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #333; padding-bottom: 10px; margin-bottom: 15px; }
         .sc-retro-title { text-align: center; font-size: 2em; margin-bottom: 15px; font-weight: bold; }
@@ -215,7 +218,7 @@
         <button class="add-btn" onclick="clearForm(); document.getElementById('addModal').style.display='flex'">+ Добавить</button>
     </div>
 
-    <!-- Вкладки (Арена, В процессе, Зал славы, Синхронизация) -->
+    <!-- Вкладки -->
     <div id="arenaTab" class="tab-section active-tab">
         <div class="battle-header">
             <div class="fighter jonh-fighter">
@@ -380,7 +383,7 @@
                     </div>
                 </div>
 
-                <!-- БЛОК РАСШИРЕННОЙ СТАТИСТИКИ (ТОЛЬКО ДЛЯ ИГР) -->
+                <!-- БЛОК РАСШИРЕННОЙ СТАТИСТИКИ -->
                 <details class="ext-details" id="extendedStatsBlock">
                     <summary>🏆 Расширенная статистика (Карточка)</summary>
                     <div class="ext-grid">
@@ -474,7 +477,6 @@
             toggleDynamicFields();
         }
 
-        // АВТОКОМПЛИТ, TOGGLE FIELDS, AUTO FETCH (СОКРАЩЕНЫ ДЛЯ ЧИТАЕМОСТИ, ВАШИ ФУНКЦИИ ИЗ ПРОШЛЫХ ВЕРСИЙ)
         function showSuggestions() {
             const input = document.getElementById('titleInput').value.toLowerCase().trim();
             const list = document.getElementById('autocompleteList');
@@ -605,7 +607,7 @@
         function openMainEditModal(id, forceFinish = false) {
             const entry = globalEntries.find(e => e.id === id);
             if (!entry) return;
-            clearForm(); // чистим перед заполнением
+            clearForm();
 
             document.getElementById('editEntryId').value = entry.id;
             document.getElementById('userSelect').value = entry.user_id;
@@ -638,7 +640,6 @@
             document.getElementById('achvMaster').checked = achv.includes('💎');
             document.getElementById('achvFamily').checked = achv.includes('🍿');
 
-            // Заполняем JSON статистику, если есть
             if (entry.extended_stats) {
                 const ex = entry.extended_stats;
                 if(ex.dev) document.getElementById('extDev').value = ex.dev;
@@ -659,14 +660,28 @@
                 if(ex.hcPts) document.getElementById('extHcPts').value = ex.hcPts;
                 if(ex.retroPts) document.getElementById('extRetroPts').value = ex.retroPts;
             }
-
             toggleDynamicFields();
             document.getElementById('addModal').style.display = 'flex';
         }
 
-        // ==========================================
-        // ГЕНЕРАТОРЫ ВСПЛЫВАЮЩИХ КАРТОЧЕК СТАТИСТИКИ
-        // ==========================================
+        // === ИСПРАВЛЕНИЕ #1: ВОССТАНОВЛЕНА КНОПКА +1 ===
+        async function incrementProgress(id) {
+            const entry = globalEntries.find(e => e.id === id);
+            if (!entry) return;
+            let newProg = (entry.progress || 0) + 1;
+            if (newProg > entry.volume) newProg = entry.volume;
+
+            if (newProg === entry.volume) {
+                if(confirm('Ты достиг максимума! Отправить тайтл в Летопись?')) {
+                    openMainEditModal(id, true); return;
+                }
+            }
+            const { error } = await db.from('entries').update({ progress: newProg }).eq('id', id);
+            if (error) alert('Ошибка обновления: ' + error.message);
+            else loadEntries();
+        }
+
+        // === ГЕНЕРАТОРЫ ВСПЛЫВАЮЩИХ КАРТОЧЕК СТАТИСТИКИ ===
         function closeDetailCard(e) {
             if (e.target.id === 'detailCardModal') document.getElementById('detailCardModal').style.display = 'none';
         }
@@ -695,7 +710,7 @@
                 <div class="sc-ps4-title">${e.title}</div>
                 <div class="sc-flex">
                     <div class="sc-cover"><img src="${e.cover_url || ''}"></div>
-                    <div class="sc-info">
+                    <div class="sc-info" style="padding-bottom: 0;">
                         <p style="margin:0 0 5px;">Дата выхода: <span class="highlight">${e.release_year || '-'}</span></p>
                         <p style="margin:0 0 5px;">Платформа: <span class="highlight">${e.platform || 'PS4'}</span></p>
                         <hr class="sc-hr">
@@ -738,7 +753,7 @@
                 <div class="sc-ps3-title">${e.title}</div>
                 <div class="sc-flex">
                     <div class="sc-cover"><img src="${e.cover_url || ''}"></div>
-                    <div class="sc-info">
+                    <div class="sc-info" style="padding-bottom: 0;">
                         <p style="margin:0 0 5px; color:#aaa;">Дата выхода: <span class="highlight">${e.release_year || '-'}</span></p>
                         <p style="margin:0 0 5px; color:#aaa;">Разработчик: <span class="highlight">${s.dev || '-'}</span></p>
                         <hr class="sc-hr">
@@ -826,9 +841,7 @@
             </div>`;
         }
 
-        // ==========================================
-        // ГЕНЕРАТОР КАРТОЧЕК ЛЕНТЫ
-        // ==========================================
+        // === ГЕНЕРАТОР КАРТОЧЕК ЛЕНТЫ ===
         function createCardHtml(entry) {
             const user = entry.user_id;
             const cat = catStyles[entry.category] || { label: entry.category, color: '#555' };
@@ -855,7 +868,6 @@
                 const badgesHtml = displayAchievements.length > 0 ? `<div class="achievements">${displayAchievements.join(' ')}</div>` : '';
                 const reviewHtml = entry.review ? `<div class="review-text">"${entry.review.replace(/\n/g, '<br>')}"</div>` : '';
 
-                // ДОБАВЛЕНА КНОПКА ОТКРЫТИЯ КАРТОЧКИ СТАТИСТИКИ ДЛЯ ИГР
                 const btnCard = (entry.category === 'game') ? `<button class="btn-card-show" onclick="openDetailCard(${entry.id})">🎴 Карточка прохождения</button>` : '';
 
                 return `
@@ -878,7 +890,8 @@
                 let progressHtml = ''; let platformHtml = '';
                 if (entry.category === 'game') {
                     platformHtml = entry.platform ? `<div style="font-size: 0.85em; color: #aaa;">🕹️ ${entry.platform}</div>` : '';
-                    progressHtml = `<div class="progress-container"><div class="progress-text" style="justify-content: center; color: #ffc107;">Активное прохождение 🎮</div></div>`;
+                    /* ИСПРАВЛЕНИЕ #2: Заменили надпись на более подходящую */
+                    progressHtml = `<div class="progress-container"><div class="progress-text" style="justify-content: center; color: #ffc107;">В процессе прохождения 🎮</div></div>`;
                 } else if (entry.category === 'movie' || entry.category === 'cartoon' || (entry.category === 'anime' && isFeature)) {
                     progressHtml = `<div class="progress-container"><div class="progress-text" style="justify-content: center; color: #ffc107;">В планах на вечер 🍿</div></div>`;
                 } else {
@@ -941,9 +954,47 @@
             updateScoreBar(stats.jonhnerd.score, stats.zelda.score); renderStats(stats); renderSync(); renderColumns();
         }
 
-        // === ОСТАЛЬНЫЕ ФУНКЦИИ (SORT, STATS, SYNC, ANIMATE) СОКРАЩЕНЫ ВЕРСИЕЙ ВЫШЕ И ОСТАВЛЕНЫ БЕЗ ИЗМЕНЕНИЙ В СТИЛЯХ === //
-        function sortTable(tId, cIdx, type) { const t = document.getElementById(`table-data-${tId}`); const tb = t.querySelector('tbody'); const rs = Array.from(tb.querySelectorAll('tr')); const th = t.querySelectorAll('th')[cIdx]; const isAsc = th.dataset.sort === 'asc'; t.querySelectorAll('.sort-icon').forEach(i => i.innerHTML = '↕'); th.querySelector('.sort-icon').innerHTML = isAsc ? '↑' : '↓'; th.dataset.sort = isAsc ? 'desc' : 'asc'; rs.sort((a, b) => { let ca = a.children[cIdx]; let cb = b.children[cIdx]; let va, vb; if (type === 'date') { va = parseInt(ca.dataset.timestamp || 0); vb = parseInt(cb.dataset.timestamp || 0); } else if (type === 'number') { va = parseFloat(ca.innerText) || 0; vb = parseFloat(cb.innerText) || 0; } else { va = ca.innerText.toLowerCase(); vb = cb.innerText.toLowerCase(); } if (va < vb) return isAsc ? -1 : 1; if (va > vb) return isAsc ? 1 : -1; return 0; }); rs.forEach(r => tb.appendChild(r)); }
-        function generateCategoryBreakdown(uId, uStats) { let h = '<div class="category-list"><h3 style="border-bottom: 1px solid #444; padding-bottom: 5px; margin-top: 30px;">Детализация</h3>'; for (let k in catStyles) { let items = uStats.categories[k]; if (items && items.length > 0) { const isG = k === 'game'; const pH = isG ? `<th class="sortable" onclick="sortTable('${uId}-${k}', 3, 'string')">Платформа <span class="sort-icon">↕</span></th>` : ''; h += `<div class="category-item"><div class="cat-header" onclick="toggleCategoryTable('${uId}', '${k}')"><span class="category-badge" style="background-color: ${catStyles[k].color}; margin: 0;">${catStyles[k].label}</span><span class="cat-count">${items.length} шт.</span></div><div class="cat-table-wrapper" id="table-${uId}-${k}"><table class="compact-table" id="table-data-${uId}-${k}"><thead><tr><th class="sortable" onclick="sortTable('${uId}-${k}', 0, 'string')">Название <span class="sort-icon">↕</span></th><th class="sortable" onclick="sortTable('${uId}-${k}', 1, 'date')">Дата <span class="sort-icon">↕</span></th><th class="sortable" onclick="sortTable('${uId}-${k}', 2, 'number')">Оценка <span class="sort-icon">↕</span></th>${pH}<th>Ачивки</th></tr></thead><tbody>${items.map(i => `<tr><td>${i.release_year ? `<span style="color: #888; margin-right: 4px;">[${i.release_year}]</span>` : ''}${i.title}</td><td class="date-col" data-timestamp="${new Date(i.created_at).getTime()}">${new Date(i.created_at).toLocaleDateString('ru-RU')}</td><td style="color: #ffc107; font-weight: bold;">${i.rating}</td>${isG ? `<td>${i.platform || '—'}</td>` : ''}<td style="font-size: 1.2em;">${i.achievements ? i.achievements.join('') : ''}</td></tr>`).join('')}</tbody></table></div></div>`; } } h += '</div>'; return h; }
+        /* ИСПРАВЛЕНИЕ #4: Сортировка по скрытому атрибуту */
+        function sortTable(tId, cIdx, type) {
+            const t = document.getElementById(`table-data-${tId}`); const tb = t.querySelector('tbody'); const rs = Array.from(tb.querySelectorAll('tr')); const th = t.querySelectorAll('th')[cIdx]; const isAsc = th.dataset.sort === 'asc'; t.querySelectorAll('.sort-icon').forEach(i => i.innerHTML = '↕'); th.querySelector('.sort-icon').innerHTML = isAsc ? '↑' : '↓'; th.dataset.sort = isAsc ? 'desc' : 'asc';
+            rs.sort((a, b) => {
+                let ca = a.children[cIdx]; let cb = b.children[cIdx]; let va, vb;
+                if (type === 'date') { va = parseInt(ca.dataset.timestamp || 0); vb = parseInt(cb.dataset.timestamp || 0); }
+                else if (type === 'number') { va = parseFloat(ca.innerText) || 0; vb = parseFloat(cb.innerText) || 0; }
+                else {
+                    va = (ca.dataset.value || ca.innerText).toLowerCase();
+                    vb = (cb.dataset.value || cb.innerText).toLowerCase();
+                }
+                if (va < vb) return isAsc ? -1 : 1; if (va > vb) return isAsc ? 1 : -1; return 0;
+            });
+            rs.forEach(r => tb.appendChild(r));
+        }
+
+        /* ИСПРАВЛЕНИЕ #4: Год и кнопка в Зале славы */
+        function generateCategoryBreakdown(uId, uStats) {
+            let h = '<div class="category-list"><h3 style="border-bottom: 1px solid #444; padding-bottom: 5px; margin-top: 30px;">Детализация</h3>';
+            for (let k in catStyles) {
+                let items = uStats.categories[k];
+                if (items && items.length > 0) {
+                    const isG = k === 'game';
+                    const pH = isG ? `<th class="sortable" onclick="sortTable('${uId}-${k}', 3, 'string')">Платформа <span class="sort-icon">↕</span></th>` : '';
+                    h += `<div class="category-item"><div class="cat-header" onclick="toggleCategoryTable('${uId}', '${k}')"><span class="category-badge" style="background-color: ${catStyles[k].color}; margin: 0;">${catStyles[k].label}</span><span class="cat-count">${items.length} шт.</span></div><div class="cat-table-wrapper" id="table-${uId}-${k}"><table class="compact-table" id="table-data-${uId}-${k}"><thead><tr><th class="sortable" onclick="sortTable('${uId}-${k}', 0, 'string')">Название <span class="sort-icon">↕</span></th><th class="sortable" onclick="sortTable('${uId}-${k}', 1, 'date')">Дата <span class="sort-icon">↕</span></th><th class="sortable" onclick="sortTable('${uId}-${k}', 2, 'number')">Оценка <span class="sort-icon">↕</span></th>${pH}<th>Ачивки</th></tr></thead><tbody>${items.map(i => `
+                    <tr>
+                        <td data-value="${i.title.replace(/"/g, '&quot;')}">
+                            ${i.release_year ? `<span style="color: #888; margin-right: 4px;">[${i.release_year}]</span>` : ''}
+                            ${i.title}
+                            ${isG ? `<span onclick="openDetailCard(${i.id})" title="Карточка прохождения" style="cursor:pointer; font-size:1.2em; margin-left:8px; vertical-align:middle; filter: drop-shadow(0 0 2px rgba(255,255,255,0.2));">🎴</span>` : ''}
+                        </td>
+                        <td class="date-col" data-timestamp="${new Date(i.created_at).getTime()}">${new Date(i.created_at).toLocaleDateString('ru-RU')}</td>
+                        <td style="color: #ffc107; font-weight: bold;">${i.rating}</td>
+                        ${isG ? `<td>${i.platform || '—'}</td>` : ''}
+                        <td style="font-size: 1.2em;">${i.achievements ? i.achievements.join('') : ''}</td>
+                    </tr>`).join('')}</tbody></table></div></div>`;
+                }
+            }
+            h += '</div>'; return h;
+        }
+
         function renderSync() { const f = document.getElementById('syncFilter').value; const c = document.getElementById('syncContent'); c.innerHTML = ''; let sDict = {}; globalEntries.forEach(e => { const k = `${e.title.toLowerCase().trim()}_${e.category}`; if (!sDict[k]) sDict[k] = { title: e.title, category: e.category, jonhnerd: null, zelda: null }; sDict[k][e.user_id] = e; }); let gr = {}; for (let k in catStyles) gr[k] = []; for (let k in sDict) { const i = sDict[k]; const hJ = !!i.jonhnerd; const hZ = !!i.zelda; let sh = false; if (f === 'all') sh = true; else if (f === 'match' && hJ && hZ) sh = true; else if (f === 'jonh' && hJ && !hZ) sh = true; else if (f === 'zelda' && !hJ && hZ) sh = true; if (sh) gr[i.category].push(i); } for (let k in catStyles) { if (gr[k].length > 0) { const cat = catStyles[k]; let h = `<div class="sync-category-group"><div class="sync-category-title"><span class="category-badge" style="background-color: ${cat.color}; margin: 0;">${cat.label}</span><span style="color: #aaa; font-weight: normal;">— ${gr[k].length} шт.</span></div><div>`; gr[k].sort((a, b) => a.title.localeCompare(b.title)); gr[k].forEach(i => { const jC = i.jonhnerd ? 'active-j' : ''; const zC = i.zelda ? 'active-z' : ''; h += `<div class="sync-item"><div style="font-size: 1.1em;">${i.title}</div><div class="sync-icons"><div class="sync-icon ${jC}">J</div><div class="sync-icon ${zC}">Z</div></div></div>`; }); h += `</div></div>`; c.innerHTML += h; } } if (c.innerHTML === '') c.innerHTML = '<p style="text-align: center; color: #888; margin-top: 30px;">Пусто.</p>'; }
         function animateValue(obj, start, end, duration) { if (start === end) { obj.innerText = end; return; } let st = null; const step = (ts) => { if (!st) st = ts; const p = Math.min((ts - st) / duration, 1); obj.innerText = Math.floor(p * (end - start) + start); if (p < 1) window.requestAnimationFrame(step); }; window.requestAnimationFrame(step); }
         function updateScoreBar(jonh, zelda) { const t = jonh + zelda; animateValue(document.getElementById('bigScoreJonh'), parseInt(document.getElementById('bigScoreJonh').innerText) || 0, jonh, 1000); animateValue(document.getElementById('bigScoreZelda'), parseInt(document.getElementById('bigScoreZelda').innerText) || 0, zelda, 1000); if (t === 0) { document.getElementById('scoreLeft').style.width = '50%'; document.getElementById('scoreRight').style.width = '50%'; return; } const l = (jonh / t) * 100; document.getElementById('scoreLeft').style.width = l + '%'; document.getElementById('scoreRight').style.width = (100 - l) + '%'; }
@@ -979,7 +1030,6 @@
             }
             if (category === 'anime' && isFeatureAnime) achievements.push('🎞️ Полнометражка');
 
-            // СОБИРАЕМ РАСШИРЕННУЮ СТАТИСТИКУ JSON
             let extended_stats = null;
             if (category === 'game' && status === 'completed') {
                 extended_stats = {
@@ -1012,7 +1062,7 @@
                 cover_url: document.getElementById('coverInput').value,
                 volume: volume, platform: document.getElementById('platformInput').value,
                 review: review, release_year: isNaN(parsedYear) ? null : parsedYear,
-                extended_stats: extended_stats // Сохраняем JSON!
+                extended_stats: extended_stats
             };
 
             if (id) { const { error } = await db.from('entries').update(entryData).eq('id', id); if (error) alert('Ошибка: ' + error.message); }
