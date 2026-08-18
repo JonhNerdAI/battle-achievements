@@ -44,37 +44,38 @@
         .left-col { border-right: 2px solid #333; }
         h2 { text-align: center; border-bottom: 2px solid #444; padding-bottom: 10px; margin-top: 0; color: #ccc; }
 
-        /* === НОВЫЙ КОМПАКТНЫЙ И СОЧНЫЙ ДИЗАЙН КАРТОЧЕК === */
+        /* === ДИЗАЙН КАРТОЧЕК ЛЕНТЫ === */
         .card { background: #1e1e1e; border-radius: 10px; padding: 15px; margin-bottom: 15px; display: flex; gap: 18px; box-shadow: 0 4px 8px rgba(0,0,0,0.4); border-left: 4px solid #444; position: relative; transition: transform 0.2s, box-shadow 0.2s; }
         .card:hover { transform: translateY(-2px); box-shadow: 0 6px 15px rgba(0,0,0,0.6); }
         .card.left-card { border-left-color: #0d6efd; }
         .card.right-card { border-left-color: #198754; }
 
-        /* Увеличенная обложка для ПК */
         .cover { width: 110px; height: 165px; background: #2a2a2a; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 12px; text-align: center; color: #888; overflow: hidden; flex-shrink: 0; box-shadow: 0 3px 8px rgba(0,0,0,0.5); }
         .cover img { width: 100%; height: 100%; object-fit: cover; }
 
-        /* Контейнер информации на Flexbox */
         .info { flex: 1; display: flex; flex-direction: column; min-width: 0; padding-right: 30px; }
 
-        /* Шапка: Категория, Название, Год */
-        .card-header { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin-bottom: 8px; }
+        /* Шапка: на отдельных строках */
+        .card-header { display: flex; flex-direction: column; align-items: flex-start; gap: 6px; margin-bottom: 10px; }
         .category-badge { display: inline-block; padding: 4px 10px; border-radius: 12px; font-size: 0.75em; font-weight: bold; color: white; box-shadow: 0 2px 4px rgba(0,0,0,0.2); margin: 0; }
         .title { font-size: 1.3em; font-weight: bold; margin: 0; line-height: 1.2; color: #fff; }
-        .release-year-badge { display: inline-block; background: #252525; border: 1px solid #444; color: #bbb; padding: 2px 8px; border-radius: 4px; font-size: 0.85em; letter-spacing: 0.5px; margin: 0; }
 
-        /* Мета-информация (Платформа, Дата, Оценка) */
-        .card-meta-row { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; margin-bottom: 12px; }
+        /* Год и платформа в одну строку под названием */
+        .year-plat-row { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+        .release-year-badge { display: inline-block; background: #252525; border: 1px solid #444; color: #bbb; padding: 3px 8px; border-radius: 4px; font-size: 0.85em; letter-spacing: 0.5px; margin: 0; }
+        .platform-badge { display: inline-flex; align-items: center; gap: 6px; background: #1a1a1a; border: 1px solid #555; color: #eee; padding: 3px 10px; border-radius: 4px; font-size: 0.85em; font-weight: bold; letter-spacing: 0.5px; box-shadow: inset 0 2px 4px rgba(0,0,0,0.3);}
+
+        /* Мета-информация без переносов (Скроллится при нехватке места) */
+        .card-meta-row { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; white-space: nowrap; overflow-x: auto; scrollbar-width: none; }
+        .card-meta-row::-webkit-scrollbar { display: none; }
         .meta { color: #aaa; font-size: 0.9em; margin: 0; }
         .star-rating { font-size: 1.1em; letter-spacing: 1px; margin: 0; display: flex; align-items: center; gap: 6px;}
         .star-filled { color: #ffc107; text-shadow: 0 0 5px rgba(255,193,7,0.5); }
         .star-empty { color: #444; }
 
-        /* Мини-отзыв */
         .review-text { font-style: italic; color: #ccc; background: #252525; padding: 10px 14px; border-left: 3px solid #0d6efd; border-radius: 6px; margin: 0 0 15px 0; font-size: 0.9em; line-height: 1.4; }
         .card.right-card .review-text { border-left-color: #198754; }
 
-        /* Подвал карточки (Прижат к низу) */
         .card-footer { display: flex; justify-content: flex-start; align-items: center; margin-top: auto; flex-wrap: wrap; gap: 15px; }
         .achievements { font-size: 1.25em; margin: 0; display: flex; gap: 5px; }
         .btn-card-show { display: inline-flex; align-items: center; gap: 6px; background: #2a2a2a; color: #fff; border: 1px solid #444; border-radius: 6px; padding: 6px 12px; cursor: pointer; font-weight: bold; transition: 0.2s; font-size: 0.85em; margin: 0;}
@@ -83,13 +84,11 @@
         .pts.left-pts { color: #0d6efd; }
         .pts.right-pts { color: #198754; }
 
-        /* Кнопки действий (Редакт/Удалить) */
         .action-btns { position: absolute; top: 15px; right: 15px; display: flex; flex-direction: column; gap: 12px; z-index: 5;}
         .action-row { display: flex; gap: 10px; }
         .icon-btn { background: none; border: none; font-size: 1.2em; cursor: pointer; opacity: 0.4; transition: 0.2s; padding: 0; }
         .icon-btn:hover { opacity: 1; transform: scale(1.2); }
 
-        /* Прогресс (В процессе) */
         .progress-container { margin-top: 5px; background: #222; border-radius: 8px; padding: 10px; border: 1px solid #333; flex: 1; min-width: 250px;}
         .progress-text { display: flex; justify-content: space-between; align-items: center; font-size: 0.9em; margin-bottom: 8px; color: #ccc; font-weight: bold; }
         .progress-bar-bg { width: 100%; height: 8px; background: #111; border-radius: 4px; overflow: hidden; box-shadow: inset 0 1px 3px rgba(0,0,0,0.5); }
@@ -167,7 +166,7 @@
         .ext-grid input { font-size: 0.85em; padding: 6px; }
         .ext-grid label { font-size: 0.8em; margin-bottom: 2px; }
 
-        /* СТИЛИ ВСПЛЫВАЮЩИХ КАРТОЧЕК */
+        /* === ВСПЛЫВАЮЩИЕ КАРТОЧКИ СТАТИСТИКИ === */
         .card-modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 2000; justify-content: center; align-items: center; overflow-y: auto; padding: 20px; box-sizing: border-box; }
         .card-modal-content { position: relative; max-width: 550px; width: 100%; margin: auto; }
         .close-card-btn { position: absolute; top: -40px; right: 0; color: white; font-size: 2em; cursor: pointer; background: none; border: none; }
@@ -214,13 +213,10 @@
             .left-col, .right-col { border-right: none !important; padding-bottom: 40px; width: 100%; box-sizing: border-box;}
             .column { overflow-y: visible; flex: none; padding-top: 10px; }
 
-            /* Мобильные фиксы для новой карточки */
             .cover { width: 80px; height: 120px; }
             .title { font-size: 1.1em; }
             .action-btns { flex-direction: row; top: 10px; right: 10px; }
-            .info { padding-right: 0; padding-top: 20px; } /* Место под иконки сверху */
-            .card-header { gap: 6px; margin-bottom: 5px;}
-            .card-meta-row { gap: 8px; }
+            .info { padding-right: 0; padding-top: 20px; }
 
             .sc-flex { flex-direction: column; }
             .sc-cover { max-width: 200px; margin: 0 auto; }
@@ -236,18 +232,11 @@
         <button class="add-btn" onclick="clearForm(); document.getElementById('addModal').style.display='flex'">+ Добавить</button>
     </div>
 
-    <!-- Вкладки -->
     <div id="arenaTab" class="tab-section active-tab">
         <div class="battle-header">
-            <div class="fighter jonh-fighter">
-                <div class="fighter-name">JonhNerd</div>
-                <div class="fighter-score" id="bigScoreJonh">0</div>
-            </div>
+            <div class="fighter jonh-fighter"><div class="fighter-name">JonhNerd</div><div class="fighter-score" id="bigScoreJonh">0</div></div>
             <div class="vs-circle">VS</div>
-            <div class="fighter zelda-fighter">
-                <div class="fighter-name">Zelda</div>
-                <div class="fighter-score" id="bigScoreZelda">0</div>
-            </div>
+            <div class="fighter zelda-fighter"><div class="fighter-name">Zelda</div><div class="fighter-score" id="bigScoreZelda">0</div></div>
         </div>
         <div class="score-bar"><div class="score-left" id="scoreLeft"></div><div class="score-right" id="scoreRight"></div></div>
         <div class="search-wrapper"><input type="text" id="searchArena" class="global-search-input" placeholder="🔍 Найти тайтл в Летописи..." oninput="handleGlobalSearch(this.value)"></div>
@@ -291,9 +280,12 @@
         </div>
     </div>
 
-    <!-- ОКНО КАРТОЧКИ СТАТИСТИКИ -->
+    <!-- ОКНО КАРТОЧКИ СТАТИСТИКИ (С КНОПКОЙ РЕДАКТИРОВАНИЯ) -->
     <div class="card-modal-overlay" id="detailCardModal" onclick="closeDetailCard(event)">
         <div class="card-modal-content">
+            <div style="position: absolute; top: -40px; left: 0;">
+                <button id="editFromCardBtn" class="btn-card-show" style="background: #0d6efd; border-color: #0d6efd;"><span style="font-size:1.2em;">✏️</span> Редактировать</button>
+            </div>
             <button class="close-card-btn" onclick="document.getElementById('detailCardModal').style.display='none'">×</button>
             <div id="detailCardRenderArea"></div>
         </div>
@@ -326,14 +318,9 @@
                 <div style="flex: 2;">
                     <label>Категория</label>
                     <select class="form-control" id="categorySelect" onchange="toggleDynamicFields()">
-                        <option value="game">Игра</option>
-                        <option value="movie">Фильм</option>
-                        <option value="cartoon">Мультфильм</option>
-                        <option value="series">Сериал</option>
-                        <option value="animated_series">Мультсериал</option>
-                        <option value="anime">Аниме</option>
-                        <option value="book">Книга</option>
-                        <option value="manga">Манга</option>
+                        <option value="game">Игра</option><option value="movie">Фильм</option><option value="cartoon">Мультфильм</option>
+                        <option value="series">Сериал</option><option value="animated_series">Мультсериал</option>
+                        <option value="anime">Аниме</option><option value="book">Книга</option><option value="manga">Манга</option>
                     </select>
                 </div>
                 <div style="flex: 1;"><label>Год</label><input type="number" class="form-control" id="yearInput" placeholder="2024"></div>
@@ -349,7 +336,7 @@
                 <label>Обложка (ссылка)</label>
                 <div style="display: flex; gap: 10px;">
                     <input type="text" class="form-control" id="coverInput" placeholder="Вставьте ссылку">
-                    <button type="button" onclick="autoFetchCover()" style="background: #0d6efd; color: white; border: none; border-radius: 4px; cursor: pointer; padding: 0 10px; font-weight: bold;" title="Волшебный поиск обложки и года">🪄</button>
+                    <button type="button" onclick="autoFetchCover()" style="background: #0d6efd; color: white; border: none; border-radius: 4px; cursor: pointer; padding: 0 10px; font-weight: bold;" title="Волшебный поиск">🪄</button>
                 </div>
             </div>
 
@@ -382,22 +369,16 @@
             </div>
 
             <div id="completionBlock" style="display: none;">
-                <div class="form-group">
-                    <label>Оценка (1-10)</label>
-                    <input type="number" class="form-control" id="ratingInput" min="1" max="10" value="8">
-                </div>
-                <div class="form-group">
-                    <label>Мини-отзыв (на Золотого критика 🥇)</label>
-                    <textarea class="form-control" id="reviewInput" rows="3" placeholder="Что понравилось, а что нет?"></textarea>
-                </div>
+                <div class="form-group"><label>Оценка (1-10)</label><input type="number" class="form-control" id="ratingInput" min="1" max="10" value="8"></div>
+                <div class="form-group"><label>Мини-отзыв (на Золотого критика 🥇)</label><textarea class="form-control" id="reviewInput" rows="3"></textarea></div>
 
                 <div class="form-group">
                     <label>Особые достижения</label>
                     <div style="display: flex; flex-direction: column; gap: 8px; background: #2a2a2a; padding: 10px; border-radius: 4px; border: 1px solid #444;">
-                        <label style="color: white; margin: 0; cursor: pointer;"><input type="checkbox" id="achvPlat"> 🏆 Платина (+20) - 100% прохождение / весь цикл</label>
-                        <label style="color: white; margin: 0; cursor: pointer;"><input type="checkbox" id="achvBreath"> 📖 На одном дыхании (+10) - Проглочено за пару дней</label>
-                        <label style="color: white; margin: 0; cursor: pointer;"><input type="checkbox" id="achvMaster"> 💎 Шедевр (+5) - Чистый восторг / Рекомендую!</label>
-                        <label style="color: white; margin: 0; cursor: pointer;"><input type="checkbox" id="achvFamily"> 🍿 Семейный сеанс (+5) - Совместный просмотр</label>
+                        <label style="color: white; margin: 0; cursor: pointer;"><input type="checkbox" id="achvPlat"> 🏆 Платина (+20)</label>
+                        <label style="color: white; margin: 0; cursor: pointer;"><input type="checkbox" id="achvBreath"> 📖 На одном дыхании (+10)</label>
+                        <label style="color: white; margin: 0; cursor: pointer;"><input type="checkbox" id="achvMaster"> 💎 Шедевр (+5)</label>
+                        <label style="color: white; margin: 0; cursor: pointer;"><input type="checkbox" id="achvFamily"> 🍿 Семейный сеанс (+5)</label>
                     </div>
                 </div>
 
@@ -440,7 +421,6 @@
 
     <!-- СКРИПТЫ -->
     <script>
-        // === ВСТАВЬТЕ ВАШИ КЛЮЧИ СЮДА ===
         const supabaseUrl = 'https://mnnsbxcbagukzcxvogsy.supabase.co';
         const supabaseKey = 'sb_publishable_GVsZNsFztJwKXfKBXQheDQ_0sIjDgD5';
         const tmdbKey = '859afab5c05a6afc9376a63d7ac53460';
@@ -712,16 +692,19 @@
             else if (p.includes('ps3') || p.includes('playstation 3')) renderArea.innerHTML = getPS3CardHtml(entry, stats);
             else renderArea.innerHTML = getRetroCardHtml(entry, stats);
 
+            // Привязываем кнопку редактирования внутри карточки
+            document.getElementById('editFromCardBtn').onclick = () => {
+                document.getElementById('detailCardModal').style.display = 'none';
+                openMainEditModal(id);
+            };
+
             document.getElementById('detailCardModal').style.display = 'flex';
         }
 
         function getPS4CardHtml(e, s) {
             return `
             <div class="sc-wrap sc-ps4">
-                <div class="sc-ps4-header">
-                    <span><span style="font-size:1.2em">🎮</span> PS4</span>
-                    <span style="font-weight:normal; font-size:0.8em; opacity:0.8;">Цифровое издание</span>
-                </div>
+                <div class="sc-ps4-header"><span><span style="font-size:1.2em">🎮</span> PS4</span><span style="font-weight:normal; font-size:0.8em; opacity:0.8;">Цифровое издание</span></div>
                 <div class="sc-ps4-title">${e.title}</div>
                 <div class="sc-flex">
                     <div class="sc-cover"><img src="${e.cover_url || ''}"></div>
@@ -737,34 +720,21 @@
                         </div>
                         <p style="margin:5px 0;">Платина получена: <span class="highlight">${s.platDate || '-'}</span></p>
                         <p style="margin:0 0 10px;">Получена за: <span class="highlight">${s.platDays || '-'} дней</span></p>
-
-                        ${s.htTitle ? `
-                        <div class="sc-hardest">
-                            ${s.htIcon ? `<div class="sc-hardest-img"><img src="${s.htIcon}"></div>` : '<div class="sc-hardest-img">🏆</div>'}
-                            <div>
-                                <div style="color: #ffd700; font-weight:bold; font-size:1.1em;">${s.htTitle}</div>
-                                <div style="color: #60a5fa; font-size:0.9em;">${s.htDesc || ''}</div>
-                            </div>
-                        </div>` : ''}
-
+                        ${s.htTitle ? `<div class="sc-hardest">${s.htIcon ? `<div class="sc-hardest-img"><img src="${s.htIcon}"></div>` : '<div class="sc-hardest-img">🏆</div>'}<div><div style="color: #ffd700; font-weight:bold; font-size:1.1em;">${s.htTitle}</div><div style="color: #60a5fa; font-size:0.9em;">${s.htDesc || ''}</div></div></div>` : ''}
                         <hr class="sc-hr">
                         <p style="margin:0 0 5px;">Время в игре: <span class="highlight">${s.time || '-'}</span></p>
                         <p style="margin:0 0 5px;">Прогресс: <span class="highlight">${s.prog || '-'}%</span></p>
                         <p style="margin:0 0 5px;">Уровень сложности: <span class="highlight">${s.diff || '-'}</span></p>
                     </div>
                 </div>
-                <div style="margin-top: 15px; text-align: center; font-size: 1.2em;">
-                    Личный рейтинг: <span class="highlight">${e.rating}/10</span> <span style="letter-spacing:2px; margin-left:10px;">${generateStars(e.rating)}</span>
-                </div>
+                <div style="margin-top: 15px; text-align: center; font-size: 1.2em;">Личный рейтинг: <span class="highlight">${e.rating}/10</span> <span style="letter-spacing:2px; margin-left:10px;">${generateStars(e.rating)}</span></div>
             </div>`;
         }
 
         function getPS3CardHtml(e, s) {
             return `
             <div class="sc-wrap sc-ps3">
-                <div class="sc-ps3-header">
-                    <span>PS3™</span>
-                </div>
+                <div class="sc-ps3-header"><span>PS3™</span></div>
                 <div class="sc-ps3-title">${e.title}</div>
                 <div class="sc-flex">
                     <div class="sc-cover"><img src="${e.cover_url || ''}"></div>
@@ -779,24 +749,13 @@
                             <div><div class="sc-icon">🥉</div><div style="color:#fff">${s.trb || '0/0'}</div></div>
                         </div>
                         <p style="margin:5px 0; color:#aaa;">Платина: <span class="highlight">${s.platDate || '-'}</span></p>
-
-                        ${s.htTitle ? `
-                        <div class="sc-hardest" style="background:#222; border:1px solid #444;">
-                            ${s.htIcon ? `<div class="sc-hardest-img"><img src="${s.htIcon}"></div>` : '<div class="sc-hardest-img">🏆</div>'}
-                            <div>
-                                <div style="color: #fff; font-weight:bold; font-size:1.1em;">${s.htTitle}</div>
-                                <div style="color: #aaa; font-size:0.85em;">${s.htDesc || ''}</div>
-                            </div>
-                        </div>` : ''}
-
+                        ${s.htTitle ? `<div class="sc-hardest" style="background:#222; border:1px solid #444;">${s.htIcon ? `<div class="sc-hardest-img"><img src="${s.htIcon}"></div>` : '<div class="sc-hardest-img">🏆</div>'}<div><div style="color: #fff; font-weight:bold; font-size:1.1em;">${s.htTitle}</div><div style="color: #aaa; font-size:0.85em;">${s.htDesc || ''}</div></div></div>` : ''}
                         <hr class="sc-hr">
                         <p style="margin:0 0 5px; color:#aaa;">Время: <span class="highlight">${s.time || '-'}</span></p>
                         <p style="margin:0 0 5px; color:#aaa;">Прогресс: <span class="highlight">${s.prog || '-'}%</span></p>
                     </div>
                 </div>
-                <div style="margin-top: 15px; text-align: center; font-size: 1.2em; border-top: 1px solid #444; padding-top: 10px;">
-                    Рейтинг: <span class="highlight">${e.rating}/10</span> <span style="letter-spacing:2px; margin-left:10px;">${generateStars(e.rating)}</span>
-                </div>
+                <div style="margin-top: 15px; text-align: center; font-size: 1.2em; border-top: 1px solid #444; padding-top: 10px;">Рейтинг: <span class="highlight">${e.rating}/10</span> <span style="letter-spacing:2px; margin-left:10px;">${generateStars(e.rating)}</span></div>
             </div>`;
         }
 
@@ -804,63 +763,28 @@
             return `
             <div class="sc-wrap sc-retro">
                 <div class="rc-header">
-                    <div style="display:flex; align-items:center; gap:10px;">
-                        <div style="font-size:2em; font-weight:900; line-height:0.8; letter-spacing:-2px;"><span style="color:#3b82f6;">R</span><span style="color:#888;">A</span></div>
-                        <div style="display:flex; flex-direction:column;">
-                            <span style="color:#3b82f6; font-weight:bold; font-size:0.9em;">Retro Achievements</span>
-                            <span style="color:#ffd700; font-weight:900; text-transform:uppercase;">Игра пройдена!</span>
-                        </div>
-                    </div>
-                    <div style="text-align:right;">
-                        <div style="color:#3b82f6; font-size:0.8em; font-weight:bold;">Retro-рейтинг</div>
-                        <div style="font-size:1.5em; font-weight:bold;">${s.retroRatio || '-'}</div>
-                    </div>
+                    <div style="display:flex; align-items:center; gap:10px;"><div style="font-size:2em; font-weight:900; line-height:0.8; letter-spacing:-2px;"><span style="color:#3b82f6;">R</span><span style="color:#888;">A</span></div><div style="display:flex; flex-direction:column;"><span style="color:#3b82f6; font-weight:bold; font-size:0.9em;">Retro Achievements</span><span style="color:#ffd700; font-weight:900; text-transform:uppercase;">Игра пройдена!</span></div></div>
+                    <div style="text-align:right;"><div style="color:#3b82f6; font-size:0.8em; font-weight:bold;">Retro-рейтинг</div><div style="font-size:1.5em; font-weight:bold;">${s.retroRatio || '-'}</div></div>
                 </div>
                 <div class="sc-retro-title">${e.title}</div>
-
                 <div class="sc-flex" style="height: 200px; margin-bottom: 15px;">
                     <div class="sc-cover" style="flex:1.5;"><img src="${e.cover_url || ''}"></div>
                     ${s.scr1 ? `<div class="sc-cover" style="flex:1;"><img src="${s.scr1}"></div>` : ''}
                 </div>
-
-                <div class="sc-retro-meta">
-                    <div><span>Платформа:</span> ${e.platform || '-'}</div>
-                    <div><span>Год выхода:</span> ${e.release_year || '-'}</div>
-                    <div><span>Разработчик:</span> ${s.dev || '-'}</div>
-                    <div><span>Время в игре:</span> ${s.time || '-'}</div>
-                </div>
-
+                <div class="sc-retro-meta"><div><span>Платформа:</span> ${e.platform || '-'}</div><div><span>Год выхода:</span> ${e.release_year || '-'}</div><div><span>Разработчик:</span> ${s.dev || '-'}</div><div><span>Время в игре:</span> ${s.time || '-'}</div></div>
                 <div class="sc-retro-stats">
-                    <div>
-                        <div style="margin-bottom:5px"><span class="gold">Трофеев:</span> ${s.trp || '-'}</div>
-                        <div><span class="gold">Сложность:</span> ${s.diff || '-'}</div>
-                    </div>
-                    <div style="text-align:right;">
-                        <div style="margin-bottom:5px"><span class="blue">Хардкор очков:</span> ${s.hcPts || '-'}</div>
-                        <div><span class="gold">Retro очков:</span> ${s.retroPts || '-'}</div>
-                    </div>
+                    <div><div style="margin-bottom:5px"><span class="gold">Трофеев:</span> ${s.trp || '-'}</div><div><span class="gold">Сложность:</span> ${s.diff || '-'}</div></div>
+                    <div style="text-align:right;"><div style="margin-bottom:5px"><span class="blue">Хардкор очков:</span> ${s.hcPts || '-'}</div><div><span class="gold">Retro очков:</span> ${s.retroPts || '-'}</div></div>
                 </div>
-
-                ${s.htTitle ? `
-                <div style="color:#ffd700; font-weight:bold; margin-bottom:5px;">Самый сложный трофей:</div>
-                <div class="sc-hardest" style="background:transparent; border:none; padding:0;">
-                    ${s.htIcon ? `<div class="sc-hardest-img" style="width:70px; height:70px;"><img src="${s.htIcon}"></div>` : ''}
-                    <div style="flex:1;">
-                        <div style="color:#ffd700; font-weight:bold; font-size:1.1em;">${s.htTitle}</div>
-                        <div style="color:#3b82f6; font-size:0.85em; font-weight:bold;">${s.htDesc || ''}</div>
-                    </div>
-                </div>` : ''}
-                <div style="margin-top: 15px; text-align: center; font-size: 1.2em; border-top: 1px solid #333; padding-top: 10px;">
-                    Рейтинг: <span style="color:#ffd700; font-weight:bold;">${e.rating}/10</span> <span style="letter-spacing:2px; margin-left:10px;">${generateStars(e.rating)}</span>
-                </div>
+                ${s.htTitle ? `<div style="color:#ffd700; font-weight:bold; margin-bottom:5px;">Самый сложный трофей:</div><div class="sc-hardest" style="background:transparent; border:none; padding:0;">${s.htIcon ? `<div class="sc-hardest-img" style="width:70px; height:70px;"><img src="${s.htIcon}"></div>` : ''}<div style="flex:1;"><div style="color:#ffd700; font-weight:bold; font-size:1.1em;">${s.htTitle}</div><div style="color:#3b82f6; font-size:0.85em; font-weight:bold;">${s.htDesc || ''}</div></div></div>` : ''}
+                <div style="margin-top: 15px; text-align: center; font-size: 1.2em; border-top: 1px solid #333; padding-top: 10px;">Рейтинг: <span style="color:#ffd700; font-weight:bold;">${e.rating}/10</span> <span style="letter-spacing:2px; margin-left:10px;">${generateStars(e.rating)}</span></div>
             </div>`;
         }
 
-        // === ОБНОВЛЕННЫЙ РЕНДЕР КАРТОЧЕК ДЛЯ ЛЕНТЫ (FLEXBOX И НОВЫЙ ДИЗАЙН) ===
         function createCardHtml(entry) {
             const user = entry.user_id;
             const cat = catStyles[entry.category] || { label: entry.category, color: '#555' };
-            const badgeHtml = `<span class="category-badge" style="background-color: ${cat.color}">${cat.label}</span>`;
+            const badgeHtml = `<div style="margin-bottom: 5px;"><span class="category-badge" style="background-color: ${cat.color}">${cat.label}</span></div>`;
             const dateStr = new Date(entry.created_at).toLocaleDateString('ru-RU', { day: 'numeric', month: 'short', year: 'numeric' });
             const coverHtml = entry.cover_url ? `<div class="cover"><img src="${entry.cover_url}"></div>` : `<div class="cover">Обложка</div>`;
             const isFeature = entry.achievements && entry.achievements.includes('🎞️ Полнометражка');
@@ -868,9 +792,28 @@
 
             const yearDisplay = entry.release_year ? `<span class="release-year-badge">🗓️ ${entry.release_year} год</span>` : '';
 
+            // НОВАЯ ЛОГИКА ОТОБРАЖЕНИЯ ПЛАТФОРМЫ
+            let platformHtml = '';
+            if (entry.category === 'game' && entry.platform) {
+                let p = entry.platform.toLowerCase();
+                let icon = '🎮';
+                if (p.includes('ps4') || p.includes('playstation 4')) icon = '🟦';
+                else if (p.includes('ps3') || p.includes('playstation 3')) icon = '⬛';
+                else if (p.includes('ps1') || p.includes('ps2') || p.includes('playstation')) icon = '💿';
+                else if (p.includes('game boy') || p.includes('gb') || p.includes('gba')) icon = '🟪';
+                else if (p.includes('nes') || p.includes('dendy') || p.includes('famicom')) icon = '📼';
+                else if (p.includes('sega') || p.includes('mega drive')) icon = '💽';
+                else if (p.includes('pc') || p.includes('windows')) icon = '💻';
+                else if (p.includes('switch') || p.includes('nintendo')) icon = '🔴';
+                else if (p.includes('xbox')) icon = '🟩';
+
+                platformHtml = `<span class="platform-badge">${icon} ${entry.platform}</span>`;
+            }
+
+            const yearPlatRow = (yearDisplay || platformHtml) ? `<div class="year-plat-row">${yearDisplay}${platformHtml}</div>` : '';
+
             let metaDetails = [];
             if (entry.category === 'game') {
-                if (entry.platform) metaDetails.push(entry.platform);
                 if (entry.volume > 0) metaDetails.push(`${entry.volume} ч.`);
             }
             if (entry.category === 'book') metaDetails.push(`${entry.volume} стр.`);
@@ -882,7 +825,6 @@
                 let displayAchievements = entry.achievements ? entry.achievements.filter(a => a !== '🎞️ Полнометражка') : [];
                 const badgesHtml = displayAchievements.length > 0 ? `<div class="achievements">${displayAchievements.join(' ')}</div>` : '';
                 const reviewHtml = entry.review ? `<div class="review-text">"${entry.review.replace(/\n/g, '<br>')}"</div>` : '';
-
                 const btnCard = (entry.category === 'game') ? `<button class="btn-card-show" onclick="openDetailCard(${entry.id})"><span style="font-size:1.2em;">🎴</span> Статистика</button>` : '';
 
                 return `
@@ -892,8 +834,8 @@
                             <div class="action-btns"><button class="icon-btn" onclick="openMainEditModal(${entry.id})">✏️</button><button class="icon-btn" onclick="deleteEntry(${entry.id})">🗑️</button></div>
                             <div class="card-header">
                                 ${badgeHtml}
-                                <span class="title">${entry.title}</span>
-                                ${yearDisplay}
+                                <div class="title">${entry.title}</div>
+                                ${yearPlatRow}
                             </div>
                             <div class="card-meta-row">
                                 <span class="meta">${metaText}</span>
@@ -908,9 +850,8 @@
                         </div>
                     </div>`;
             } else {
-                let progressHtml = ''; let platformHtml = '';
+                let progressHtml = '';
                 if (entry.category === 'game') {
-                    platformHtml = entry.platform ? `<div class="card-meta-row"><span class="meta" style="color: #fff;">🕹️ ${entry.platform}</span></div>` : '';
                     progressHtml = `<div class="progress-container"><div class="progress-text" style="justify-content: center; color: #ffc107; margin:0;">В процессе прохождения 🎮</div></div>`;
                 } else if (entry.category === 'movie' || entry.category === 'cartoon' || (entry.category === 'anime' && isFeature)) {
                     progressHtml = `<div class="progress-container"><div class="progress-text" style="justify-content: center; color: #ffc107; margin:0;">В планах на вечер 🍿</div></div>`;
@@ -928,10 +869,9 @@
                             <div class="action-btns"><div class="action-row"><button class="icon-btn" onclick="openMainEditModal(${entry.id})">✏️</button><button class="icon-btn" onclick="deleteEntry(${entry.id})">🗑️</button></div></div>
                             <div class="card-header">
                                 ${badgeHtml}
-                                <span class="title">${entry.title}</span>
-                                ${yearDisplay}
+                                <div class="title">${entry.title}</div>
+                                ${yearPlatRow}
                             </div>
-                            ${platformHtml}
                             <div class="card-footer" style="margin-top: auto; padding-top: 15px;">
                                 ${progressHtml}
                                 <button class="btn-finish" onclick="openMainEditModal(${entry.id}, true)">🏁 В Летопись</button>
@@ -985,15 +925,13 @@
                 let ca = a.children[cIdx]; let cb = b.children[cIdx]; let va, vb;
                 if (type === 'date') { va = parseInt(ca.dataset.timestamp || 0); vb = parseInt(cb.dataset.timestamp || 0); }
                 else if (type === 'number') { va = parseFloat(ca.innerText) || 0; vb = parseFloat(cb.innerText) || 0; }
-                else {
-                    va = (ca.dataset.value || ca.innerText).toLowerCase();
-                    vb = (cb.dataset.value || cb.innerText).toLowerCase();
-                }
+                else { va = (ca.dataset.value || ca.innerText).toLowerCase(); vb = (cb.dataset.value || cb.innerText).toLowerCase(); }
                 if (va < vb) return isAsc ? -1 : 1; if (va > vb) return isAsc ? 1 : -1; return 0;
             });
             rs.forEach(r => tb.appendChild(r));
         }
 
+        // ОТДЕЛЬНЫЙ СТОЛБЕЦ ДЛЯ КНОПКИ В ЗАЛЕ СЛАВЫ
         function generateCategoryBreakdown(uId, uStats) {
             let h = '<div class="category-list"><h3 style="border-bottom: 1px solid #444; padding-bottom: 5px; margin-top: 30px;">Детализация</h3>';
             for (let k in catStyles) {
@@ -1001,17 +939,18 @@
                 if (items && items.length > 0) {
                     const isG = k === 'game';
                     const pH = isG ? `<th class="sortable" onclick="sortTable('${uId}-${k}', 3, 'string')">Платформа <span class="sort-icon">↕</span></th>` : '';
-                    h += `<div class="category-item"><div class="cat-header" onclick="toggleCategoryTable('${uId}', '${k}')"><span class="category-badge" style="background-color: ${catStyles[k].color}; margin: 0;">${catStyles[k].label}</span><span class="cat-count">${items.length} шт.</span></div><div class="cat-table-wrapper" id="table-${uId}-${k}"><table class="compact-table" id="table-data-${uId}-${k}"><thead><tr><th class="sortable" onclick="sortTable('${uId}-${k}', 0, 'string')">Название <span class="sort-icon">↕</span></th><th class="sortable" onclick="sortTable('${uId}-${k}', 1, 'date')">Дата <span class="sort-icon">↕</span></th><th class="sortable" onclick="sortTable('${uId}-${k}', 2, 'number')">Оценка <span class="sort-icon">↕</span></th>${pH}<th>Ачивки</th></tr></thead><tbody>${items.map(i => `
+                    const cardH = isG ? `<th style="width: 40px; text-align: center;"></th>` : '';
+                    h += `<div class="category-item"><div class="cat-header" onclick="toggleCategoryTable('${uId}', '${k}')"><span class="category-badge" style="background-color: ${catStyles[k].color}; margin: 0;">${catStyles[k].label}</span><span class="cat-count">${items.length} шт.</span></div><div class="cat-table-wrapper" id="table-${uId}-${k}"><table class="compact-table" id="table-data-${uId}-${k}"><thead><tr><th class="sortable" onclick="sortTable('${uId}-${k}', 0, 'string')">Название <span class="sort-icon">↕</span></th><th class="sortable" onclick="sortTable('${uId}-${k}', 1, 'date')">Дата <span class="sort-icon">↕</span></th><th class="sortable" onclick="sortTable('${uId}-${k}', 2, 'number')">Оценка <span class="sort-icon">↕</span></th>${pH}<th>Ачивки</th>${cardH}</tr></thead><tbody>${items.map(i => `
                     <tr>
                         <td data-value="${i.title.replace(/"/g, '&quot;')}">
                             ${i.release_year ? `<span style="color: #888; margin-right: 4px;">[${i.release_year}]</span>` : ''}
                             ${i.title}
-                            ${isG ? `<span onclick="openDetailCard(${i.id})" title="Карточка прохождения" style="cursor:pointer; font-size:1.2em; margin-left:8px; vertical-align:middle; filter: drop-shadow(0 0 2px rgba(255,255,255,0.2));">🎴</span>` : ''}
                         </td>
                         <td class="date-col" data-timestamp="${new Date(i.created_at).getTime()}">${new Date(i.created_at).toLocaleDateString('ru-RU')}</td>
                         <td style="color: #ffc107; font-weight: bold;">${i.rating}</td>
                         ${isG ? `<td>${i.platform || '—'}</td>` : ''}
                         <td style="font-size: 1.2em;">${i.achievements ? i.achievements.join('') : ''}</td>
+                        ${isG ? `<td style="text-align: center;"><span onclick="openDetailCard(${i.id})" title="Карточка прохождения" style="cursor:pointer; font-size:1.4em; filter: drop-shadow(0 0 2px rgba(255,255,255,0.2)); transition: 0.2s;" onmouseover="this.style.transform='scale(1.2)'" onmouseout="this.style.transform='scale(1)'">🎴</span></td>` : ''}
                     </tr>`).join('')}</tbody></table></div></div>`;
                 }
             }
