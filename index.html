@@ -239,7 +239,28 @@
             <div class="fighter zelda-fighter"><div class="fighter-name">Zelda</div><div class="fighter-score" id="bigScoreZelda">0</div></div>
         </div>
         <div class="score-bar"><div class="score-left" id="scoreLeft"></div><div class="score-right" id="scoreRight"></div></div>
-        <div class="search-wrapper"><input type="text" id="searchArena" class="global-search-input" placeholder="🔍 Найти тайтл в Летописи..." oninput="handleGlobalSearch(this.value)"></div>
+        <!-- Компактная панель управления -->
+        <div class="control-panel" style="display: flex; gap: 8px; padding: 10px 20px; align-items: center; background: #1a1a1a; position: sticky; top: 0; z-index: 100;">
+            <!-- Поиск теперь flex: 1 (стал короче) -->
+            <input type="text" id="searchArena" class="global-search-input" placeholder="🔍 Поиск..." oninput="handleGlobalSearch(this.value)" style="flex: 1; height: 15px; margin: 0;">
+
+            <!-- Фильтры теперь flex: 1.5 (стали шире, чем поиск) -->
+            <select class="form-control" id="filterCategory" onchange="applyFilters()" style="flex: 1.5; height: 35px; padding: 0 5px; font-size: 0.85em; background: #222; border: 1px solid #444;">
+                <option value="all">Категория</option>
+                <option value="game">Игры</option>
+                <option value="movie">Фильмы</option>
+                <option value="cartoon">Мультфильмы</option>
+                <option value="series">Сериалы</option>
+                <option value="animated_series">Мультсериалы</option>
+                <option value="anime">Аниме</option>
+                <option value="book">Книги</option>
+                <option value="manga">Манга</option>
+            </select>
+
+            <select class="form-control" id="filterPlatform" onchange="applyFilters()" style="flex: 1.5; height: 35px; padding: 0 5px; font-size: 0.85em; background: #222; border: 1px solid #444; display: none;">
+                <option value="all">Платформа</option>
+            </select>
+        </div>
         <div class="mobile-user-toggle">
             <button class="user-toggle-btn j active" onclick="switchMobileUser('jonhnerd')">JonhNerd</button>
             <button class="user-toggle-btn z" onclick="switchMobileUser('zelda')">Zelda</button>
@@ -1031,16 +1052,36 @@
         function handleGlobalSearch(val) { globalSearchQuery = val.toLowerCase().trim(); document.getElementById('searchArena').value = val; document.getElementById('searchActive').value = val; displayLimit = 15; renderColumns(); }
         function loadMore() { displayLimit += 15; renderColumns(); }
 
-        function renderColumns() {
-            const cols = { aJ: document.getElementById('leftColContent'), aZ: document.getElementById('rightColContent'), acJ: document.getElementById('activeLeftCol'), acZ: document.getElementById('activeRightCol') };
-            cols.aJ.innerHTML = '<h2>Летопись</h2>'; cols.aZ.innerHTML = '<h2>Летопись</h2>'; cols.acJ.innerHTML = '<h2>Текущие вылазки</h2>'; cols.acZ.innerHTML = '<h2>Текущие вылазки</h2>';
-            let arrs = { aJ: [], aZ: [], acJ: [], acZ: [] };
-            globalEntries.forEach(entry => {
-                if (globalSearchQuery && !entry.title.toLowerCase().includes(globalSearchQuery)) return;
-                const c = (entry.status === 'completed' || !entry.status);
-                if (c) { if (entry.user_id === 'jonhnerd') arrs.aJ.push(entry); else arrs.aZ.push(entry); }
-                else { if (entry.user_id === 'jonhnerd') arrs.acJ.push(entry); else arrs.acZ.push(entry); }
-            });
+        function applyFilters() {
+            const cat = document.getElementById('filterCategory').value;
+            const plat = document.getElementById('filterPlatform').value;
+            const platSelect = document.getElementById('filterPlatform');
+
+            // Показываем селектор платформы только если выбраны игры
+            platSelect.style.display = (cat === 'game') ? 'block' : 'none';
+
+            // Перерисовываем колонки с учетом фильтров
+            renderColumns(cat, plat);
+        }
+
+        function renderColumns(catFilter = 'all', platFilter = 'all') {
+                    const cols = { aJ: document.getElementById('leftColContent'), aZ: document.getElementById('rightColContent'), acJ: document.getElementById('activeLeftCol'), acZ: document.getElementById('activeRightCol') };
+
+                    // Очистка колонок перед отрисовкой
+                    cols.aJ.innerHTML = ''; cols.aZ.innerHTML = ''; cols.acJ.innerHTML = ''; cols.acZ.innerHTML = '';
+
+                    let arrs = { aJ: [], aZ: [], acJ: [], acZ: [] };
+
+                    globalEntries.forEach(entry => {
+                        // ПРОВЕРКА ФИЛЬТРОВ
+                        if (globalSearchQuery && !entry.title.toLowerCase().includes(globalSearchQuery)) return;
+                        if (catFilter !== 'all' && entry.category !== catFilter) return;
+                        if (catFilter === 'game' && platFilter !== 'all' && entry.platform !== platFilter) return;
+
+                        const c = (entry.status === 'completed' || !entry.status);
+                        if (c) { if (entry.user_id === 'jonhnerd') arrs.aJ.push(entry); else arrs.aZ.push(entry); }
+                        else { if (entry.user_id === 'jonhnerd') arrs.acJ.push(entry); else arrs.acZ.push(entry); }
+                    });
             const appendCards = (col, arr) => {
                 arr.slice(0, displayLimit).forEach(entry => col.innerHTML += createCardHtml(entry));
                 if (arr.length > displayLimit) col.innerHTML += `<button class="load-more-btn" onclick="loadMore()">Загрузить еще (${arr.length - displayLimit}) ⬇️</button>`;
@@ -1053,6 +1094,7 @@
             const { data, error } = await db.from('entries').select('*').order('created_at', { ascending: false });
             if (error) { console.error('Ошибка:', error); return; }
             globalEntries = data;
+            updatePlatformFilter();
             let stats = { jonhnerd: { score: 0, count: 0, ratingSum: 0, achvCount: 0, categories: {} }, zelda: { score: 0, count: 0, ratingSum: 0, achvCount: 0, categories: {} } };
             for(let key in catStyles) { stats.jonhnerd.categories[key] = []; stats.zelda.categories[key] = []; }
             globalEntries.forEach(entry => {
@@ -1064,6 +1106,15 @@
                 }
             });
             updateScoreBar(stats.jonhnerd.score, stats.zelda.score); renderStats(stats); renderSync(); renderColumns();
+        }
+
+        function updatePlatformFilter() {
+            const platSelect = document.getElementById('filterPlatform');
+            const platforms = [...new Set(globalEntries.filter(e => e.platform).map(e => e.platform))];
+            platSelect.innerHTML = '<option value="all">Все платформы</option>';
+            platforms.sort().forEach(p => {
+                platSelect.innerHTML += `<option value="${p}">${p}</option>`;
+            });
         }
 
         function sortTable(tId, cIdx, type) {
