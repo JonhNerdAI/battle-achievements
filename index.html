@@ -342,7 +342,80 @@
 
             <div class="form-group dynamic-field" id="platformField">
                 <label>Платформа</label>
-                <input type="text" class="form-control" id="platformInput" placeholder="Например: PS4, PS3, Game Boy">
+                <!-- Добавляем атрибут list, который связывает поле с нашим списком ниже -->
+                <input type="text" class="form-control" id="platformInput" list="platform-list" placeholder="Начни вводить название или выбери из списка..." autocomplete="off">
+
+                <!-- Тот самый заготовленный список со всеми консолями -->
+                <datalist id="platform-list">
+                    <!-- Современные и часто используемые -->
+                    <option value="PlayStation 4"></option>
+                    <option value="PlayStation 3"></option>
+                    <option value="PC"></option>
+
+                    <!-- Nintendo -->
+                    <option value="NES/Famicom"></option>
+                    <option value="Famicom Disk System"></option>
+                    <option value="SNES/Super Famicom"></option>
+                    <option value="Nintendo 64"></option>
+                    <option value="GameCube"></option>
+                    <option value="Wii"></option>
+                    <option value="Game Boy"></option>
+                    <option value="Game Boy Color"></option>
+                    <option value="Game Boy Advance"></option>
+                    <option value="Nintendo DS"></option>
+                    <option value="Nintendo DSi"></option>
+                    <option value="Pokemon Mini"></option>
+                    <option value="Virtual Boy"></option>
+
+                    <!-- Sony -->
+                    <option value="PlayStation"></option>
+                    <option value="PlayStation 2"></option>
+                    <option value="PlayStation Portable"></option>
+
+                    <!-- Sega -->
+                    <option value="SG-1000"></option>
+                    <option value="Master System"></option>
+                    <option value="Genesis/Mega Drive"></option>
+                    <option value="Sega CD"></option>
+                    <option value="32X"></option>
+                    <option value="Saturn"></option>
+                    <option value="Dreamcast"></option>
+                    <option value="Game Gear"></option>
+
+                    <!-- Atari -->
+                    <option value="Atari 2600"></option>
+                    <option value="Atari 7800"></option>
+
+                    <!-- NEC & SNK -->
+                    <option value="PC-8000/8800"></option>
+                    <option value="PC Engine/TurboGrafx-16"></option>
+                    <option value="PC Engine CD/TurboGrafx-CD"></option>
+                    <option value="PC-FX"></option>
+                    <option value="Neo Geo CD"></option>
+                    <option value="Neo Geo Pocket"></option>
+
+                    <!-- Others -->
+                    <option value="3DO Interactive Multiplayer"></option>
+                    <option value="Amstrad CPC"></option>
+                    <option value="Apple II"></option>
+                    <option value="Arcade"></option>
+                    <option value="Arcadia 2001"></option>
+                    <option value="Arduboy"></option>
+                    <option value="ColecoVision"></option>
+                    <option value="Elektor TV Games Computer"></option>
+                    <option value="Fairchild Channel F"></option>
+                    <option value="Intellivision"></option>
+                    <option value="Interton VC 4000"></option>
+                    <option value="Magnavox Odyssey 2"></option>
+                    <option value="Mega Duck"></option>
+                    <option value="MSX"></option>
+                    <option value="Standalone"></option>
+                    <option value="Uzebox"></option>
+                    <option value="Vectrex"></option>
+                    <option value="WASM-4"></option>
+                    <option value="Watara Supervision"></option>
+                    <option value="WonderSwan"></option>
+                </datalist>
             </div>
 
             <div class="form-group dynamic-field" id="volumeField">
@@ -792,20 +865,94 @@
 
             const yearDisplay = entry.release_year ? `<span class="release-year-badge">🗓️ ${entry.release_year} год</span>` : '';
 
-            // НОВАЯ ЛОГИКА ОТОБРАЖЕНИЯ ПЛАТФОРМЫ
+            // НОВАЯ ЛОГИКА ОТОБРАЖЕНИЯ ПЛАТФОРМЫ (СВОИ ИКОНКИ)
             let platformHtml = '';
             if (entry.category === 'game' && entry.platform) {
-                let p = entry.platform.toLowerCase();
-                let icon = '🎮';
-                if (p.includes('ps4') || p.includes('playstation 4')) icon = '🟦';
-                else if (p.includes('ps3') || p.includes('playstation 3')) icon = '⬛';
-                else if (p.includes('ps1') || p.includes('ps2') || p.includes('playstation')) icon = '💿';
-                else if (p.includes('game boy') || p.includes('gb') || p.includes('gba')) icon = '🟪';
-                else if (p.includes('nes') || p.includes('dendy') || p.includes('famicom')) icon = '📼';
-                else if (p.includes('sega') || p.includes('mega drive')) icon = '💽';
-                else if (p.includes('pc') || p.includes('windows')) icon = '💻';
-                else if (p.includes('switch') || p.includes('nintendo')) icon = '🔴';
-                else if (p.includes('xbox')) icon = '🟩';
+                let pName = entry.platform.trim(); // Оригинальное название с учетом регистра
+                let pLower = pName.toLowerCase();
+
+                let icon = '🎮'; // Дефолтная иконка
+
+                // 1. СЛОВАРЬ ТОЧНЫХ СОВПАДЕНИЙ (Твои картинки)
+                const exactIcons = {
+                  // === NINTENDO ===
+                      "NES/Famicom": '<img src="https://static.retroachievements.org/assets/images/system/nes.png" style="width:16px; height:16px; vertical-align:middle; margin-right:6px; filter: grayscale(100%) brightness(200%);">',
+                      "Famicom Disk System": '<img src="https://static.retroachievements.org/assets/images/system/fds.png" style="width:16px; height:16px; vertical-align:middle; margin-right:6px;">',
+                      "SNES/Super Famicom": '<img src="https://static.retroachievements.org/assets/images/system/snes.png" style="width:16px; height:16px; vertical-align:middle; margin-right:6px;">',
+                      "Nintendo 64": '<img src="https://static.retroachievements.org/assets/images/system/n64.png" style="width:16px; height:16px; vertical-align:middle; margin-right:6px;">',
+                      "GameCube": '<img src="https://static.retroachievements.org/assets/images/system/gamecube.png" style="width:16px; height:16px; vertical-align:middle; margin-right:6px;">',
+                      "Wii": '<img src="https://static.retroachievements.org/assets/images/system/wii.png" style="width:16px; height:16px; vertical-align:middle; margin-right:6px;">',
+                      "Game Boy": '<img src="https://static.retroachievements.org/assets/images/system/gb.png" style="width:16px; height:16px; vertical-align:middle; margin-right:6px;">',
+                      "Game Boy Color": '<img src="https://static.retroachievements.org/assets/images/system/gbc.png" style="width:16px; height:16px; vertical-align:middle; margin-right:6px;">',
+                      "Game Boy Advance": '<img src="https://static.retroachievements.org/assets/images/system/gba.png" style="width:16px; height:16px; vertical-align:middle; margin-right:6px;">',
+                      "Nintendo DS": '<img src="https://static.retroachievements.org/assets/images/system/nds.png" style="width:16px; height:16px; vertical-align:middle; margin-right:6px;">',
+                      "Nintendo DSi": '<img src="https://static.retroachievements.org/assets/images/system/dsi.png" style="width:16px; height:16px; vertical-align:middle; margin-right:6px;">',
+                      "Pokemon Mini": '<img src="https://static.retroachievements.org/assets/images/system/pokemonmini.png" style="width:16px; height:16px; vertical-align:middle; margin-right:6px;">',
+                      "Virtual Boy": '<img src="https://static.retroachievements.org/assets/images/system/vb.png" style="width:16px; height:16px; vertical-align:middle; margin-right:6px;">',
+
+                      // === SONY ===
+                      "PlayStation": '<img src="https://static.retroachievements.org/assets/images/system/ps1.png" style="width:16px; height:16px; vertical-align:middle; margin-right:6px;">',
+                      "PlayStation 2": '<img src="https://static.retroachievements.org/assets/images/system/ps2.png" style="width:16px; height:16px; vertical-align:middle; margin-right:6px;">',
+                      "PlayStation Portable": '<img src="https://static.retroachievements.org/assets/images/system/psp.png" style="width:16px; height:16px; vertical-align:middle; margin-right:6px;">',
+                      "PlayStation 3": '<img src="https://img.icons8.ru/?size=48&id=68102&format=png" style="width:16px; height:16px; vertical-align:middle; margin-right:6px;">',
+                      "PlayStation 4": '<img src="https://cdn-icons-png.flaticon.com/512/771/771211.png" style="width:16px; height:16px; vertical-align:middle;">',
+
+                      // === SEGA ===
+                      "SG-1000": '<img src="https://static.retroachievements.org/assets/images/system/sg1000.png" style="width:16px; height:16px; vertical-align:middle; margin-right:6px;">',
+                      "Master System": '<img src="https://static.retroachievements.org/assets/images/system/mastersystem.png" style="width:16px; height:16px; vertical-align:middle; margin-right:6px;">',
+                      "Genesis/Mega Drive": '<img src="https://static.retroachievements.org/assets/images/system/md.png" style="width:16px; height:16px; vertical-align:middle; margin-right:6px;">',
+                      "Sega CD": '<img src="https://static.retroachievements.org/assets/images/system/segacd.png" style="width:16px; height:16px; vertical-align:middle; margin-right:6px;">',
+                      "32X": '<img src="https://static.retroachievements.org/assets/images/system/32x.png" style="width:16px; height:16px; vertical-align:middle; margin-right:6px;">',
+                      "Saturn": '<img src="https://static.retroachievements.org/assets/images/system/saturn.png" style="width:16px; height:16px; vertical-align:middle; margin-right:6px;">',
+                      "Dreamcast": '<img src="https://static.retroachievements.org/assets/images/system/dreamcast.png" style="width:16px; height:16px; vertical-align:middle; margin-right:6px;">',
+                      "Game Gear": '<img src="https://static.retroachievements.org/assets/images/system/gamegear.png" style="width:16px; height:16px; vertical-align:middle; margin-right:6px;">',
+
+                      // === ATARI ===
+                      "Atari 2600": '<img src="https://static.retroachievements.org/assets/images/system/atari2600.png" style="width:16px; height:16px; vertical-align:middle; margin-right:6px;">',
+                      "Atari 7800": '<img src="https://static.retroachievements.org/assets/images/system/atari7800.png" style="width:16px; height:16px; vertical-align:middle; margin-right:6px;">',
+
+                      // === NEC & SNK ===
+                      "PC-8000/8800": '<img src="https://static.retroachievements.org/assets/images/system/pc8800.png" style="width:16px; height:16px; vertical-align:middle; margin-right:6px;">',
+                      "PC Engine/TurboGrafx-16": '<img src="https://static.retroachievements.org/assets/images/system/pce.png" style="width:16px; height:16px; vertical-align:middle; margin-right:6px;">',
+                      "PC Engine CD/TurboGrafx-CD": '<img src="https://static.retroachievements.org/assets/images/system/pcecd.png" style="width:16px; height:16px; vertical-align:middle; margin-right:6px;">',
+                      "PC-FX": '<img src="https://static.retroachievements.org/assets/images/system/pcfx.png" style="width:16px; height:16px; vertical-align:middle; margin-right:6px;">',
+                      "Neo Geo CD": '<img src="https://static.retroachievements.org/assets/images/system/neogeocd.png" style="width:16px; height:16px; vertical-align:middle; margin-right:6px;">',
+                      "Neo Geo Pocket": '<img src="https://static.retroachievements.org/assets/images/system/ngp.png" style="width:16px; height:16px; vertical-align:middle; margin-right:6px;">',
+
+                      // === OTHERS ===
+                      "3DO Interactive Multiplayer": '<img src="https://static.retroachievements.org/assets/images/system/3do.png" style="width:16px; height:16px; vertical-align:middle; margin-right:6px;">',
+                      "Amstrad CPC": '<img src="https://static.retroachievements.org/assets/images/system/amstrad.png" style="width:16px; height:16px; vertical-align:middle; margin-right:6px;">',
+                      "Apple II": '<img src="https://static.retroachievements.org/assets/images/system/apple2.png" style="width:16px; height:16px; vertical-align:middle; margin-right:6px;">',
+                      "Arcade": '<img src="https://static.retroachievements.org/assets/images/system/arcade.png" style="width:16px; height:16px; vertical-align:middle; margin-right:6px;">',
+                      "Arcadia 2001": '<img src="https://static.retroachievements.org/assets/images/system/arcadia.png" style="width:16px; height:16px; vertical-align:middle; margin-right:6px;">',
+                      "Arduboy": '<img src="https://static.retroachievements.org/assets/images/system/arduboy.png" style="width:16px; height:16px; vertical-align:middle; margin-right:6px;">',
+                      "ColecoVision": '<img src="https://static.retroachievements.org/assets/images/system/coleco.png" style="width:16px; height:16px; vertical-align:middle; margin-right:6px;">',
+                      "Elektor TV Games Computer": '<img src="https://static.retroachievements.org/assets/images/system/elektor.png" style="width:16px; height:16px; vertical-align:middle; margin-right:6px;">',
+                      "Fairchild Channel F": '<img src="https://static.retroachievements.org/assets/images/system/fairchild.png" style="width:16px; height:16px; vertical-align:middle; margin-right:6px;">',
+                      "Intellivision": '<img src="https://static.retroachievements.org/assets/images/system/intellivision.png" style="width:16px; height:16px; vertical-align:middle; margin-right:6px;">',
+                      "Interton VC 4000": '<img src="https://static.retroachievements.org/assets/images/system/interton.png" style="width:16px; height:16px; vertical-align:middle; margin-right:6px;">',
+                      "Magnavox Odyssey 2": '<img src="https://static.retroachievements.org/assets/images/system/odyssey2.png" style="width:16px; height:16px; vertical-align:middle; margin-right:6px;">',
+                      "Mega Duck": '<img src="https://static.retroachievements.org/assets/images/system/megaduck.png" style="width:16px; height:16px; vertical-align:middle; margin-right:6px;">',
+                      "MSX": '<img src="https://static.retroachievements.org/assets/images/system/msx.png" style="width:16px; height:16px; vertical-align:middle; margin-right:6px;">',
+                      "Standalone": '<img src="https://static.retroachievements.org/assets/images/system/standalone.png" style="width:16px; height:16px; vertical-align:middle; margin-right:6px;">',
+                      "Uzebox": '<img src="https://static.retroachievements.org/assets/images/system/uzebox.png" style="width:16px; height:16px; vertical-align:middle; margin-right:6px;">',
+                      "Vectrex": '<img src="https://static.retroachievements.org/assets/images/system/vectrex.png" style="width:16px; height:16px; vertical-align:middle; margin-right:6px;">',
+                      "WASM-4": '<img src="https://static.retroachievements.org/assets/images/system/wasm4.png" style="width:16px; height:16px; vertical-align:middle; margin-right:6px;">',
+                      "Watara Supervision": '<img src="https://static.retroachievements.org/assets/images/system/supervision.png" style="width:16px; height:16px; vertical-align:middle; margin-right:6px;">',
+                      "WonderSwan": '<img src="https://static.retroachievements.org/assets/images/system/wonderswan.png" style="width:16px; height:16px; vertical-align:middle; margin-right:6px;">'
+                    // Можешь добавлять сюда любые платформы в таком же формате!
+                };
+
+                // Проверяем, есть ли точное совпадение в словаре
+                if (exactIcons[pName]) {
+                    icon = exactIcons[pName];
+                }
+                // 2. ЕСЛИ НЕТ ТОЧНОГО, ИЩЕМ ПО КЛЮЧЕВЫМ СЛОВАМ (Оставляем эмодзи для современных)
+                else {
+                    if (pLower.includes('ps4') || pLower.includes('playstation 4')) icon = '🟦';
+                    else if (pLower.includes('ps3') || pLower.includes('playstation 3')) icon = '⬛';
+                    else if (pLower.includes('pc') || pLower.includes('windows')) icon = '💻';
+                }
 
                 platformHtml = `<span class="platform-badge">${icon} ${entry.platform}</span>`;
             }
