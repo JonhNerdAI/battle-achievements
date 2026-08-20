@@ -656,28 +656,43 @@
                         if (releaseDate) yearInput.value = releaseDate.substring(0, 4);
                     }
                   } else if (category === 'anime' || category === 'manga') {
-                      // В Shikimori для манги и аниме используется один метод, но можно фильтровать по типу (animes / mangas)
                       const type = category === 'anime' ? 'animes' : 'mangas';
 
                       try {
                           const res = await fetch(`https://shikimori.io/api/${type}?search=${encodeURIComponent(title)}&limit=1`, {
                               headers: {
-                                  'User-Agent': 'AchievementBattleApp' // Shikimori требует указывать User-Agent
+                                  'User-Agent': 'AchievementBattleApp'
                               }
                           });
                           const data = await res.json();
 
                           if (data && data.length > 0) {
                               const item = data[0];
-                              // Базовый URL до картинок Шикимори
+
+                              // 1. Обложка
                               if (item.image && item.image.original) {
                                   coverInput.value = `https://shikimori.io${item.image.original}`;
                               }
-                              // Год выхода (aired_on или released_on возвращает дату в формате "YYYY-MM-DD")
+
+                              // 2. Год выхода
                               const dateStr = item.aired_on || item.released_on;
                               if (dateStr) {
                                   yearInput.value = dateStr.substring(0, 4);
                               }
+
+                              // 3. Количество серий (для аниме) или томов (для манги)
+                              if (category === 'anime') {
+                                  // У аниме поле называется episodes (может быть пустым, если аниме онгоинг)
+                                  if (item.episodes) {
+                                      document.getElementById('episodesInput').value = item.episodes;
+                                  }
+                              } else if (category === 'manga') {
+                                  // У манги поле volumes (тома) или chapters (главы). Берем тома, если они указаны
+                                  if (item.volumes) {
+                                      document.getElementById('volumeInput').value = item.volumes;
+                                  }
+                              }
+
                           } else {
                               alert('Ничего не найдено на Shikimori.');
                           }
