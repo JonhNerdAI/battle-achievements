@@ -655,15 +655,36 @@
                         const releaseDate = data.results[0].release_date || data.results[0].first_air_date;
                         if (releaseDate) yearInput.value = releaseDate.substring(0, 4);
                     }
-                } else if (category === 'anime' || category === 'manga') {
-                    const type = category === 'anime' ? 'anime' : 'manga';
-                    const res = await fetch(`https://kitsu.io/api/edge/${type}?filter[text]=${encodeURIComponent(title)}&page[limit]=1`);
-                    const data = await res.json();
-                    if (data.data && data.data.length > 0) {
-                        if (data.data[0].attributes.posterImage) coverInput.value = data.data[0].attributes.posterImage.medium || data.data[0].attributes.posterImage.original;
-                        if (data.data[0].attributes.startDate) yearInput.value = data.data[0].attributes.startDate.substring(0, 4);
-                    }
-                } else if (category === 'book') {
+                  } else if (category === 'anime' || category === 'manga') {
+                      // В Shikimori для манги и аниме используется один метод, но можно фильтровать по типу (animes / mangas)
+                      const type = category === 'anime' ? 'animes' : 'mangas';
+
+                      try {
+                          const res = await fetch(`https://shikimori.io/api/${type}?search=${encodeURIComponent(title)}&limit=1`, {
+                              headers: {
+                                  'User-Agent': 'AchievementBattleApp' // Shikimori требует указывать User-Agent
+                              }
+                          });
+                          const data = await res.json();
+
+                          if (data && data.length > 0) {
+                              const item = data[0];
+                              // Базовый URL до картинок Шикимори
+                              if (item.image && item.image.original) {
+                                  coverInput.value = `https://shikimori.io${item.image.original}`;
+                              }
+                              // Год выхода (aired_on или released_on возвращает дату в формате "YYYY-MM-DD")
+                              const dateStr = item.aired_on || item.released_on;
+                              if (dateStr) {
+                                  yearInput.value = dateStr.substring(0, 4);
+                              }
+                          } else {
+                              alert('Ничего не найдено на Shikimori.');
+                          }
+                      } catch (err) {
+                          alert('Ошибка при запросе к Shikimori API.');
+                      }
+                  } else if (category === 'book') {
                     const res = await fetch(`https://openlibrary.org/search.json?q=${encodeURIComponent(title)}&limit=1`);
                     const data = await res.json();
                     if (data.docs && data.docs.length > 0) {
